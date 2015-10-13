@@ -1,0 +1,587 @@
+TTSP
+v6
+r1
+cCheck dependencies
+cCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o /Users/ymkang/GitRepository/TSP/TSP/main.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o /Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+cCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o /Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+cLd /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP normal x86_64
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk
+c000000005374292A00000000000000AA
+t1400121642
+s170
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/SDKSettings.plist
+c0000000053211F97000000000000044C
+t1394679703
+s1100
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/CoreServices/SystemVersion.plist
+c0000000053211F9700000000000001DE
+t1394679703
+s478
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/GLUT
+c0000000053211F9900000000000135D4
+t1394679705
+s79316
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL
+c0000000052FD7F1E000000000000BB7C
+t1392344862
+s47996
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+c0000000053211F9A00000000000211A0
+t1394679706
+s135584
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+c0000000053211F9A0000000000005F00
+t1394679706
+s24320
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libSystem.dylib
+c0000000053211F9D000000000000681C
+t1394679709
+s26652
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libc++.dylib
+c0000000053211F9D000000000006E8B0
+t1394679709
+s452784
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcache.dylib
+c0000000053211F9E0000000000004734
+t1394679710
+s18228
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcommonCrypto.dylib
+c0000000053211F9E000000000000FC6C
+t1394679710
+s64620
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcompiler_rt.dylib
+c0000000053211F9E000000000000F6A0
+t1394679710
+s63136
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcopyfile.dylib
+c0000000053211F9E0000000000006254
+t1394679710
+s25172
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcorecrypto.dylib
+c0000000053211F9E000000000000E0F8
+t1394679710
+s57592
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libdispatch.dylib
+c0000000053211F9E000000000000D6DC
+t1394679710
+s55004
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libdyld.dylib
+c0000000053211F9E0000000000006308
+t1394679710
+s25352
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libkeymgr.dylib
+c0000000053211F9E0000000000004050
+t1394679710
+s16464
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/liblaunch.dylib
+c0000000053211F9E0000000000008570
+t1394679710
+s34160
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libmacho.dylib
+c0000000053211F9E0000000000005EA0
+t1394679710
+s24224
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libquarantine.dylib
+c0000000053211F9E0000000000005FAC
+t1394679710
+s24492
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libremovefile.dylib
+c0000000053211F9E0000000000004440
+t1394679710
+s17472
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_asl.dylib
+c0000000053211F9E000000000000AA28
+t1394679710
+s43560
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_blocks.dylib
+c0000000053211F9E0000000000003E2C
+t1394679710
+s15916
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_c.dylib
+c0000000053211F9E0000000000030B04
+t1394679710
+s199428
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_configuration.dylib
+c0000000053211F9E0000000000005E54
+t1394679710
+s24148
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_dnssd.dylib
+c0000000053211F9E0000000000006A90
+t1394679710
+s27280
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_info.dylib
+c0000000053211F9E00000000000178AC
+t1394679710
+s96428
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_kernel.dylib
+c0000000053211F9E000000000001ADC8
+t1394679710
+s110024
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_m.dylib
+c0000000053211F9E000000000001028C
+t1394679710
+s66188
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_malloc.dylib
+c0000000053211F9E0000000000008800
+t1394679710
+s34816
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_network.dylib
+c0000000053211F9E0000000000011090
+t1394679710
+s69776
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_notify.dylib
+c0000000053211F9E000000000000882C
+t1394679710
+s34860
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_platform.dylib
+c0000000053211F9E00000000000067AC
+t1394679710
+s26540
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_pthread.dylib
+c0000000053211F9E0000000000008DEC
+t1394679710
+s36332
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_sandbox.dylib
+c0000000053211F9E0000000000004C08
+t1394679710
+s19464
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_stats.dylib
+c0000000053211F9E0000000000002428
+t1394679710
+s9256
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libunc.dylib
+c0000000053211F9E000000000000439C
+t1394679710
+s17308
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libunwind.dylib
+c0000000053211F9E0000000000006768
+t1394679710
+s26472
+
+N/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libxpc.dylib
+c0000000053211F9E00000000000172F4
+t1394679710
+s94964
+
+N/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.1/include/module.map
+c0000000053211FBC0000000000000ADC
+t1394679740
+s2780
+
+N/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.1/lib/darwin/libclang_rt.osx.a
+c0000000053211FBC0000000000001770
+t1394679740
+s6000
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o
+t1415065358
+s77500
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o
+t1415172520
+s98312
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o
+t1409295627
+s10184
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/TSP.LinkFileList
+c000000005400250A000000000000028A
+t1409295626
+s650
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o
+t1417139362
+s27576
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o
+t1409295627
+s3948
+
+N/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP
+t1417139362
+s50256
+
+N/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp
+c0000000054582F0D00000000000005D1
+t1415065357
+s1489
+
+N/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.h
+c0000000054582F0D0000000000000357
+t1415065357
+s855
+
+N/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp
+c000000005459D1A80000000000002F86
+t1415172520
+s12166
+
+N/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.h
+c0000000054598B4600000000000008DE
+t1415154502
+s2270
+
+N/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp
+c0000000053FB25F10000000000000E76
+t1408968177
+s3702
+
+N/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h
+c0000000053F2A5CF00000000000004DD
+t1408411087
+s1245
+
+N/Users/ymkang/GitRepository/TSP/TSP/main.cpp
+c000000005477D4A10000000000002631
+t1417139361
+s9777
+
+N/Users/ymkang/GitRepository/TSP/TSP/utilities.cpp
+c0000000053E9CB060000000000000194
+t1407830790
+s404
+
+N/Users/ymkang/GitRepository/TSP/TSP/utilities.h
+c0000000053E47CE8000000000000016B
+t1407483112
+s363
+
+CBuild AST from /Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp
+r0
+
+CBuild AST from /Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp
+r0
+
+CBuild AST from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp
+r0
+
+CBuild AST from /Users/ymkang/GitRepository/TSP/TSP/main.cpp
+r0
+
+CBuild AST from /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp
+r0
+
+CCheck dependencies
+r0
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection18"Check dependencies18"Check dependenciese7c8da595030ba41^c5ca005a5030ba41^---0#1#1#--18"Check dependencies36"72B2EFE0-E0F5-4692-A361-17ADB983859D-
+
+CCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o /Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+s436758157.950717
+e436758158.507534
+r1
+xCompileC
+xDerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o
+x/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp
+d/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.h
+d/Users/ymkang/GitRepository/TSP/TSP/utilities.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection65"Compile /Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp200"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o TSP/AdjacentMatrixGen.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compilera67df38d6608ba41^b7ef818e6608ba41^---0#0#1#-19%DVTDocumentLocation2@64"file:///Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp0000000000000000^2982"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o TSP/AdjacentMatrixGen.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/ymkang/GitRepository/TSP    export LANG=en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -fmodules-cache-path=/Users/ymkang/GitRepository/TSP/DerivedData/ModuleCache -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.9 -g -fvisibility-inlines-hidden -Wno-sign-conversion -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-generated-files.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-own-target-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-all-target-headers.hmap -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-project-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources/x86_64 -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -MMD -MT dependencies -MF /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.d --serialize-diagnostics /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.dia -c /Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.cpp -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o36"DAEA139A-B13C-410A-94A7-130CC84E529C-
+bC4AE1721-8476-4CAD-932B-2759D26B5A8B
+
+CCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o /Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+s436865320.030780
+e436865320.571848
+r1
+xCompileC
+xDerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o
+x/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp
+d/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.h
+d/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.h
+d/Users/ymkang/GitRepository/TSP/TSP/utilities.h
+o/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp:224:16: warning: variable 'nextCity' may be uninitialized when used here [-Wconditional-uninitialized]
+o                crossover[i]=nextCity;
+o                             ^~~~~~~~
+o/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp:179:14: note: initialize the variable 'nextCity' to silence this warning
+o        int nextCity;
+o                    ^
+o                     = 0
+o1 warning generated.
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection64"Compile /Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp198"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o TSP/GeneticTSPSolver.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler6ff20728090aba41^7c659228090aba41^-457"/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp:224:16: warning: variable 'nextCity' may be uninitialized when used here [-Wconditional-uninitialized]                crossover[i]=nextCity;                             ^~~~~~~~/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp:179:14: note: initialize the variable 'nextCity' to silence this warning        int nextCity;                    ^                     = 01 warning generated.1(36%IDEClangDiagnosticActivityLogMessage2@55"Variable 'nextCity' may be uninitialized when used here-436865320#18446744073709551615#0#1(2@58"Initialize the variable 'nextCity' to silence this warning-436865320#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic23%DVTTextDocumentLocation3@63"file:///Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp0000000000000000^178#13#178#13#4855#0#14"Semantic Issue1(3@63"file:///Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp0000000000000000^178#13#178#13#4855#0#-1#27"com.apple.dt.IDE.diagnostic3@63"file:///Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp0000000000000000^223#15#223#15#6690#0#14"Semantic Issue1(3@63"file:///Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp0000000000000000^223#15#223#23#6690#0#-0#0#1#-19%DVTDocumentLocation4@63"file:///Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp0000000000000000^2976"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o TSP/GeneticTSPSolver.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/ymkang/GitRepository/TSP    export LANG=en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -fmodules-cache-path=/Users/ymkang/GitRepository/TSP/DerivedData/ModuleCache -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.9 -g -fvisibility-inlines-hidden -Wno-sign-conversion -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-generated-files.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-own-target-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-all-target-headers.hmap -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-project-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources/x86_64 -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -MMD -MT dependencies -MF /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.d --serialize-diagnostics /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.dia -c /Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.cpp -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o36"8988953F-AC83-4552-94C4-0635CFD83DEF-
+bAAF6EBEE-28DB-4EB6-836A-1CB84C0211BB
+
+CCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+s430988426.657805
+e430988427.544156
+r1
+xCompileC
+xDerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o
+x/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp
+d/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:16:5: warning: 'glutInit' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o    glutInit(pArgc, ppArgv);
+o    ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:431:22: note: 'glutInit' declared here
+oextern void APIENTRY glutInit(int *argcp, char **argv) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:17:5: warning: 'glutInitDisplayMode' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o    glutInitDisplayMode(bufferMode);
+o    ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:432:22: note: 'glutInitDisplayMode' declared here
+oextern void APIENTRY glutInitDisplayMode(unsigned int mode) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:18:2: warning: 'glutInitWindowPosition' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutInitWindowPosition(100,100);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:436:22: note: 'glutInitWindowPosition' declared here
+oextern void APIENTRY glutInitWindowPosition(int x, int y) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:19:2: warning: 'glutInitWindowSize' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutInitWindowSize(width,height);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:437:22: note: 'glutInitWindowSize' declared here
+oextern void APIENTRY glutInitWindowSize(int width, int height) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:20:2: warning: 'glutCreateWindow' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutCreateWindow(title);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:441:21: note: 'glutCreateWindow' declared here
+oextern int APIENTRY glutCreateWindow(const char *title) OPENGL_DEPRECATED(10_0, 10_9);
+o                    ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:33:2: warning: 'gluPerspective' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakePerspective" [-Wdeprecated-declarations]
+o        gluPerspective(fovy, aspRatio, nearPlane, farPlane);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+oIn file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:61:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:278:13: note: 'gluPerspective' declared here
+oextern void gluPerspective (GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) OPENGL_DEPRECATED_MSG(10_0, 10_9, "Use GLKMatrix4MakePerspective");
+o            ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:45:2: warning: 'gluLookAt' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakeLookAt" [-Wdeprecated-declarations]
+o        gluLookAt(x,y,z, tx,ty,tz, ux,uy,uz);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+oIn file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:61:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:265:13: note: 'gluLookAt' declared here
+oextern void gluLookAt (GLdouble eyeX, GLdouble eyeY, GLdouble eyeZ, GLdouble centerX, GLdouble centerY, GLdouble centerZ, GLdouble upX, GLdouble upY, GLdouble upZ) OPENGL_DEPRECATED_MSG(10_0, 10_9, "Use GLKMatrix4MakeLookAt");
+o            ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:84:9: warning: 'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, *str);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:560:22: note: 'glutBitmapCharacter' declared here
+oextern void APIENTRY glutBitmapCharacter(void *font, int character) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:117:9: warning: 'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *str);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:560:22: note: 'glutBitmapCharacter' declared here
+oextern void APIENTRY glutBitmapCharacter(void *font, int character) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o9 warnings generated.
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection57"Compile /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp184"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o TSP/OpenGLMgr.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler41baa88a5cb0b941^a14c8b8b5cb0b941^-6729"/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:16:5: warning: 'glutInit' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]    glutInit(pArgc, ppArgv);    ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:431:22: note: 'glutInit' declared hereextern void APIENTRY glutInit(int *argcp, char **argv) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:17:5: warning: 'glutInitDisplayMode' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]    glutInitDisplayMode(bufferMode);    ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:432:22: note: 'glutInitDisplayMode' declared hereextern void APIENTRY glutInitDisplayMode(unsigned int mode) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:18:2: warning: 'glutInitWindowPosition' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutInitWindowPosition(100,100);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:436:22: note: 'glutInitWindowPosition' declared hereextern void APIENTRY glutInitWindowPosition(int x, int y) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:19:2: warning: 'glutInitWindowSize' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutInitWindowSize(width,height);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:437:22: note: 'glutInitWindowSize' declared hereextern void APIENTRY glutInitWindowSize(int width, int height) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:20:2: warning: 'glutCreateWindow' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutCreateWindow(title);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:441:21: note: 'glutCreateWindow' declared hereextern int APIENTRY glutCreateWindow(const char *title) OPENGL_DEPRECATED(10_0, 10_9);                    ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:33:2: warning: 'gluPerspective' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakePerspective" [-Wdeprecated-declarations]        gluPerspective(fovy, aspRatio, nearPlane, farPlane);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:61:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:278:13: note: 'gluPerspective' declared hereextern void gluPerspective (GLdouble fovy, GLdouble aspect, GLdouble zNear, GLdouble zFar) OPENGL_DEPRECATED_MSG(10_0, 10_9, "Use GLKMatrix4MakePerspective");            ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:45:2: warning: 'gluLookAt' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakeLookAt" [-Wdeprecated-declarations]        gluLookAt(x,y,z, tx,ty,tz, ux,uy,uz);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:In file included from /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:61:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h:265:13: note: 'gluLookAt' declared hereextern void gluLookAt (GLdouble eyeX, GLdouble eyeY, GLdouble eyeZ, GLdouble centerX, GLdouble centerY, GLdouble centerZ, GLdouble upX, GLdouble upY, GLdouble upZ) OPENGL_DEPRECATED_MSG(10_0, 10_9, "Use GLKMatrix4MakeLookAt");            ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:84:9: warning: 'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, *str);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:560:22: note: 'glutBitmapCharacter' declared hereextern void APIENTRY glutBitmapCharacter(void *font, int character) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:117:9: warning: 'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *str);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp:9:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:560:22: note: 'glutBitmapCharacter' declared hereextern void APIENTRY glutBitmapCharacter(void *font, int character) OPENGL_DEPRECATED(10_0, 10_9);                     ^9 warnings generated.9(36%IDEClangDiagnosticActivityLogMessage2@55"'glutInit' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@24"'glutInit' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic23%DVTTextDocumentLocation3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^430#21#430#21#12845#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^15#4#15#4#328#0#12"Deprecations--2@66"'glutInitDisplayMode' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@35"'glutInitDisplayMode' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^431#21#431#21#12931#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^16#4#16#4#357#0#12"Deprecations--2@69"'glutInitWindowPosition' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@38"'glutInitWindowPosition' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^435#21#435#21#13184#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^17#1#17#1#391#0#12"Deprecations--2@65"'glutInitWindowSize' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@34"'glutInitWindowSize' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^436#21#436#21#13273#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^18#1#18#1#425#0#12"Deprecations--2@63"'glutCreateWindow' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@32"'glutCreateWindow' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^440#20#440#20#13465#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^19#1#19#1#460#0#12"Deprecations--2@95"'gluPerspective' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakePerspective"-430988427#18446744073709551615#0#1(2@30"'gluPerspective' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@162"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h0000000000000000^277#12#277#12#15841#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^32#1#32#1#791#0#12"Deprecations--2@85"'gluLookAt' is deprecated: first deprecated in OS X 10.9 - "Use GLKMatrix4MakeLookAt"-430988427#18446744073709551615#0#1(2@25"'gluLookAt' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@162"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Headers/glu.h0000000000000000^264#12#264#12#14161#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^44#1#44#1#1292#0#12"Deprecations--2@66"'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@35"'glutBitmapCharacter' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^559#21#559#21#21350#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^83#8#83#8#2211#0#12"Deprecations--2@66"'glutBitmapCharacter' is deprecated: first deprecated in OS X 10.9-430988427#18446744073709551615#0#1(2@35"'glutBitmapCharacter' declared here-430988427#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^559#21#559#21#21350#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^116#8#116#8#3051#0#12"Deprecations--0#0#1#-19%DVTDocumentLocation4@56"file:///Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp0000000000000000^2934"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o TSP/OpenGLMgr.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/ymkang/GitRepository/TSP    export LANG=en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -fmodules-cache-path=/Users/ymkang/GitRepository/TSP/DerivedData/ModuleCache -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.9 -g -fvisibility-inlines-hidden -Wno-sign-conversion -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-generated-files.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-own-target-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-all-target-headers.hmap -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-project-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources/x86_64 -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -MMD -MT dependencies -MF /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.d --serialize-diagnostics /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.dia -c /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o36"B6D94EFB-51EE-47AC-BD7E-4164505E0C67-
+b5A15BA7F-DC23-4229-B13B-4E4631FACDE4
+
+CCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o /Users/ymkang/GitRepository/TSP/TSP/main.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+s438832161.822282
+e438832162.344172
+r1
+xCompileC
+xDerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o
+x/Users/ymkang/GitRepository/TSP/TSP/main.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/ymkang/GitRepository/TSP/TSP/main.cpp
+d/Users/ymkang/GitRepository/TSP/TSP/AdjacentMatrixGen.h
+d/Users/ymkang/GitRepository/TSP/TSP/utilities.h
+d/Users/ymkang/GitRepository/TSP/TSP/GeneticTSPSolver.h
+d/Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:269:2: warning: 'glutSwapBuffers' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutSwapBuffers();
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:448:22: note: 'glutSwapBuffers' declared here
+oextern void APIENTRY glutSwapBuffers(void) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:274:8: warning: unused variable 'aspRatio' [-Wunused-variable]
+o        float aspRatio = float(w)/float(h);
+o              ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:314:84: warning: conversion from string literal to 'char *' is deprecated [-Wdeprecated-writable-strings]
+o    OGLMgr.initGLWindow(&argc, argv, (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGBA), 1024,512, "Travelling Salesman Problem - Evolutionary Approach");
+o                                                                                   ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:327:5: warning: 'glutDisplayFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o    glutDisplayFunc(display);
+o    ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:505:22: note: 'glutDisplayFunc' declared here
+oextern void APIENTRY glutDisplayFunc(void (*func)(void)) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:328:2: warning: 'glutIdleFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutIdleFunc(display);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:513:22: note: 'glutIdleFunc' declared here
+oextern void APIENTRY glutIdleFunc(void (*func)(void)) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:329:2: warning: 'glutReshapeFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutReshapeFunc(reshape);
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:506:22: note: 'glutReshapeFunc' declared here
+oextern void APIENTRY glutReshapeFunc(void (*func)(int width, int height)) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:330:5: warning: 'glutKeyboardFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o    glutKeyboardFunc(keyboard);
+o    ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:507:22: note: 'glutKeyboardFunc' declared here
+oextern void APIENTRY glutKeyboardFunc(void (*func)(unsigned char key, int x, int y)) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o/Users/ymkang/GitRepository/TSP/TSP/main.cpp:332:2: warning: 'glutMainLoop' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]
+o        glutMainLoop();
+o        ^
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:
+oIn file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:
+o/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:438:22: note: 'glutMainLoop' declared here
+oextern void APIENTRY glutMainLoop(void) OPENGL_DEPRECATED(10_0, 10_9);
+o                     ^
+o8 warnings generated.
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection52"Compile /Users/ymkang/GitRepository/TSP/TSP/main.cpp174"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o TSP/main.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler5c93d2210c28ba41^761b58220c28ba41^-4450"/Users/ymkang/GitRepository/TSP/TSP/main.cpp:269:2: warning: 'glutSwapBuffers' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutSwapBuffers();        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:448:22: note: 'glutSwapBuffers' declared hereextern void APIENTRY glutSwapBuffers(void) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:274:8: warning: unused variable 'aspRatio' [-Wunused-variable]        float aspRatio = float(w)/float(h);              ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:314:84: warning: conversion from string literal to 'char *' is deprecated [-Wdeprecated-writable-strings]    OGLMgr.initGLWindow(&argc, argv, (GLUT_DOUBLE|GLUT_DEPTH|GLUT_RGBA), 1024,512, "Travelling Salesman Problem - Evolutionary Approach");                                                                                   ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:327:5: warning: 'glutDisplayFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]    glutDisplayFunc(display);    ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:505:22: note: 'glutDisplayFunc' declared hereextern void APIENTRY glutDisplayFunc(void (*func)(void)) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:328:2: warning: 'glutIdleFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutIdleFunc(display);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:513:22: note: 'glutIdleFunc' declared hereextern void APIENTRY glutIdleFunc(void (*func)(void)) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:329:2: warning: 'glutReshapeFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutReshapeFunc(reshape);        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:506:22: note: 'glutReshapeFunc' declared hereextern void APIENTRY glutReshapeFunc(void (*func)(int width, int height)) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:330:5: warning: 'glutKeyboardFunc' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]    glutKeyboardFunc(keyboard);    ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:507:22: note: 'glutKeyboardFunc' declared hereextern void APIENTRY glutKeyboardFunc(void (*func)(unsigned char key, int x, int y)) OPENGL_DEPRECATED(10_0, 10_9);                     ^/Users/ymkang/GitRepository/TSP/TSP/main.cpp:332:2: warning: 'glutMainLoop' is deprecated: first deprecated in OS X 10.9 [-Wdeprecated-declarations]        glutMainLoop();        ^In file included from /Users/ymkang/GitRepository/TSP/TSP/main.cpp:15:In file included from /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h:19:/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h:438:22: note: 'glutMainLoop' declared hereextern void APIENTRY glutMainLoop(void) OPENGL_DEPRECATED(10_0, 10_9);                     ^8 warnings generated.8(36%IDEClangDiagnosticActivityLogMessage2@62"'glutSwapBuffers' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@31"'glutSwapBuffers' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic23%DVTTextDocumentLocation3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^447#21#447#21#13979#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^268#1#268#1#8042#0#12"Deprecations--2@26"Unused variable 'aspRatio'-438832162#18446744073709551615#0#-1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^273#7#273#7#8102#0#19"Unused Entity Issue--2@56"Conversion from string literal to 'char *' is deprecated-438832162#18446744073709551615#0#-1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^313#83#313#83#9294#0#14"Semantic Issue--2@62"'glutDisplayFunc' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@31"'glutDisplayFunc' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^504#21#504#21#17474#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^326#4#326#4#9624#0#12"Deprecations--2@59"'glutIdleFunc' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@28"'glutIdleFunc' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^512#21#512#21#18284#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^327#1#327#1#9651#0#12"Deprecations--2@62"'glutReshapeFunc' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@31"'glutReshapeFunc' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^505#21#505#21#17562#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^328#1#328#1#9675#0#12"Deprecations--2@63"'glutKeyboardFunc' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@32"'glutKeyboardFunc' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^506#21#506#21#17667#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^329#4#329#4#9705#0#12"Deprecations--2@59"'glutMainLoop' is deprecated: first deprecated in OS X 10.9-438832162#18446744073709551615#0#1(2@28"'glutMainLoop' declared here-438832162#18446744073709551615#0#-0#27"com.apple.dt.IDE.diagnostic3@161"file:///Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/Headers/GLUT.h0000000000000000^437#21#437#21#13367#0#14"Semantic Issue--1#27"com.apple.dt.IDE.diagnostic3@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^331#1#331#1#9739#0#12"Deprecations--0#0#1#-19%DVTDocumentLocation4@51"file:///Users/ymkang/GitRepository/TSP/TSP/main.cpp0000000000000000^2904"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o TSP/main.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/ymkang/GitRepository/TSP    export LANG=en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -fmodules-cache-path=/Users/ymkang/GitRepository/TSP/DerivedData/ModuleCache -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.9 -g -fvisibility-inlines-hidden -Wno-sign-conversion -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-generated-files.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-own-target-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-all-target-headers.hmap -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-project-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources/x86_64 -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -MMD -MT dependencies -MF /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.d --serialize-diagnostics /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.dia -c /Users/ymkang/GitRepository/TSP/TSP/main.cpp -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o36"A6793C63-50E4-4E4D-B49D-16E10F183D9E-
+bF981F5E1-7696-4B3D-9C21-58DC57BF7AA1
+
+CCompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler
+s430988426.657386
+e430988427.538738
+r1
+xCompileC
+xDerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o
+x/Users/ymkang/GitRepository/TSP/TSP/utilities.cpp
+xnormal
+xx86_64
+xc++
+xcom.apple.compilers.llvm.clang.1_0.compiler
+d/Users/ymkang/GitRepository/TSP/TSP/utilities.cpp
+d/Users/ymkang/GitRepository/TSP/TSP/utilities.h
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection57"Compile /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp184"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o TSP/utilities.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler5ab8a88a5cb0b941^abea898b5cb0b941^---0#0#1#-19%DVTDocumentLocation2@56"file:///Users/ymkang/GitRepository/TSP/TSP/utilities.cpp0000000000000000^2934"CompileC DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o TSP/utilities.cpp normal x86_64 c++ com.apple.compilers.llvm.clang.1_0.compiler    cd /Users/ymkang/GitRepository/TSP    export LANG=en_US.US-ASCII    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -x c++ -arch x86_64 -fmessage-length=0 -fdiagnostics-show-note-include-stack -fmacro-backtrace-limit=0 -std=gnu++11 -stdlib=libc++ -fmodules -fmodules-cache-path=/Users/ymkang/GitRepository/TSP/DerivedData/ModuleCache -Wno-trigraphs -fpascal-strings -O0 -Wno-missing-field-initializers -Wno-missing-prototypes -Werror=return-type -Werror=deprecated-objc-isa-usage -Werror=objc-root-class -Wno-non-virtual-dtor -Wno-overloaded-virtual -Wno-exit-time-destructors -Wno-missing-braces -Wparentheses -Wswitch -Wunused-function -Wno-unused-label -Wno-unused-parameter -Wunused-variable -Wunused-value -Wempty-body -Wconditional-uninitialized -Wno-unknown-pragmas -Wno-shadow -Wno-four-char-constants -Wno-conversion -Wconstant-conversion -Wint-conversion -Wbool-conversion -Wenum-conversion -Wshorten-64-to-32 -Wno-newline-eof -Wno-c++11-extensions -DDEBUG=1 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -fasm-blocks -fstrict-aliasing -Wdeprecated-declarations -Winvalid-offsetof -mmacosx-version-min=10.9 -g -fvisibility-inlines-hidden -Wno-sign-conversion -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-generated-files.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-own-target-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-all-target-headers.hmap -iquote /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/TSP-project-headers.hmap -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/include -I/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources/x86_64 -I/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/DerivedSources -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -MMD -MT dependencies -MF /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.d --serialize-diagnostics /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.dia -c /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o36"3E93883E-FDEB-4AF2-8FA6-EB9D1C723F74-
+b5A15BA7F-DC23-4229-B13B-4E4631FACDE4
+
+CLd /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP normal x86_64
+s438832162.345756
+e438832162.369097
+r1
+xLd
+x/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP
+xnormal
+xx86_64
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/TSP.LinkFileList
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/utilities.o
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/main.o
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/OpenGLMgr.o
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/GeneticTSPSolver.o
+d/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/AdjacentMatrixGen.o
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/GLUT.framework/GLUT
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/OpenGL
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libc++.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/libSystem.dylib
+d/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/5.1/lib/darwin/libclang_rt.osx.a
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGLU.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/System/Library/Frameworks/OpenGL.framework/Versions/A/Libraries/libGL.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcache.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcommonCrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcompiler_rt.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcopyfile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libcorecrypto.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libdispatch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libdyld.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libkeymgr.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/liblaunch.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libmacho.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libquarantine.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libremovefile.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_asl.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_blocks.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_c.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_configuration.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_dnssd.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_info.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_kernel.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_m.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_malloc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_network.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_notify.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_platform.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_pthread.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_sandbox.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libsystem_stats.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libunc.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libunwind.dylib
+d/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk/usr/lib/system/libxpc.dylib
+lSLF06#21%IDEActivityLogSection1@2#32"com.apple.dt.IDE.BuildLogSection77"Link /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP57"Ld DerivedData/TSP/Build/Products/Debug/TSP normal x86_640c9058220c28ba41^fe7d5e220c28ba41^---0#0#1#--970"Ld DerivedData/TSP/Build/Products/Debug/TSP normal x86_64    cd /Users/ymkang/GitRepository/TSP    export MACOSX_DEPLOYMENT_TARGET=10.9    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang++ -arch x86_64 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.9.sdk -L/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -F/Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug -filelist /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/TSP.LinkFileList -mmacosx-version-min=10.9 -stdlib=libc++ -framework GLUT -framework OpenGL -Xlinker -dependency_info -Xlinker /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Intermediates/TSP.build/Debug/TSP.build/Objects-normal/x86_64/TSP_dependency_info.dat -o /Users/ymkang/GitRepository/TSP/DerivedData/TSP/Build/Products/Debug/TSP36"CCEDEA0E-C6AA-4477-8D44-7BE0E7D4362A-
+bF981F5E1-7696-4B3D-9C21-58DC57BF7AA1
+
