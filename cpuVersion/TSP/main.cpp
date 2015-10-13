@@ -6,6 +6,8 @@
 //  Copyright (c) 2014 young-min kang. All rights reserved.
 //
 
+
+
 #include <iostream>
 #include <iomanip>
 #include <math.h>
@@ -14,6 +16,10 @@
 #include "GeneticTSPSolver.h"
 #include "OpenGLMgr.h"
 #include "StopWatch.h"
+
+#ifdef WIN32
+#define sprintf sprintf_s
+#endif
 
 using namespace std;
 
@@ -30,8 +36,8 @@ bool bmBCSCX = false;
 
 GLfloat fogColor[] = { 0.0, 0.0, 0.0 };
 
-#define NUMCITIES 5000 //4056
-#define NUMGENES  1024
+#define NUMCITIES 20000 //4056
+#define NUMGENES  10
 #define NUMGENERATIONS 1000
 #define NUM_POP_GROUPS 4
 

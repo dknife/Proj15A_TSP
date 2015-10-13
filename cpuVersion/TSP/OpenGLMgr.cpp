@@ -21,9 +21,7 @@ void COpenGLMgr::initGLWindow(int *pArgc, char **ppArgv, unsigned int bufferMode
     
     if(GLUT_DOUBLE & bufferMode) glEnable(GL_DEPTH_TEST);
     
-#ifdef WIN32
-	glewInit();
-#endif
+
 	glClearColor(1.0, 1.0, 1.0, 1.0);
 }
 

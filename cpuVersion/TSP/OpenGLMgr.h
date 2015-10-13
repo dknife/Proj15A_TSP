@@ -11,7 +11,7 @@
 
 #ifdef WIN32
 #include <windows.h>
-#include <gl/glew.h>
+//#include <gl/glew.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
 #else // MAC OS X
