@@ -11,7 +11,7 @@
 
 #include <iostream>
 #include <iomanip>
-#include "AdjacentMatrixGen.h"
+#include "cityLocData.h"
 #include "utilities.h"
 
 enum evolutionMode {
@@ -48,8 +48,8 @@ class CGeneticTSPSolver {
     float bestFitness;
     int   bestGeneIdx;
     
-    CAdjacentMatrixGen *adjMatrix;
-    
+	CCityLocData *cityLocData;
+	
     void shufflePheno(int idx, int nShuffle);
     void reversePheno(int idx);
     void swapPhenotype(int idxA, int idxB); // swap A and B (phenotype)
@@ -66,7 +66,7 @@ class CGeneticTSPSolver {
 	
     
 public:
-    CGeneticTSPSolver(CAdjacentMatrixGen &adjMat, int nGenes, int nGroups);
+    CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nGroups);
     void initSolver(void);
     
     void printGeneAndFitness(void);

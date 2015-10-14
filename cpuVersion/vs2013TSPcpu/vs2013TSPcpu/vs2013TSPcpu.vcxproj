@@ -80,14 +80,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\TSP\AdjacentMatrixGen.h" />
+    <ClInclude Include="..\..\TSP\cityLocData.h" />
     <ClInclude Include="..\..\TSP\GeneticTSPSolver.h" />
     <ClInclude Include="..\..\TSP\OpenGLMgr.h" />
     <ClInclude Include="..\..\TSP\StopWatch.h" />
     <ClInclude Include="..\..\TSP\utilities.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\TSP\AdjacentMatrixGen.cpp" />
+    <ClCompile Include="..\..\TSP\cityLocData.cpp" />
     <ClCompile Include="..\..\TSP\GeneticTSPSolver.cpp" />
     <ClCompile Include="..\..\TSP\main.cpp" />
     <ClCompile Include="..\..\TSP\OpenGLMgr.cpp" />

@@ -1,0 +1,47 @@
+﻿Build started 2015-10-14 오후 4:45:28.
+     1>Project "C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\MonaLisa_project\MonaLisa_project.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /ZI /nologo /W3 /WX- /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _WINDOWS /D _UNICODE /D UNICODE /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(110): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(118): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(126): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(134): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(150): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(160): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(171): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(172): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(173): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(180): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(181): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(182): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(183): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(185): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(186): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(187): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(188): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(196): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(198): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(200): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(203): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(205): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(207): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(214): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(221): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(229): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(236): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(282): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\monalisa_project\monalisa_project\main.cpp(283): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\Debug\MonaLisa_project.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\Debug\MonaLisa_project.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\Debug\MonaLisa_project.lib" /MACHINE:X86 Debug\cityLocData.obj
+         Debug\GeneticTSPSolver.obj
+         Debug\main.obj
+         Debug\OpenGLMgr.obj
+         Debug\StopWatch.obj
+         Debug\utilities.obj
+         MonaLisa_project.vcxproj -> C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\Debug\MonaLisa_project.exe
+     1>Done Building Project "C:\YMKang_Work\development\Proj15A_TSP\MonaLisa_project\MonaLisa_project\MonaLisa_project.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.89

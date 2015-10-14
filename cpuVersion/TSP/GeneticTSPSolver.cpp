@@ -9,20 +9,6 @@
 
 #include "GeneticTSPSolver.h"
 
-/*
-class CCitySearchIndex {
-    bool *validity;
-    int  *forwardJump;
-    int  *backwardJump;
-public:
-    CCitySearchIndex(int numberOfCities);
-    ~CCitySearchIndex();
-    void invalidate(int i);
- int getForwardJump(int i);
- int getBackwardJump(int i);
-};
-*/
-
 CCitySearchIndex::CCitySearchIndex(int numberOfCities) {
     nSize = numberOfCities;
     validity = new bool[numberOfCities];
@@ -57,32 +43,19 @@ int CCitySearchIndex::getBackwardJump(int i) {
     return backwardJump[i];
 }
 
-CGeneticTSPSolver::CGeneticTSPSolver(CAdjacentMatrixGen &adjMat, int nGenes, int nGroups) {
-    adjMatrix = &adjMat;
+CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nGroups) {
+    cityLocData = inputData;
     nPopulation = nGenes;
     nNumberOfGroups = nGroups;
     
-    nCities = adjMat.nRows;
-    mFitness = new float[nPopulation];
+	nCities = cityLocData->numCities;
+	mFitness = new float[nPopulation];
     
 
     mPhenotype = new int*[nPopulation];
     
     initSolver();
-    /*
-    nGeneration = 0;
-    for (int i=0; i<nPopulation; i++) {
-        mPhenotype[i] = new int[nCities];
-    }
-
     
-    for (int i=0; i<nPopulation; i++) {
-        for (int j=0; j<nCities  ; j++) mPhenotype[i][j] = j;
-    }
-    
-    for (int i=0; i<nPopulation; i++) {
-        shufflePheno(i, nCities/2);
-    }*/
 }
 
 void CGeneticTSPSolver::initSolver(void) {
@@ -166,7 +139,8 @@ int CGeneticTSPSolver::getLegitimateNodeBCSCX(int curCity, int *cityTour, int *o
     
     int nCity1 = cityTour[forward];
     int nCity2 = cityTour[backward];
-    int nextCity = ((*adjMatrix)[curCity][nCity1] < (*adjMatrix)[curCity][nCity2] )? nCity1: nCity2;
+    //int nextCity = ((*adjMatrix)[curCity][nCity1] < (*adjMatrix)[curCity][nCity2] )? nCity1: nCity2;
+	int nextCity = (cityLocData->cityDistance(curCity, nCity1) < cityLocData->cityDistance(curCity, nCity2)) ? nCity1 : nCity2;
     return nextCity;
     
 
@@ -205,19 +179,22 @@ void CGeneticTSPSolver::crossoverPheno(int idxA, int idxB, int idxC, evolutionMo
 		if(mode == PHENOTYPE_SCX) {
 			candidate1 = getLegitimateNodeSCX(curCity, mPhenotype[idxA], orderOfCity_A, citySearchIdx_A);
 			candidate2 = getLegitimateNodeSCX(curCity, mPhenotype[idxB], orderOfCity_B, citySearchIdx_B);
-			if((*adjMatrix)[curCity][candidate1]<(*adjMatrix)[curCity][candidate2]) nextCity = candidate1;
+			if ( cityLocData->cityDistance(curCity,candidate1)< cityLocData->cityDistance(curCity,candidate2)) 
+				nextCity = candidate1;
 			else nextCity = candidate2;
 		}
         else if(mode == PHENOTYPE_TWSCX) { // PHENOTYPE_TWSCX
 			candidate1 = getLegitimateNodeTWSCX(curCity, mPhenotype[idxA], orderOfCity_A, citySearchIdx_A, bForward);
 			candidate2 = getLegitimateNodeTWSCX(curCity, mPhenotype[idxB], orderOfCity_B, citySearchIdx_B, bForward);
-			if((*adjMatrix)[curCity][candidate1]<(*adjMatrix)[curCity][candidate2]) nextCity = candidate1;
+			if (cityLocData->cityDistance(curCity, candidate1) < cityLocData->cityDistance(curCity, candidate2))
+				nextCity = candidate1;
 			else nextCity = candidate2;
 		}
 		else if(mode == PHENOTYPE_BCSCX) { // PHENOTYPE_BCSCX
 			candidate1 = getLegitimateNodeBCSCX(curCity, mPhenotype[idxA], orderOfCity_A, citySearchIdx_A);
 			candidate2 = getLegitimateNodeBCSCX(curCity, mPhenotype[idxB], orderOfCity_B, citySearchIdx_B);
-			if((*adjMatrix)[curCity][candidate1]<(*adjMatrix)[curCity][candidate2]) nextCity = candidate1;
+			if (cityLocData->cityDistance(curCity, candidate1) < cityLocData->cityDistance(curCity, candidate2))
+				nextCity = candidate1;
 			else nextCity = candidate2;
 		}
 
@@ -246,7 +223,7 @@ void CGeneticTSPSolver::printGeneAndFitness(void) {
         cout<<"Gene "<<setw(3)<<i<<": ";
         for(int j=0;j<nCities;j++) {
             cout<<setw(3)<<mPhenotype[i][j]<<" ";
-            mFitness[i] += (*adjMatrix)[mPhenotype[i][j]][mPhenotype[i][(j+1)%nCities]];
+            mFitness[i] += cityLocData->cityDistance(mPhenotype[i][j], mPhenotype[i][(j+1)%nCities]);
         }
         cout<<endl;
             
@@ -271,16 +248,14 @@ void CGeneticTSPSolver::printGene(int idx) {
         cout<<setw(3)<<mPhenotype[idx][j]<<" ";
     }
     cout<<endl;
-    
-
-        
+   
 }
 
 void CGeneticTSPSolver::computeFitnessOf(int idx) {
     
     mFitness[idx] = 0;
     for(int j=0;j<nCities;j++) {
-        mFitness[idx] += (*adjMatrix)[mPhenotype[idx][j]][mPhenotype[idx][(j+1)%nCities]];
+        mFitness[idx] += cityLocData->cityDistance( mPhenotype[idx][j] , mPhenotype[idx][(j+1)%nCities] );
     }
     
 }
@@ -301,7 +276,7 @@ void CGeneticTSPSolver::computeFitness(void) {
         for(int i=start;i<end;i++) {
             mFitness[i] = 0;
             for(int j=0;j<nCities;j++) {
-                mFitness[i] += (*adjMatrix)[mPhenotype[i][j]][mPhenotype[i][(j+1)%nCities]];
+                mFitness[i] += cityLocData->cityDistance(mPhenotype[i][j] , mPhenotype[i][(j+1)%nCities]);
             }
             if(mFitness[i]<localBestFitness) { localBestFitness = mFitness[i]; localBestGeneIdx = i; }
         }

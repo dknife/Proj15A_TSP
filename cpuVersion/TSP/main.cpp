@@ -12,7 +12,7 @@
 #include <iomanip>
 #include <math.h>
 
-#include "AdjacentMatrixGen.h"
+#include "cityLocData.h"
 #include "GeneticTSPSolver.h"
 #include "OpenGLMgr.h"
 #include "StopWatch.h"
@@ -36,17 +36,17 @@ bool bmBCSCX = false;
 
 GLfloat fogColor[] = { 0.0, 0.0, 0.0 };
 
-#define NUMCITIES 20000 //4056
-#define NUMGENES  10
+#define NUMCITIES 2000 //4056
+#define NUMGENES  1024
 #define NUMGENERATIONS 1000
 #define NUM_POP_GROUPS 4
 
-CAdjacentMatrixGen mat(NUMCITIES,NUMCITIES);
+CCityLocData cityData(NUMCITIES);
 
-CGeneticTSPSolver tspSolverPheno_SCX(mat, NUMGENES, 1);
-CGeneticTSPSolver tspSolverPheno_TWSCX(mat, NUMGENES, 1);
-CGeneticTSPSolver tspSolverPheno_BCSCX(mat, NUMGENES, 1);
-CGeneticTSPSolver tspSolverMulti_BCSCX(mat, NUMGENES, NUM_POP_GROUPS);
+CGeneticTSPSolver tspSolverPheno_SCX(&cityData, NUMGENES, 1);
+CGeneticTSPSolver tspSolverPheno_TWSCX(&cityData, NUMGENES, 1);
+CGeneticTSPSolver tspSolverPheno_BCSCX(&cityData, NUMGENES, 1);
+CGeneticTSPSolver tspSolverMulti_BCSCX(&cityData, NUMGENES, NUM_POP_GROUPS);
 int curGeneration = 0;
 
 CStopWatch myWatch;
@@ -70,7 +70,7 @@ void drawCities(void) {
     
     glBegin(GL_POINTS);
     for(int i=0;i<NUMCITIES;i++) {
-        Point loc = mat.getLocation(i);
+        Point loc = cityData.getLocation(i);
         glVertex2f(loc.x, loc.y);
     }
     glEnd();
@@ -82,7 +82,7 @@ void drawPath(int vertList[]) {
     glLineWidth(2);
     glBegin(GL_LINE_STRIP);
     for(int i=0;i<NUMCITIES;i++) {
-		Point loc = mat.getLocation(vertList[i]);
+		Point loc = cityData.getLocation(vertList[i]);
         glVertex2f(loc.x, loc.y);
     }
     glEnd();
@@ -262,7 +262,7 @@ void display() {
         timeBCSCX = myWatch.checkAndComputeDT();
         if(bmBCSCX) tspSolverMulti_BCSCX.nextGeneration(PHENOTYPE_BCSCX);
         timemBCSCX = myWatch.checkAndComputeDT();
-        printf("time = %lf %lf %lf %lf\n", timeSCX/NUMGENES, timeBCSCX/NUMGENES, timeTWSCX/NUMGENES,timemBCSCX/NUMGENES);
+		printf("time = %lf %lf %lf %lf\n", timeSCX / NUMGENES, timeTWSCX / NUMGENES, timeBCSCX / NUMGENES, timemBCSCX / NUMGENES);
         
         if(bSCX) tspSolverPheno_SCX.computeFitness();
         if(bTWSCX) tspSolverPheno_TWSCX.computeFitness();
