@@ -1,2 +1,3 @@
-dependencies: /Users/ymkang/GitRepository/TSP/TSP/utilities.cpp \
-  /Users/ymkang/GitRepository/TSP/TSP/utilities.h
+dependencies: \
+  /Users/ymkang/myWork_iMac/Mac_5_Development/Proj15A_TSP/cpuVersion/TSP/utilities.cpp \
+  /Users/ymkang/myWork_iMac/Mac_5_Development/Proj15A_TSP/cpuVersion/TSP/utilities.h

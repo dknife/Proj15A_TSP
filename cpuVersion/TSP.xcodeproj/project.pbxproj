@@ -8,10 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		6DBBF3DE1981E33200AD0BB9 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DBBF3DD1981E33200AD0BB9 /* main.cpp */; };
-		6DBBF3E01981E33200AD0BB9 /* TSP.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 6DBBF3DF1981E33200AD0BB9 /* TSP.1 */; };
-		6DBBF3E81981E39D00AD0BB9 /* AdjacentMatrixGen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DBBF3E61981E39D00AD0BB9 /* AdjacentMatrixGen.cpp */; };
 		6DBBF3EB1981F00A00AD0BB9 /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DBBF3E91981F00A00AD0BB9 /* utilities.cpp */; };
 		6DBBF3EE1981F68800AD0BB9 /* GeneticTSPSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DBBF3EC1981F68800AD0BB9 /* GeneticTSPSolver.cpp */; };
+		6DD7FAEC1BCE432100EEF925 /* cityLocData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DD7FAEA1BCE432100EEF925 /* cityLocData.cpp */; settings = {ASSET_TAGS = (); }; };
 		6DDC4F85198F2DFE0080908B /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDC4F84198F2DFE0080908B /* OpenGL.framework */; };
 		6DDC4F87198F2E090080908B /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DDC4F86198F2E090080908B /* GLUT.framework */; };
 		6DDC4F8A198F2E770080908B /* OpenGLMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DDC4F88198F2E770080908B /* OpenGLMgr.cpp */; };
@@ -25,7 +24,6 @@
 			dstPath = /usr/share/man/man1/;
 			dstSubfolderSpec = 0;
 			files = (
-				6DBBF3E01981E33200AD0BB9 /* TSP.1 in CopyFiles */,
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 		};
@@ -34,13 +32,12 @@
 /* Begin PBXFileReference section */
 		6DBBF3DA1981E33200AD0BB9 /* TSP */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = TSP; sourceTree = BUILT_PRODUCTS_DIR; };
 		6DBBF3DD1981E33200AD0BB9 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
-		6DBBF3DF1981E33200AD0BB9 /* TSP.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = TSP.1; sourceTree = "<group>"; };
-		6DBBF3E61981E39D00AD0BB9 /* AdjacentMatrixGen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AdjacentMatrixGen.cpp; sourceTree = "<group>"; };
-		6DBBF3E71981E39D00AD0BB9 /* AdjacentMatrixGen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AdjacentMatrixGen.h; sourceTree = "<group>"; };
 		6DBBF3E91981F00A00AD0BB9 /* utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utilities.cpp; sourceTree = "<group>"; };
 		6DBBF3EA1981F00A00AD0BB9 /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utilities.h; sourceTree = "<group>"; };
 		6DBBF3EC1981F68800AD0BB9 /* GeneticTSPSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = GeneticTSPSolver.cpp; sourceTree = "<group>"; };
 		6DBBF3ED1981F68800AD0BB9 /* GeneticTSPSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GeneticTSPSolver.h; sourceTree = "<group>"; };
+		6DD7FAEA1BCE432100EEF925 /* cityLocData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = cityLocData.cpp; sourceTree = "<group>"; };
+		6DD7FAEB1BCE432100EEF925 /* cityLocData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cityLocData.h; sourceTree = "<group>"; };
 		6DDC4F84198F2DFE0080908B /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 		6DDC4F86198F2E090080908B /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		6DDC4F88198F2E770080908B /* OpenGLMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = OpenGLMgr.cpp; sourceTree = "<group>"; };
@@ -83,10 +80,9 @@
 		6DBBF3DC1981E33200AD0BB9 /* TSP */ = {
 			isa = PBXGroup;
 			children = (
+				6DD7FAEA1BCE432100EEF925 /* cityLocData.cpp */,
+				6DD7FAEB1BCE432100EEF925 /* cityLocData.h */,
 				6DBBF3DD1981E33200AD0BB9 /* main.cpp */,
-				6DBBF3DF1981E33200AD0BB9 /* TSP.1 */,
-				6DBBF3E61981E39D00AD0BB9 /* AdjacentMatrixGen.cpp */,
-				6DBBF3E71981E39D00AD0BB9 /* AdjacentMatrixGen.h */,
 				6DBBF3E91981F00A00AD0BB9 /* utilities.cpp */,
 				6DBBF3EA1981F00A00AD0BB9 /* utilities.h */,
 				6DBBF3EC1981F68800AD0BB9 /* GeneticTSPSolver.cpp */,
@@ -155,7 +151,7 @@
 				6DBBF3DE1981E33200AD0BB9 /* main.cpp in Sources */,
 				6DDC4F8A198F2E770080908B /* OpenGLMgr.cpp in Sources */,
 				6DBBF3EE1981F68800AD0BB9 /* GeneticTSPSolver.cpp in Sources */,
-				6DBBF3E81981E39D00AD0BB9 /* AdjacentMatrixGen.cpp in Sources */,
+				6DD7FAEC1BCE432100EEF925 /* cityLocData.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,2 +1,3 @@
-dependencies: /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.cpp \
-  /Users/ymkang/GitRepository/TSP/TSP/OpenGLMgr.h
+dependencies: \
+  /Users/ymkang/myWork_iMac/Mac_5_Development/Proj15A_TSP/cpuVersion/TSP/OpenGLMgr.cpp \
+  /Users/ymkang/myWork_iMac/Mac_5_Development/Proj15A_TSP/cpuVersion/TSP/OpenGLMgr.h
