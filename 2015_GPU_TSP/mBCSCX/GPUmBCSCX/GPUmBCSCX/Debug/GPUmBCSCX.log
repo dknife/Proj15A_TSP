@@ -1,0 +1,26 @@
+﻿Build started 2015-10-15 오후 6:04:17.
+     1>Project "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\GPUmBCSCX\GPUmBCSCX.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         main.cpp
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(54): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.lib" /MACHINE:X86 Debug\kernel.cu.obj
+         Debug\cityLocData.obj
+         Debug\main.obj
+         Debug\OpenGLMgr.obj
+         Debug\utilities.obj
+         GPUmBCSCX.vcxproj -> C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart32_65.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart64_65.dll
+                 2개 파일이 복사되었습니다.
+     1>Done Building Project "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\GPUmBCSCX\GPUmBCSCX.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:00.95
