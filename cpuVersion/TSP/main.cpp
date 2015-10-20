@@ -39,7 +39,7 @@ GLfloat fogColor[] = { 0.0, 0.0, 0.0 };
 #define NUMCITIES 2000 //4056
 #define NUMGENES  1024
 #define NUMGENERATIONS 1000
-#define NUM_POP_GROUPS 4
+#define NUM_POP_GROUPS 1
 
 CCityLocData cityData(NUMCITIES);
 

@@ -67,6 +67,7 @@ class CGeneticTSPSolver {
     
 public:
     CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nGroups);
+	~CGeneticTSPSolver();
     void initSolver(void);
     
     void printGeneAndFitness(void);

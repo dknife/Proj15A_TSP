@@ -155,12 +155,14 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cityLocData.cpp" />
+    <ClCompile Include="GeneticTSPSolver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGLMgr.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="cityLocData.h" />
+    <ClInclude Include="GeneticTSPSolver.h" />
     <ClInclude Include="kernel.cuh" />
     <ClInclude Include="OpenGLMgr.h" />
     <ClInclude Include="utilities.h" />

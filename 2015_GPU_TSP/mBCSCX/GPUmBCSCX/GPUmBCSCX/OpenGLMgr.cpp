@@ -101,7 +101,7 @@ void COpenGLMgr::printString(const char *str, float x, float y, float z, float c
 	// loop all characters in the string
     while(*str)
     {
-        glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, *str);
+		glutBitmapCharacter(GLUT_BITMAP_9_BY_15, *str);
         ++str;
     }
 	/*

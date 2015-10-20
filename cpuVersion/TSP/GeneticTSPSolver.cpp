@@ -58,6 +58,17 @@ CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nG
     
 }
 
+CGeneticTSPSolver::~CGeneticTSPSolver() {
+	if (cityLocData) cityLocData = NULL;
+	if (mFitness) delete[] mFitness;
+	if (mPhenotype) {
+		for (int i = 0; i < nPopulation; i++) {
+			delete[] mPhenotype[i];
+		}
+		delete[] mPhenotype;
+	}
+}
+
 void CGeneticTSPSolver::initSolver(void) {
     nGeneration = 0;
     
