@@ -52,7 +52,7 @@ CGeneticTSPSolver::CGeneticTSPSolver() {
 	mFitness = NULL;
 
 
-	mPhenotype = NULL;
+	gene = NULL;
 }
 
 CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nGroups) {
@@ -61,10 +61,10 @@ CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nG
     nNumberOfGroups = nGroups;
     
 	nCities = cityLocData->numCities;
-	mFitness = new float[nPopulation];
+	mFitness = new int[nPopulation];
     
 
-    mPhenotype = new int*[nPopulation];
+    gene = new int*[nPopulation];
     
     initSolver();
     
@@ -73,85 +73,132 @@ CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nG
 CGeneticTSPSolver::~CGeneticTSPSolver() {
 	if (cityLocData) cityLocData = NULL;
 	if (mFitness) delete[] mFitness;
-	if (mPhenotype) {
+	if (gene) {
 		for (int i = 0; i < nPopulation; i++) {
-			delete[] mPhenotype[i];
+			delete[] gene[i];
 		}
-		delete[] mPhenotype;
+		delete[] gene;
 	}
 }
 
 void CGeneticTSPSolver::RemoveData(void) {
 	if (cityLocData) cityLocData = NULL;
 	if (mFitness) delete[] mFitness;
-	if (mPhenotype) {
+	if (gene) {
 		for (int i = 0; i < nPopulation; i++) {
-			delete[] mPhenotype[i];
+			delete[] gene[i];
 		}
-		delete[] mPhenotype;
+		delete[] gene;
 	}
 	nPopulation = 0;
 	nNumberOfGroups = 1;
 }
 
 void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroups) {
+    
+    // safe cleaning
+    if(gene) {
+        for(int i=0;i<nPopulation;i++) {
+            delete[] gene[i];
+        }
+        delete[] gene;
+    }
+    if(mFitness) delete[] mFitness;
+    
+    //////////////////
+    
 	cityLocData = inputData;
 	nPopulation = nGenes;
 	nNumberOfGroups = nGroups;
 
 	nCities = cityLocData->numCities;
-	mFitness = new float[nPopulation];
+    
+    mFitness = new int[nPopulation];
 
-
-	mPhenotype = new int*[nPopulation];
+    
+	gene = new int*[nPopulation];
 
 	initSolver();
 
 }
 
+void CGeneticTSPSolver::LoadSolution(char *fname) {
+    int cityId;
+    FILE *fInput = fopen(fname, "r");
+    if (fInput == NULL) {
+        printf("file not found : %s\n", fname);
+        char pathStr[256];
+        GetCurrentDir(pathStr, sizeof(pathStr));
+        printf("working dir: %s\n", pathStr);
+        
+        exit(1);
+    }
+    
+    printf("file loading started...\n");
+    
+    int N;
+    
+    fscanf(fInput, "%d\n", &N);
+    for (int i = 0; i<N; i++) {
+        fscanf(fInput, "%d", &cityId);
+        gene[0][i] = cityId-1;
+    }
+    computeFitnessOf(0);
+    
+    printf("solution loaded\n");
+}
+
+
 void CGeneticTSPSolver::initSolver(void) {
     nGeneration = 0;
     
     for (int i=0; i<nPopulation; i++) {
-        mPhenotype[i] = new int[nCities];
+        gene[i] = new int[nCities];
     }
     for (int i=0; i<nPopulation; i++) {
-        for (int j=0; j<nCities  ; j++) mPhenotype[i][j] = j;
+        for (int j=0; j<nCities  ; j++) gene[i][j] = j;
     }
     for (int i=0; i<nPopulation; i++) {
-        shufflePheno(i, nCities/2);
+        shuffleGene(i, nCities/2);
     }
 }
 
-void CGeneticTSPSolver::reversePheno(int idx) {
-    int max=nCities/2;
-    for(int i=1;i<=max;i++) {
-        swap(mPhenotype[idx][i], mPhenotype[idx][nCities-i]);
-    }
-}
+//void CGeneticTSPSolver::reverseGene(int idx) {
+//    int max=nCities/2;
+//    for(int i=1;i<=max;i++) {
+//        swap(gene[idx][i], gene[idx][nCities-i]);
+//    }
+//}
 
-void CGeneticTSPSolver::shufflePheno(int idx, int nShuffle) {
+void CGeneticTSPSolver::shuffleGene(int idx, int nShuffle) {
     int idxA, idxB;
     for(int i=1;i<nShuffle;i++) {
         idxA = rangeRandomi(1, nCities-1);
         idxB = rangeRandomi(1, nCities-1);
         
-        swap(mPhenotype[idx][idxA], mPhenotype[idx][idxB]);
+        swap(gene[idx][idxA], gene[idx][idxB]);
    }
 }
 
-void CGeneticTSPSolver::swapPhenotype(int idxA, int idxB) {
-    for (int i=0; i<nCities; i++) {
-        int T = mPhenotype[idxA][i];
-        mPhenotype[idxA][i] = mPhenotype[idxB][i];
-        mPhenotype[idxB][i] = T;
-    }
+void CGeneticTSPSolver::swapGene(int idxA, int idxB) {
+    for (int i=0; i<nCities; i++) swap(gene[idxA][i], gene[idxB][i]);
+    
+    swap(mFitness[idxA], mFitness[idxB]);
+    //{
+    //    int T = gene[idxA][i];
+    //    gene[idxA][i] = gene[idxB][i];
+    //    gene[idxB][i] = T;
+    //}
+    //int Tfit = mFitness[idxA];
+    //mFitness[idxA] = mFitness[idxB];
+    //mFitness[idxB] = Tfit;
 }
 
-void CGeneticTSPSolver::copyPhenotype(int idxA, int idxB) {
+void CGeneticTSPSolver::copyGene(int idxA, int idxB) {
     for (int i=0; i<nCities; i++) {
-        mPhenotype[idxB][i]=mPhenotype[idxA][i];
+        gene[idxB][i]=gene[idxA][i];
     }
+    mFitness[idxB] = mFitness[idxA];
 }
 
 int CGeneticTSPSolver::getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx) {
@@ -162,14 +209,29 @@ int CGeneticTSPSolver::getLegitimateNodeBCSCX(int curCity, int *cityTour, int *o
     
     int nCity1 = cityTour[forward];
     int nCity2 = cityTour[backward];
-    //int nextCity = ((*adjMatrix)[curCity][nCity1] < (*adjMatrix)[curCity][nCity2] )? nCity1: nCity2;
 	int nextCity = (cityLocData->cityDistance(curCity, nCity1) < cityLocData->cityDistance(curCity, nCity2)) ? nCity1 : nCity2;
     return nextCity;
     
 
 }
 
-void CGeneticTSPSolver::crossoverPheno(int idxA, int idxB, int idxC, bool bForward) {
+void CGeneticTSPSolver::mutate(int parent, int idx) {
+    
+    copyGene(parent, idx);
+    
+    int idxA = rangeRandomi(1, nCities-1);
+    int idxB = rangeRandomi(1, nCities-1);
+    if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
+    int half = (idxB+1-idxA)/2;
+    for(int i=0;i<half;i++) {
+        swap(gene[idx][idxA+i], gene[idx][idxB-i]);
+    }
+    
+}
+
+
+
+void CGeneticTSPSolver::crossover(int idxA, int idxB, int idxC) {
 
 
     int candidate1, candidate2;
@@ -194,13 +256,13 @@ void CGeneticTSPSolver::crossoverPheno(int idxA, int idxB, int idxC, bool bForwa
     
     for (int i=0; i<nCities; i++) {
         int city;
-        city = mPhenotype[idxA][i]; orderOfCity_A[city] = i;
-        city = mPhenotype[idxB][i]; orderOfCity_B[city] = i;
+        city = gene[idxA][i]; orderOfCity_A[city] = i;
+        city = gene[idxB][i]; orderOfCity_B[city] = i;
     }
 
     for(int i=1; i<nCities; i++) {
-		candidate1 = getLegitimateNodeBCSCX(curCity, mPhenotype[idxA], orderOfCity_A, citySearchIdx_A);
-		candidate2 = getLegitimateNodeBCSCX(curCity, mPhenotype[idxB], orderOfCity_B, citySearchIdx_B);
+		candidate1 = getLegitimateNodeBCSCX(curCity, gene[idxA], orderOfCity_A, citySearchIdx_A);
+		candidate2 = getLegitimateNodeBCSCX(curCity, gene[idxB], orderOfCity_B, citySearchIdx_B);
 		if (cityLocData->cityDistance(curCity, candidate1) < cityLocData->cityDistance(curCity, candidate2))
 			nextCity = candidate1;
 		else nextCity = candidate2;
@@ -212,7 +274,7 @@ void CGeneticTSPSolver::crossoverPheno(int idxA, int idxB, int idxC, bool bForwa
 	}
 
     for(int i=0;i<nCities;i++) {
-        mPhenotype[idxC][i]=crossover[i];
+        gene[idxC][i]=crossover[i];
     }
 	delete[] cityValid;
 	delete[] crossover;
@@ -222,46 +284,21 @@ void CGeneticTSPSolver::crossoverPheno(int idxA, int idxB, int idxC, bool bForwa
 }
 
 
-void CGeneticTSPSolver::printGeneAndFitness(void) {
-        
-    for(int i=0;i<nPopulation;i++) {
-        mFitness[i] = 0;
-        cout<<"Gene "<<setw(3)<<i<<": ";
-        for(int j=0;j<nCities;j++) {
-            cout<<setw(3)<<mPhenotype[i][j]<<" ";
-            mFitness[i] += cityLocData->cityDistance(mPhenotype[i][j], mPhenotype[i][(j+1)%nCities]);
-        }
-        cout<<endl;
-            
-        cout<<"fitness = "<<mFitness[i]<<endl;
-        
-    }
-}
 
 void CGeneticTSPSolver::copySolution(int *SolutionCpy) {
     if(!SolutionCpy) return;
     
     for (int i=0; i<nCities; i++) {
-        SolutionCpy[i] = mPhenotype[bestGeneIdx][i];
+        SolutionCpy[i] = gene[bestGeneIdx][i];
     }
 }
 
-void CGeneticTSPSolver::printGene(int idx) {
-    
-    
-    cout<<"City Tour "<<setw(3)<<idx<<": ";
-    for(int j=0;j<nCities;j++) {
-        cout<<setw(3)<<mPhenotype[idx][j]<<" ";
-    }
-    cout<<endl;
-   
-}
 
 void CGeneticTSPSolver::computeFitnessOf(int idx) {
     
     mFitness[idx] = 0;
     for(int j=0;j<nCities;j++) {
-        mFitness[idx] += cityLocData->cityDistance( mPhenotype[idx][j] , mPhenotype[idx][(j+1)%nCities] );
+        mFitness[idx] += cityLocData->cityDistance( gene[idx][j] , gene[idx][(j+1)%nCities] );
     }
     
 }
@@ -271,30 +308,31 @@ void CGeneticTSPSolver::computeFitness(void) {
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
     
    
-    for(int i=0;i<nNumberOfGroups;i++) { // for every local group
+    for(int g=0;g<nNumberOfGroups;g++) { // for every local group
         
-        int start = i*nMemberOfAGroup;
-        int end = (i==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
+        int start = g*nMemberOfAGroup;
+        int end = (g==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
         
-        float localBestFitness = mFitness[start];
+        int localBestFitness = mFitness[start];
         int   localBestGeneIdx = start;
         
         for(int i=start;i<end;i++) {
             mFitness[i] = 0;
             for(int j=0;j<nCities;j++) {
-                mFitness[i] += cityLocData->cityDistance(mPhenotype[i][j] , mPhenotype[i][(j+1)%nCities]);
+                mFitness[i] += cityLocData->cityDistance(gene[i][j] , gene[i][(j+1)%nCities]);
             }
             if(mFitness[i]<localBestFitness) { localBestFitness = mFitness[i]; localBestGeneIdx = i; }
+            debegMessage("fit (%d) = %d\n", i, mFitness[i]);
         }
         
         // move the best in the local group to be the first gene in the group
-        swapPhenotype(start, localBestGeneIdx);
-        swap(mFitness[start], mFitness[localBestGeneIdx]);
+        debegMessage("group(%d) - swapping %d (%d) and %d (%d)\n", g, start, mFitness[start], localBestGeneIdx, localBestFitness);
+        swapGene(start, localBestGeneIdx);
+        
     }
     
     
     // best gene migration
-    /*
     if(nNumberOfGroups>1) {
         for(int i=0;i<nNumberOfGroups;i++) {
             int idxA = rangeRandomi(0, nNumberOfGroups-1);
@@ -306,24 +344,23 @@ void CGeneticTSPSolver::computeFitness(void) {
             //swap(mFitness[idxA], mFitness[idxB]);
             
             // best gene copying
-            copyPhenotype(idxA, idxB+1);
+            copyGene(idxA, idxB+1);
             mFitness[idxB+1] = mFitness[idxA];
-            copyPhenotype(idxB, idxA+1);
+            copyGene(idxB, idxA+1);
             mFitness[idxA+1] = mFitness[idxB];
             
         }
-    }*/
+    }
     
     bestFitness = mFitness[0];
     bestGeneIdx = 0;
-    float worstFitness = 0.0f;
-    int worstGeneIdx = -1;
+
     
     // find the best in the total population
     for(int i=0;i<nPopulation;i+=nMemberOfAGroup) {
         if(mFitness[i]<bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
-        if(mFitness[i]>worstFitness) { worstGeneIdx = i; worstFitness = mFitness[i]; }
     }
+    debegMessage("bestGene = %d (%d)\n", bestGeneIdx, bestFitness);
     
 }
     
@@ -334,43 +371,54 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
     
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 
-	for (int i = 0; i<nNumberOfGroups; i++) {
+	for (int g= 0; g<nNumberOfGroups; g++) {
 
-		int start = i*nMemberOfAGroup;
-		int end = (i == nNumberOfGroups - 1) ? nPopulation : start + nMemberOfAGroup;
+		int start = g*nMemberOfAGroup;
+		int end = (g == nNumberOfGroups - 1) ? nPopulation : start + nMemberOfAGroup;
 
-		int winnerA, winnerB, loserA, loserB;
-		for (int i = start; i<end; i++) {
-			int idxA = rangeRandomi(start, end - 1);
-			int idxB = idxA;
-			while (idxB == idxA) idxB = rangeRandomi(start, end - 1);
-
-			if (mFitness[idxA]<mFitness[idxB]) {
-				winnerA = idxA; loserA = idxB;
-			}
-			else {
-				winnerA = idxB; loserA = idxA;
-			}
-
-			idxA = rangeRandomi(start, end - 1);
-			idxB = idxA;
-			while (idxB == idxA) idxB = rangeRandomi(start, end - 1);
-
-			if (mFitness[idxA]<mFitness[idxB]) {
-				winnerB = idxA; loserB = idxB;
-			}
-			else {
-				winnerB = idxB; loserB = idxA;
-			}
-
-			crossoverPheno(winnerA, winnerB, loserA, true);
-			computeFitnessOf(loserA);
-
-			shufflePheno(loserB, rangeRandomi(nCities / 3, nCities / 2));
-			
-			computeFitnessOf(loserB);
-		}
-
+        // competition
+        debegMessage("competition group %d: (%d - %d)\n", g, start, end-1);
+        nMemberOfAGroup = end - start;
+        for (int i = 0; i<nMemberOfAGroup/2; i++) {
+            int idxA = start+i*2;
+            int idxB = idxA+1;
+            int winner = mFitness[idxA]<mFitness[idxB]?idxA:idxB;
+            copyGene(winner, i+start);
+            debegMessage("%d %d : winner: %d stored at %d (%d)\n", idxA, idxB, winner, i, mFitness[i]);
+        }
+        if (nMemberOfAGroup%2) {
+            copyGene(end-1, start+nMemberOfAGroup/2);
+            debegMessage("last one at %d moved to %d\n", end-1, start+nMemberOfAGroup/2);
+        }
+        ///////////////////////
+        
+        // crossover
+        for (int i = 0; i<(nMemberOfAGroup+1)/2; i+=2) {
+            int idxA = start+i;
+            int idxB = idxA+1;
+            int child = start+(nMemberOfAGroup+1)/2 + i/2;
+            crossover(idxA, idxB, child);
+            debegMessage("cross: %d %d -> %d\n", idxA, idxB, child);
+            computeFitnessOf(child);
+        }
+        ///////////////////////
+        
+        
+        // mutation
+        for (int i = 0; i<nMemberOfAGroup/4; i++) {
+            debegMessage("mutate %d -> %d\n", start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
+            mutate(start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
+            
+            computeFitnessOf(i);
+        }
+        
+        // shuffle gene pool
+        //for (int i = 0; i<nMemberOfAGroup/2; i++) {
+        //    int idxA = start + i;
+        //    int idxB = start+nMemberOfAGroup/2 + i;
+        //    if(i%2) swapGene(idxA, idxB);
+        // }
+       
 	}
 
 }

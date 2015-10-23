@@ -10,13 +10,7 @@
 #include "utilities.h"
 #include <math.h>
 
-#ifdef WIN32
-#include <direct.h>
-#define GetCurrentDir _getcwd
-#else
-#include <unistd.h>
-#define GetCurrentDir getcwd
-#endif
+
 
 #include "cityLocData.h"
 using namespace std;
@@ -54,6 +48,7 @@ CCityLocData::CCityLocData(int nCities) : numCities(nCities) {
 void CCityLocData::readData(const char *fName) {
 
 	int cityId;
+    
 	FILE *fInput = fopen(fName, "r");
 	if (fInput == NULL) {
 		printf("file not found : %s\n", fName);
@@ -68,13 +63,16 @@ void CCityLocData::readData(const char *fName) {
 
 	fscanf(fInput, "%d\n", &numCities);
 	printf("nCities: %d\n", numCities);
+    
+    if(cityLoc) delete[] cityLoc;
 	cityLoc = new Point[numCities];
+    
 	for (int i = 0; i<numCities; i++) {
 		fscanf(fInput, "%d", &cityId);
 		fscanf(fInput, "%f", &cityLoc[i].x);
 		fscanf(fInput, "%f", &cityLoc[i].y);
 		if (cityId - 1 != i) {
-			printf("Data Invalid\n"); exit(1);
+			printf("Data Invalid (reading node %d at %d)\n", cityId, i); exit(1);
 		}
 		
 		if (i == 0) {
@@ -91,10 +89,10 @@ void CCityLocData::readData(const char *fName) {
 	printf("file successfully loaded!\n");
 }
 
-float CCityLocData::cityDistance(int i, int j) {
-	float dx = cityLoc[i].x - cityLoc[j].x;
-	float dy = cityLoc[i].y - cityLoc[j].y;
-	return sqrt(dx*dx + dy*dy);
+int CCityLocData::cityDistance(int i, int j) {
+	int dx = cityLoc[i].x - cityLoc[j].x;
+	int dy = cityLoc[i].y - cityLoc[j].y;
+	return (int)(sqrt(dx*dx + dy*dy)+0.5);
 }
 
 

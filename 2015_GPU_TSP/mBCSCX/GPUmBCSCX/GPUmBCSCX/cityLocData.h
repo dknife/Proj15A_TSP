@@ -30,7 +30,7 @@ public:
 	void  readData(const char *filename);
 	Point getLocation(int cityIdx);
 	void  setLocation(int cityIdx, Point p);
-	float cityDistance(int i, int j);
+	int cityDistance(int i, int j);
 };
 
 #endif /* defined(__TSP__CITYLOCDATA_HH__) */

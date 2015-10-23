@@ -38,21 +38,22 @@ class CGeneticTSPSolver {
     int nCities;
     int nNumberOfGroups;
     
-    int** mPhenotype;
+    int** gene;
     
-    float* mFitness;
-    float bestFitness;
+    int* mFitness;
+    int  bestFitness;
     int   bestGeneIdx;
     
 	CCityLocData *cityLocData;
 	
-    void shufflePheno(int idx, int nShuffle);
-    void reversePheno(int idx);
-    void swapPhenotype(int idxA, int idxB); // swap A and B (phenotype)
-    void copyPhenotype(int idxA, int idxB); // copy A to  B (phenotype)
+    void shuffleGene(int idx, int nShuffle);
+//    void reverseGene(int idx);
+    void swapGene(int idxA, int idxB); // swap A and B (phenotype)
+    void copyGene(int idxA, int idxB); // copy A to  B (phenotype)
     
-    // <crossover of A pheno and B pheno> is stored into C
-    void crossoverPheno(int idxA, int idxB, int idxC, bool bForward=true);
+    // <crossover of A and B> is stored into C
+    void crossover(int idxA, int idxB, int idxC);
+    void mutate(int parent, int mutChild);
 	
     int getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx);
     
@@ -64,6 +65,7 @@ public:
 	~CGeneticTSPSolver();
 
 	void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
+    void LoadSolution(char *fname);
 	void RemoveData();
 
     void initSolver(void);

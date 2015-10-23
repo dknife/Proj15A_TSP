@@ -11,9 +11,21 @@
 
 #include <iostream>
 
+
+#ifdef WIN32
+#include <direct.h>
+#define GetCurrentDir _getcwd
+#else
+#include <unistd.h>
+#define GetCurrentDir getcwd
+#endif
+
+
 float rangeRandomf(float min, float max);
 int   rangeRandomi(int min, int max);
-
 void  swap(int &a, int &b);
+
+
+int   debegMessage(const char *fmt, ...);
 
 #endif /* defined(__TSP__utilities__) */

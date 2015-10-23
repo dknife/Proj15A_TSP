@@ -276,12 +276,12 @@ void CGeneticTSPSolver::computeFitness(void) {
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
     
    
-    for(int i=0;i<nNumberOfGroups;i++) { // for every local group
+    for(int g=0;g<nNumberOfGroups;g++) { // for every local group
         
-        int start = i*nMemberOfAGroup;
-        int end = (i==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
+        int start = g*nMemberOfAGroup;
+        int end = (g==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
         
-        float localBestFitness = nCities*10.0f;
+        float localBestFitness = mFitness[start];
         int   localBestGeneIdx = start;
         
         for(int i=start;i<end;i++) {
@@ -319,15 +319,12 @@ void CGeneticTSPSolver::computeFitness(void) {
         }
     }*/
     
-    bestFitness = nCities*10.0f;
+    bestFitness = mFitness[0];
     bestGeneIdx = 0;
-    float worstFitness = 0.0f;
-    int worstGeneIdx = -1;
     
     // find the best in the total population
     for(int i=0;i<nPopulation;i+=nMemberOfAGroup) {
         if(mFitness[i]<bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
-        if(mFitness[i]>worstFitness) { worstGeneIdx = i; worstFitness = mFitness[i]; }
     }
     
 }
@@ -336,10 +333,10 @@ void CGeneticTSPSolver::nextGenerationWithPhenotype(evolutionMode mode) {
     
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
     
-    for(int i=0;i<nNumberOfGroups;i++) {
+    for(int g=0;g<nNumberOfGroups;g++) {
         
-        int start = i*nMemberOfAGroup;
-        int end = (i==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
+        int start = g*nMemberOfAGroup;
+        int end = (g==nNumberOfGroups-1)?nPopulation: start+nMemberOfAGroup;
         
         int winnerA, winnerB, loserA, loserB;
         for(int i=start;i<end;i++) {
