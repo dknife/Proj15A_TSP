@@ -52,8 +52,10 @@ class CGeneticTSPSolver {
     void copyGene(int idxA, int idxB); // copy A to  B (phenotype)
     
     // <crossover of A and B> is stored into C
-    void crossover(int idxA, int idxB, int idxC);
+    void crossoverBCSCX(int idxA, int idxB, int idxC);
+    void crossoverABCSCX(int idxA, int idxB, int idxC);
     void mutate(int parent, int mutChild);
+    void fixGene(int idx);
 	
     int getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx);
     
@@ -74,6 +76,7 @@ public:
     void printGene(int idx);
     void computeFitnessOf(int idx);
     void computeFitness(void) ;
+    void intergroupMarriage(void);
     
 	void nextGeneration(void);
     

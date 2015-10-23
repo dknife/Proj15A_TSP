@@ -184,14 +184,6 @@ void CGeneticTSPSolver::swapGene(int idxA, int idxB) {
     for (int i=0; i<nCities; i++) swap(gene[idxA][i], gene[idxB][i]);
     
     swap(mFitness[idxA], mFitness[idxB]);
-    //{
-    //    int T = gene[idxA][i];
-    //    gene[idxA][i] = gene[idxB][i];
-    //    gene[idxB][i] = T;
-    //}
-    //int Tfit = mFitness[idxA];
-    //mFitness[idxA] = mFitness[idxB];
-    //mFitness[idxB] = Tfit;
 }
 
 void CGeneticTSPSolver::copyGene(int idxA, int idxB) {
@@ -219,19 +211,60 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
     
     copyGene(parent, idx);
     
-    int idxA = rangeRandomi(1, nCities-1);
-    int idxB = rangeRandomi(1, nCities-1);
+    // inverting a section
+    
+    
+    int idxA;
+    int idxB;
+    idxA = rangeRandomi(0, nCities-1);
+    idxB = rangeRandomi(0, nCities-1);
     if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
-    int half = (idxB+1-idxA)/2;
+    int half = (idxB-1-idxA)/2;
     for(int i=0;i<half;i++) {
-        swap(gene[idx][idxA+i], gene[idx][idxB-i]);
+        swap(gene[idx][idxA+1+i], gene[idx][idxB-1-i]);
     }
     
+    computeFitnessOf(idx);
 }
 
 
+void CGeneticTSPSolver::fixGene(int idx) {
+    
+    // inverting a section
+    
+    
+    int idxA;
+    int idxB;
+    int search = 0;
+    int distOrg, distNew;
+    bool bIntersectFound = false;
+    while(search < nCities && !bIntersectFound) {
+        idxA = rangeRandomi(0, nCities-2);
+        idxB = rangeRandomi(0, nCities-2);
+        if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
+        if(idxA==idxB) continue;
+        
+        distOrg = cityLocData->cityDistance(gene[idx][idxA], gene[idx][idxA+1]) + cityLocData->cityDistance(gene[idx][idxB], gene[idx][idxB+1]);
+        distNew = cityLocData->cityDistance(gene[idx][idxA], gene[idx][idxB])   + cityLocData->cityDistance(gene[idx][idxA+1], gene[idx][idxB+1]);
+        if(distNew<distOrg) {
+            bIntersectFound=true;
+        }
+        search++;
+    }
+    
+    
+    if(bIntersectFound) {
+        int half = (idxB-idxA)/2;
+        for(int i=0;i<half;i++) {
+            swap(gene[idx][idxA+1+i], gene[idx][idxB-i]);
+        }
+        
+    }
+    computeFitnessOf(idx);
+}
 
-void CGeneticTSPSolver::crossover(int idxA, int idxB, int idxC) {
+
+void CGeneticTSPSolver::crossoverBCSCX(int idxA, int idxB, int idxC) {
 
 
     int candidate1, candidate2;
@@ -281,7 +314,67 @@ void CGeneticTSPSolver::crossover(int idxA, int idxB, int idxC) {
     
     delete[] orderOfCity_A;
     delete[] orderOfCity_B;
+    
+    computeFitnessOf(idxC);
 }
+
+void CGeneticTSPSolver::crossoverABCSCX(int idxA, int idxB, int idxC) {
+    
+ 
+    bool bUse1stGene = true;
+    
+    int curCity = 0;
+    int nextCity;
+    bool *cityValid = new bool[nCities];
+    int  *crossover = new int[nCities];
+    crossover[0] = 0;
+    
+    
+    for(int i=1;i<nCities;i++) {
+        cityValid[i] = true;
+    }	cityValid[0] = false;
+    
+    CCitySearchIndex citySearchIdx_A(nCities);
+    CCitySearchIndex citySearchIdx_B(nCities);
+    citySearchIdx_A.invalidate(0);
+    citySearchIdx_B.invalidate(0);
+    
+    int *orderOfCity_A = new int[nCities];
+    int *orderOfCity_B = new int[nCities];
+    
+    for (int i=0; i<nCities; i++) {
+        int city;
+        city = gene[idxA][i]; orderOfCity_A[city] = i;
+        city = gene[idxB][i]; orderOfCity_B[city] = i;
+    }
+    
+    for(int i=1; i<nCities; i++) {
+        if(bUse1stGene ) {
+            nextCity = getLegitimateNodeBCSCX(curCity, gene[idxA], orderOfCity_A, citySearchIdx_A);
+        }
+        else {
+            nextCity = getLegitimateNodeBCSCX(curCity, gene[idxB], orderOfCity_B, citySearchIdx_B);
+        }
+        crossover[i]=nextCity;
+        cityValid[nextCity] = false;
+        curCity = nextCity;
+        citySearchIdx_A.invalidate(orderOfCity_A[nextCity]);
+        citySearchIdx_B.invalidate(orderOfCity_B[nextCity]);
+        bUse1stGene = bUse1stGene?false:true;
+    }
+    
+    for(int i=0;i<nCities;i++) {
+        gene[idxC][i]=crossover[i];
+    }
+    delete[] cityValid;
+    delete[] crossover;
+    
+    delete[] orderOfCity_A;
+    delete[] orderOfCity_B;
+    
+    computeFitnessOf(idxC);
+}
+
 
 
 
@@ -306,7 +399,7 @@ void CGeneticTSPSolver::computeFitnessOf(int idx) {
 void CGeneticTSPSolver::computeFitness(void) {
     
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
-    
+   
    
     for(int g=0;g<nNumberOfGroups;g++) { // for every local group
         
@@ -317,10 +410,7 @@ void CGeneticTSPSolver::computeFitness(void) {
         int   localBestGeneIdx = start;
         
         for(int i=start;i<end;i++) {
-            mFitness[i] = 0;
-            for(int j=0;j<nCities;j++) {
-                mFitness[i] += cityLocData->cityDistance(gene[i][j] , gene[i][(j+1)%nCities]);
-            }
+            computeFitnessOf(i);
             if(mFitness[i]<localBestFitness) { localBestFitness = mFitness[i]; localBestGeneIdx = i; }
             debegMessage("fit (%d) = %d\n", i, mFitness[i]);
         }
@@ -332,25 +422,7 @@ void CGeneticTSPSolver::computeFitness(void) {
     }
     
     
-    // best gene migration
-    if(nNumberOfGroups>1) {
-        for(int i=0;i<nNumberOfGroups;i++) {
-            int idxA = rangeRandomi(0, nNumberOfGroups-1);
-            int idxB = idxA;
-            while( idxB == idxA) idxB = nMemberOfAGroup * rangeRandomi(0, nNumberOfGroups-1);
-            
-            // swapping
-            //swapPhenotype(idxA, idxB);
-            //swap(mFitness[idxA], mFitness[idxB]);
-            
-            // best gene copying
-            copyGene(idxA, idxB+1);
-            mFitness[idxB+1] = mFitness[idxA];
-            copyGene(idxB, idxA+1);
-            mFitness[idxA+1] = mFitness[idxB];
-            
-        }
-    }
+
     
     bestFitness = mFitness[0];
     bestGeneIdx = 0;
@@ -363,7 +435,27 @@ void CGeneticTSPSolver::computeFitness(void) {
     debegMessage("bestGene = %d (%d)\n", bestGeneIdx, bestFitness);
     
 }
+
+void CGeneticTSPSolver::intergroupMarriage(void) {
     
+    int nMemberOfAGroup = nPopulation/nNumberOfGroups;
+    // best gene migration
+    if(nNumberOfGroups>1) {
+        for(int i=0;i<nNumberOfGroups;i++) {
+            int idxA = i;
+            int idxB = (i + rangeRandomi(1, nNumberOfGroups-1))%nNumberOfGroups;
+            
+            idxA *= nMemberOfAGroup;
+            idxB *= nMemberOfAGroup;
+            
+            // best gene inter-group marrage
+            crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup-1);
+            crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup-2);
+            
+        }
+    }
+}
+
 
 void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 
@@ -396,28 +488,30 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
         for (int i = 0; i<(nMemberOfAGroup+1)/2; i+=2) {
             int idxA = start+i;
             int idxB = idxA+1;
-            int child = start+(nMemberOfAGroup+1)/2 + i/2;
-            crossover(idxA, idxB, child);
+            //int child = start+(nMemberOfAGroup+1)/2 + i/2;
+            //if (rand()%2) crossoverBCSCX(idxA, idxB, child);
+            //else crossoverABCSCX(idxA, idxB, child);
+            
+            int child = start+(nMemberOfAGroup+1)/2 + i;
+            crossoverBCSCX(idxA, idxB, child);
+            crossoverABCSCX(idxA, idxB, child+1);
+            
             debegMessage("cross: %d %d -> %d\n", idxA, idxB, child);
-            computeFitnessOf(child);
         }
         ///////////////////////
         
         
         // mutation
+        
         for (int i = 0; i<nMemberOfAGroup/4; i++) {
+            
             debegMessage("mutate %d -> %d\n", start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
             mutate(start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
-            
-            computeFitnessOf(i);
         }
         
-        // shuffle gene pool
-        //for (int i = 0; i<nMemberOfAGroup/2; i++) {
-        //    int idxA = start + i;
-        //    int idxB = start+nMemberOfAGroup/2 + i;
-        //    if(i%2) swapGene(idxA, idxB);
-        // }
+        fixGene(start);
+        
+        intergroupMarriage();
        
 	}
 
