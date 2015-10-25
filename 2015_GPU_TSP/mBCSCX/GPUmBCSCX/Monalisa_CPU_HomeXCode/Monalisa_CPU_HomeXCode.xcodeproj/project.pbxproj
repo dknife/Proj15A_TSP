@@ -7,11 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		6DA5647D1BDA1EF8005138E7 /* cityLocData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA564741BDA1EF8005138E7 /* cityLocData.cpp */; };
-		6DA5647E1BDA1EF8005138E7 /* GeneticTSPSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA564761BDA1EF8005138E7 /* GeneticTSPSolver.cpp */; };
-		6DA5647F1BDA1EF8005138E7 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA564781BDA1EF8005138E7 /* main.cpp */; };
-		6DA564801BDA1EF8005138E7 /* OpenGLMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA564791BDA1EF8005138E7 /* OpenGLMgr.cpp */; };
-		6DA564811BDA1EF8005138E7 /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6DA5647B1BDA1EF8005138E7 /* utilities.cpp */; };
+		6D53D88D1BDB5C3000556126 /* cityLocData.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D53D8841BDB5C3000556126 /* cityLocData.cpp */; };
+		6D53D88E1BDB5C3000556126 /* GeneticTSPSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D53D8861BDB5C3000556126 /* GeneticTSPSolver.cpp */; };
+		6D53D88F1BDB5C3000556126 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D53D8881BDB5C3000556126 /* main.cpp */; };
+		6D53D8901BDB5C3000556126 /* OpenGLMgr.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D53D8891BDB5C3000556126 /* OpenGLMgr.cpp */; };
+		6D53D8911BDB5C3000556126 /* utilities.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6D53D88B1BDB5C3000556126 /* utilities.cpp */; };
 		6DA564841BDA1F08005138E7 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA564821BDA1F08005138E7 /* GLUT.framework */; };
 		6DA564851BDA1F08005138E7 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6DA564831BDA1F08005138E7 /* OpenGL.framework */; };
 /* End PBXBuildFile section */
@@ -29,16 +29,15 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		6D53D8841BDB5C3000556126 /* cityLocData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cityLocData.cpp; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/cityLocData.cpp; sourceTree = "<absolute>"; };
+		6D53D8861BDB5C3000556126 /* GeneticTSPSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GeneticTSPSolver.cpp; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/GeneticTSPSolver.cpp; sourceTree = "<absolute>"; };
+		6D53D8871BDB5C3000556126 /* GeneticTSPSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneticTSPSolver.h; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/GeneticTSPSolver.h; sourceTree = "<absolute>"; };
+		6D53D8881BDB5C3000556126 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/main.cpp; sourceTree = "<absolute>"; };
+		6D53D8891BDB5C3000556126 /* OpenGLMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLMgr.cpp; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/OpenGLMgr.cpp; sourceTree = "<absolute>"; };
+		6D53D88A1BDB5C3000556126 /* OpenGLMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLMgr.h; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/OpenGLMgr.h; sourceTree = "<absolute>"; };
+		6D53D88B1BDB5C3000556126 /* utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utilities.cpp; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/utilities.cpp; sourceTree = "<absolute>"; };
+		6D53D88C1BDB5C3000556126 /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utilities.h; path = /Users/ymkang/myWork_iMac/Development/Proj15A_TSP/2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/../GPUmBCSCX/utilities.h; sourceTree = "<absolute>"; };
 		6D6267ED1BDA1EB5008B22A1 /* Monalisa_CPU_HomeXCode */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Monalisa_CPU_HomeXCode; sourceTree = BUILT_PRODUCTS_DIR; };
-		6DA564741BDA1EF8005138E7 /* cityLocData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = cityLocData.cpp; path = ../../GPUmBCSCX/cityLocData.cpp; sourceTree = "<group>"; };
-		6DA564751BDA1EF8005138E7 /* cityLocData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = cityLocData.h; path = ../../GPUmBCSCX/cityLocData.h; sourceTree = "<group>"; };
-		6DA564761BDA1EF8005138E7 /* GeneticTSPSolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GeneticTSPSolver.cpp; path = ../../GPUmBCSCX/GeneticTSPSolver.cpp; sourceTree = "<group>"; };
-		6DA564771BDA1EF8005138E7 /* GeneticTSPSolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GeneticTSPSolver.h; path = ../../GPUmBCSCX/GeneticTSPSolver.h; sourceTree = "<group>"; };
-		6DA564781BDA1EF8005138E7 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../GPUmBCSCX/main.cpp; sourceTree = "<group>"; };
-		6DA564791BDA1EF8005138E7 /* OpenGLMgr.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = OpenGLMgr.cpp; path = ../../GPUmBCSCX/OpenGLMgr.cpp; sourceTree = "<group>"; };
-		6DA5647A1BDA1EF8005138E7 /* OpenGLMgr.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OpenGLMgr.h; path = ../../GPUmBCSCX/OpenGLMgr.h; sourceTree = "<group>"; };
-		6DA5647B1BDA1EF8005138E7 /* utilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = utilities.cpp; path = ../../GPUmBCSCX/utilities.cpp; sourceTree = "<group>"; };
-		6DA5647C1BDA1EF8005138E7 /* utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = utilities.h; path = ../../GPUmBCSCX/utilities.h; sourceTree = "<group>"; };
 		6DA564821BDA1F08005138E7 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		6DA564831BDA1F08005138E7 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -77,18 +76,18 @@
 		6D6267EF1BDA1EB5008B22A1 /* Monalisa_CPU_HomeXCode */ = {
 			isa = PBXGroup;
 			children = (
-				6DA564741BDA1EF8005138E7 /* cityLocData.cpp */,
-				6DA564751BDA1EF8005138E7 /* cityLocData.h */,
-				6DA564761BDA1EF8005138E7 /* GeneticTSPSolver.cpp */,
-				6DA564771BDA1EF8005138E7 /* GeneticTSPSolver.h */,
-				6DA564781BDA1EF8005138E7 /* main.cpp */,
-				6DA564791BDA1EF8005138E7 /* OpenGLMgr.cpp */,
-				6DA5647A1BDA1EF8005138E7 /* OpenGLMgr.h */,
-				6DA5647B1BDA1EF8005138E7 /* utilities.cpp */,
-				6DA5647C1BDA1EF8005138E7 /* utilities.h */,
+				6D53D8841BDB5C3000556126 /* cityLocData.cpp */,
+				6D53D8861BDB5C3000556126 /* GeneticTSPSolver.cpp */,
+				6D53D8871BDB5C3000556126 /* GeneticTSPSolver.h */,
+				6D53D8881BDB5C3000556126 /* main.cpp */,
+				6D53D8891BDB5C3000556126 /* OpenGLMgr.cpp */,
+				6D53D88A1BDB5C3000556126 /* OpenGLMgr.h */,
+				6D53D88B1BDB5C3000556126 /* utilities.cpp */,
+				6D53D88C1BDB5C3000556126 /* utilities.h */,
 			);
-			path = Monalisa_CPU_HomeXCode;
-			sourceTree = "<group>";
+			name = Monalisa_CPU_HomeXCode;
+			path = ../../../../../Monalisa_CPU_HomeXCode;
+			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXGroup section */
 
@@ -146,11 +145,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6DA564811BDA1EF8005138E7 /* utilities.cpp in Sources */,
-				6DA5647E1BDA1EF8005138E7 /* GeneticTSPSolver.cpp in Sources */,
-				6DA564801BDA1EF8005138E7 /* OpenGLMgr.cpp in Sources */,
-				6DA5647D1BDA1EF8005138E7 /* cityLocData.cpp in Sources */,
-				6DA5647F1BDA1EF8005138E7 /* main.cpp in Sources */,
+				6D53D8911BDB5C3000556126 /* utilities.cpp in Sources */,
+				6D53D88E1BDB5C3000556126 /* GeneticTSPSolver.cpp in Sources */,
+				6D53D8901BDB5C3000556126 /* OpenGLMgr.cpp in Sources */,
+				6D53D88D1BDB5C3000556126 /* cityLocData.cpp in Sources */,
+				6D53D88F1BDB5C3000556126 /* main.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +191,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
@@ -228,7 +227,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 			};

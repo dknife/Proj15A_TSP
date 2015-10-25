@@ -33,8 +33,8 @@
 
 using namespace std;
 
-#define NUMGENES 1024
-#define NUMGROUPS 8
+#define NUMGENES 256
+#define NUMGROUPS 2
 #define MAXGENERATION 1024000
 float MAX_ERROR = 32;
 
@@ -100,8 +100,6 @@ float evalError(float fit) {
 }
 
 void drawCities(void) {
-
-	glColor3f(0.25, 0.25, 0.25);
 
 	glBegin(GL_POINTS);
 	for (int i = 0; i<cityData.numCities; i++) {
@@ -206,7 +204,7 @@ void display() {
    
     glColor3f(0.5, 0.5, 0.5);
     drawSolution();
-    glColor3f(0.0, 0.0, 0.0);
+    glColor3f(1.0, 1.0, 1.0);
     drawCities();
     
     drawEvolution();

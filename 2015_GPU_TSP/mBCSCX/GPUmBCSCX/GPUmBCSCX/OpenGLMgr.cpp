@@ -22,7 +22,7 @@ void COpenGLMgr::initGLWindow(int *pArgc, char **ppArgv, unsigned int bufferMode
     if(GLUT_DOUBLE & bufferMode) glEnable(GL_DEPTH_TEST);
     
 
-	glClearColor(1.0, 1.0, 1.0, 1.0);
+	glClearColor(0.0, 0.0, 0.0, 1.0);
 }
 
 void COpenGLMgr::initPerspectiveCamera(GLdouble fovy, GLdouble aspRatio, GLdouble nearPlane, GLdouble farPlane) {
@@ -61,7 +61,7 @@ void COpenGLMgr::printString(const char *str, int x, int y, float w, float h, fl
 	
 	
     if(color) glColor4fv(color);          // set text color
-	else glColor4f(0.0,0.0,0.0,1.0);
+	else glColor4f(0.5,0.5,1.0,1.0);
 	
     glRasterPos2i(x, y);        // place text position
 	
@@ -94,7 +94,7 @@ void COpenGLMgr::printString(const char *str, float x, float y, float z, float c
 	glDisable(GL_DEPTH_TEST);
 	
     if(color) glColor4fv(color);          // set text color
-    else glColor4f(0.0, 0.0, 0.0, 1.0);
+    else glColor4f(0.5,0.5,1.0,1.0);
     
     glRasterPos3f(x,y,z);        // place text position
 	
