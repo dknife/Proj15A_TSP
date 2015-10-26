@@ -37,6 +37,7 @@ class CGeneticTSPSolver {
     int nGeneration;
     int nCities;
     int nNumberOfGroups;
+    float Temperature;
     
     int** gene;
     
@@ -55,7 +56,7 @@ class CGeneticTSPSolver {
     void crossoverBCSCX(int idxA, int idxB, int idxC);
     void crossoverABCSCX(int idxA, int idxB, int idxC);
     void mutate(int parent, int mutChild);
-    void fixGene(int idx);
+
 	
     int getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx);
     
@@ -69,11 +70,13 @@ public:
 	void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
     void LoadSolution(char *fname);
 	void RemoveData();
+    void fixGene(int idx);
 
     void initSolver(void);
     
     void printGeneAndFitness(void);
-    void printGene(int idx);
+    void drawGene(float dx, float dy, float scaleX = 1.0, float scaleY = 1.0);
+    
     void computeFitnessOf(int idx);
     void computeFitness(void) ;
     void intergroupMarriage(void);
@@ -84,5 +87,8 @@ public:
     
     float getBestFitness(void) { return bestFitness; }
     int   getGeneration(void) { return nGeneration; }
+    int   getNumCities(void) { return nCities; }
+    int   getBestGeneIdx(void) { return bestGeneIdx; }
+    float getTemerature(void) { return Temperature; }
 };
 #endif /* defined(__TSP__GeneticTSPSolver__) */

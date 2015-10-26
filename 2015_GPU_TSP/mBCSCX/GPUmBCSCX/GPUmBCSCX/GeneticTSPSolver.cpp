@@ -9,6 +9,15 @@
 
 #include "GeneticTSPSolver.h"
 #include <math.h>
+#ifdef WIN32
+#include <windows.h>
+//#include <gl/glew.h>
+#include <gl/gl.h>
+#include <gl/glut.h>
+#else // MAC OS X
+#include <OpenGL/OpenGL.h>
+#include <GLUT/GLUT.h> // OpenGL utility toolkit
+#endif
 
 CCitySearchIndex::CCitySearchIndex(int numberOfCities) {
     nSize = numberOfCities;
@@ -220,9 +229,20 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
     idxA = rangeRandomi(0, nCities-1);
     idxB = rangeRandomi(0, nCities-1);
     if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
-    int half = (idxB-1-idxA)/2;
-    for(int i=0;i<half;i++) {
-        swap(gene[idx][idxA+1+i], gene[idx][idxB-1-i]);
+    
+    if(rand()%2) {
+        int half = (idxB-1-idxA)/2;
+        for(int i=0;i<half;i++) {
+            swap(gene[idx][idxA+1+i], gene[idx][idxB-1-i]);
+        }
+    }
+    else if(idxA!=0 && idxA!=idxB) {
+        
+        int temp = gene[idx][idxA];
+        for(int i=idxA;i<idxB;i++) {
+            gene[idx][i] = gene[idx][i+1];
+        }
+        gene[idx][idxB] = temp;
     }
     
     computeFitnessOf(idx);
@@ -231,25 +251,73 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
 
 void CGeneticTSPSolver::fixGene(int idx) {
     
-    // inverting a section
-    
-    
     int idxA;
     int idxB;
     int search = 0;
     int maxSearch = (int) (sqrt(nCities)+0.5);
     maxSearch*=10;
+    if(maxSearch>nCities-2) maxSearch=nCities-2;
     idxA = rangeRandomi(0, nCities-1-maxSearch);
     idxB = rangeRandomi(0, nCities-1-maxSearch);
 
     int distOrg, distNew;
-    int maxGain = 0;
+    int maxGain;
     int iForMaxGain=-1, jForMaxGain=-1;
-    bool bIntersectFound = false;
+    bool bIntersectFound;
+    bool bMovableFound;
+   
+    
+    // Start: city move -----------------------------------
+    maxGain = 0;
+    bMovableFound = false;
+    idxA = rangeRandomi(1, nCities-1-maxSearch);
+    idxB = rangeRandomi(1, nCities-1-maxSearch);
+    int Prev1, Next1, Prev2, Next2;
+    
     for(int i=0;i<maxSearch;i++) {
-        for(int j=i+1;j<maxSearch;j++) {
+        for(int j=0;j<maxSearch;j++) {
+            
             int v1 = idxA+i;
             int v2 = idxB+j;
+            Prev1 = v1-1;
+            Next1 = v1+1;
+            Prev2 = v2-1;
+            Next2 = v2+1;
+            
+            distOrg = cityLocData->cityDistance(gene[idx][Prev1], gene[idx][v1]) + cityLocData->cityDistance(gene[idx][v1], gene[idx][Next1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][Next2]);
+            distNew = cityLocData->cityDistance(gene[idx][Prev1], gene[idx][Next1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][v1]) + cityLocData->cityDistance(gene[idx][v1], gene[idx][Next2]);
+            int gain = distOrg - distNew;
+            if(gain>maxGain) {
+                bMovableFound=true;
+                iForMaxGain = v1;
+                jForMaxGain = v2;
+                maxGain = gain;
+            }
+            
+        }
+    }
+    
+    bMovableFound = false;
+    if(bMovableFound) {
+        //if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
+        int cityBackup = gene[idx][iForMaxGain];
+        for(int i=iForMaxGain;i!=jForMaxGain;i=(i+1)%nCities) {
+            swap(gene[idx][i%nCities], gene[idx][(i+1)%nCities]);
+        }
+        gene[idx][jForMaxGain] = cityBackup;
+    }
+    // End: city move -----------------------------------
+    
+    
+
+    maxGain = 0;
+    bIntersectFound = false;
+    
+    for(int i=0;i<maxSearch;i++) {
+        for(int j=0;j<maxSearch;j++) {
+            int v1 = idxA+i;
+            int v2 = idxB+j;
+            if(v1==v2) continue;
             distOrg = cityLocData->cityDistance(gene[idx][v1], gene[idx][v1+1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][v2+1]);
             distNew = cityLocData->cityDistance(gene[idx][v1], gene[idx][v2])   + cityLocData->cityDistance(gene[idx][v1+1], gene[idx][v2+1]);
             int gain = distOrg - distNew;
@@ -259,25 +327,63 @@ void CGeneticTSPSolver::fixGene(int idx) {
                 jForMaxGain = v2;
                 maxGain = gain;
             }
-            
         }
     }
+     
+    if(bIntersectFound) {
+        if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
+        int half = (jForMaxGain-iForMaxGain)/2;
+        for(int i=0;i<half;i++) {
+            swap(gene[idx][iForMaxGain+1+i], gene[idx][jForMaxGain-i]);
+        }
+        
+    }
+
+
+    
+    maxGain = 0;
+    bIntersectFound = false;
+
     for(int i=0;i<nCities-1;i++) {
-        for(int j=i+1;j<maxSearch && j<nCities-1;j++) {
+        for(int j=0;j<maxSearch ;j++) {
             int v1 = i;
-            int v2 = j;
-            distOrg = cityLocData->cityDistance(gene[idx][v1], gene[idx][v1+1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][v2+1]);
-            distNew = cityLocData->cityDistance(gene[idx][v1], gene[idx][v2])   + cityLocData->cityDistance(gene[idx][v1+1], gene[idx][v2+1]);
-            int gain = distOrg - distNew;
-            if(gain>maxGain) {
-                bIntersectFound=true;
-                iForMaxGain = v1;
-                jForMaxGain = v2;
-                maxGain = gain;
+            int v2;
+            int gain;
+            
+            v2 = (i+2+j)%nCities;
+            if(v2!=0 ) {
+                distOrg = cityLocData->cityDistance(gene[idx][v1], gene[idx][v1+1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][(v2+1)%nCities]);
+                distNew = cityLocData->cityDistance(gene[idx][v1], gene[idx][v2])   + cityLocData->cityDistance(gene[idx][v1+1], gene[idx][(v2+1)%nCities]);
+                gain = distOrg - distNew;
+                if(gain>maxGain) {
+                    bIntersectFound = true;
+                    maxGain = gain;
+                    iForMaxGain = v1;
+                    jForMaxGain = v2;
+                }
             }
+            
+            v2 = i-2-j;
+            if(v2<0) v2+= nCities;
+            
+            if(v2!=0 ) {
+                distOrg = cityLocData->cityDistance(gene[idx][v1], gene[idx][v1+1]) + cityLocData->cityDistance(gene[idx][v2], gene[idx][(v2+1)%nCities]);
+                distNew = cityLocData->cityDistance(gene[idx][v1], gene[idx][v2])   + cityLocData->cityDistance(gene[idx][v1+1], gene[idx][(v2+1)%nCities]);
+                gain = distOrg - distNew;
+                if(gain>maxGain) {
+                    bIntersectFound = true;
+                    maxGain = gain;
+                    iForMaxGain = v1;
+                    jForMaxGain = v2;
+                }
+            }
+
+            
+            
             
         }
     }
+    
     
     if(bIntersectFound) {
         if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
@@ -287,8 +393,11 @@ void CGeneticTSPSolver::fixGene(int idx) {
         }
         
     }
+
+    
     computeFitnessOf(idx);
 }
+
 
 /*
 void CGeneticTSPSolver::fixGene(int idx) {
@@ -499,8 +608,7 @@ void CGeneticTSPSolver::computeFitness(void) {
         if(mFitness[i]<bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
     }
     
-    fixGene(bestGeneIdx);
-    computeFitnessOf(bestGeneIdx);
+    
     debegMessage("bestGene = %d (%d)\n", bestGeneIdx, bestFitness);
     
 }
@@ -529,9 +637,12 @@ void CGeneticTSPSolver::intergroupMarriage(void) {
 void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 
     nGeneration++;
-    
+
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 
+    Temperature = 100 * ( 1.0 / (1.0 + nGeneration/100.0) ) ;//* 0.5*(cos(nGeneration/1000.0)+1.0);
+    
+    
 	for (int g= 0; g<nNumberOfGroups; g++) {
 
 		int start = g*nMemberOfAGroup;
@@ -544,6 +655,11 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
             int idxA = start+i*2;
             int idxB = idxA+1;
             int winner = mFitness[idxA]<mFitness[idxB]?idxA:idxB;
+            int loser = winner==idxA?idxB:idxA;
+            
+            if(rangeRandomf(0.0, 100.0) < Temperature/2.0 && float(mFitness[loser])/mFitness[winner] < Temperature/10.0 ) winner = loser;
+
+            
             copyGene(winner, i+start);
             debegMessage("%d %d : winner: %d stored at %d (%d)\n", idxA, idxB, winner, i, mFitness[i]);
         }
@@ -553,35 +669,52 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
         }
         ///////////////////////
         
-        // crossover
-        for (int i = 0; i<(nMemberOfAGroup+1)/2; i+=2) {
-            int idxA = start+i;
+        // crossover (i%2==1) or mutation (i%2==0)
+        for (int i = 0; i<nMemberOfAGroup/4; i++) {
+            int idxA = start+i*2;
             int idxB = idxA+1;
-            //int child = start+(nMemberOfAGroup+1)/2 + i/2;
-            //if (rand()%2) crossoverBCSCX(idxA, idxB, child);
-            //else crossoverABCSCX(idxA, idxB, child);
             
-            int child = start+(nMemberOfAGroup+1)/2 + i;
-            crossoverBCSCX(idxA, idxB, child);
-            crossoverABCSCX(idxA, idxB, child+1);
-            
+            int child = start+nMemberOfAGroup/2 + i*2;
+            if(i%2) {
+                crossoverBCSCX(idxA, idxB, child);
+                crossoverABCSCX(idxA, idxB, child+1);
+            }
+            else {
+                mutate(idxA, child);
+                mutate(idxB, child+1);
+                
+            }
             debegMessage("cross: %d %d -> %d\n", idxA, idxB, child);
         }
         ///////////////////////
         
-        
-        // mutation
-        
-        for (int i = 0; i<nMemberOfAGroup/4; i++) {
-            
-            debegMessage("mutate %d -> %d\n", start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
-            mutate(start + i, start + i + (nMemberOfAGroup+1)/2 + (nMemberOfAGroup+1)/4);
-        }
+        //fixGene(end-1);
+        //fixGene(start);
         
         
-        
-        intergroupMarriage();
+        //intergroupMarriage();
        
 	}
+
+}
+
+
+
+
+void CGeneticTSPSolver::drawGene(float intervalX, float intervalY, float scaleX, float scaleY) {
+    
+
+    
+    for(int i=0;i<nPopulation;i++) {
+        glBegin(GL_LINE_STRIP);
+        for(int j=0;j<nCities;j++) {
+            int city = gene[i][j];
+            float color = city/((float) nCities);
+            glColor3f(color, color, 1);
+            glVertex2d(j*scaleX+intervalX, i*scaleY+intervalY);
+        }
+        glEnd();
+    }
+    
 
 }

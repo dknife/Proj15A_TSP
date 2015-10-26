@@ -33,8 +33,8 @@
 
 using namespace std;
 
-#define NUMGENES 256
-#define NUMGROUPS 2
+#define NUMGENES 512
+#define NUMGROUPS 4
 #define MAXGENERATION 1024000
 float MAX_ERROR = 32;
 
@@ -76,6 +76,8 @@ void reshape(int w, int h) ;
 void keyboard(unsigned char k, int x, int y);
 void reset(void) ;
 void init(const char *TSPINPUTFILE) ;
+void setCamera(void);
+void drawGene(void);
 
 CCityLocData cityData;
 CGeneticTSPSolver solver;
@@ -94,6 +96,10 @@ COpenGLMgr OGLMgr;
 float minX, maxX, minY, maxY, maxD;
 float offsetY;
 float aspRatio;
+int width = 0;
+int height = 0;
+float geneDrawScaleX = 1.0;
+float geneDrawScaleY = 1.0;
 
 float evalError(float fit) {
     return (fit-cost[currentData])/cost[currentData];;
@@ -169,18 +175,50 @@ void drawEvolution(void) {
 
 }
 
+
 void drawSolution(void) {
 
 	drawPath(bestGene);
 	
 }
 
+void drawGene(void) {
+    float dx = 60, dy = 20;
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    glViewport(0, 0, width, height);
+    glOrtho(0, width, height, 0, -10, 10);
+    int nCities = solver.getNumCities();
+    
+    geneDrawScaleX = width/(2.5*nCities);
+    
+    solver.drawGene(dx, dy, geneDrawScaleX, geneDrawScaleY);
+    
+    int nG = NUMGENES/NUMGROUPS;
+    char msg[256];
+    for (int i=0; i<NUMGROUPS; i++) {
+        sprintf(msg, "group %d", i);
+        OGLMgr.printString(msg, dx + geneDrawScaleX * solver.getNumCities() , dy + geneDrawScaleY*i*nG, 0);
+    }
+    
+    sprintf(msg, "best_");
+    OGLMgr.printString(msg, 0 , dy + geneDrawScaleY*solver.getBestGeneIdx(), 0);
+}
+
+
+
 
 void GeneticProcess(void) {
     if (bSimulate && curGeneration < MAXGENERATION ) {
+        
         solver.nextGeneration();
+        
         solver.computeFitness();
+        
+        solver.fixGene(solver.getBestGeneIdx());
+        
         solver.copySolution(bestGene);
+        
         curGeneration++;
         err[curGeneration] = evalError(solver.getBestFitness());
     }
@@ -197,12 +235,15 @@ void idle() {
 void display() {
     
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
+    setCamera();
+    
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
     
     
    
-    glColor3f(0.5, 0.5, 0.5);
+    glColor3f(0.0, 0.0, 0.0);
     drawSolution();
     glColor3f(1.0, 1.0, 1.0);
     drawCities();
@@ -211,7 +252,7 @@ void display() {
     
     
     char msg[256];
-    sprintf(msg, "Number of Cities: %d ---  %s", cityData.numCities, bSimulationOrdered?"computing":"stopped");
+    sprintf(msg, "Number of Cities: %d ---  %s (Temp: %4.1f) ", cityData.numCities, bSimulationOrdered?"computing":"stopped", solver.getTemerature());
     float startX = minX+maxD;
     OGLMgr.printString(msg, startX, minY+0.9*maxD, 0.0);
     sprintf(msg, "Number of Genes: %d  | Number of Groups = %d", NUMGENES, NUMGROUPS);
@@ -227,19 +268,28 @@ void display() {
     sprintf(msg, "   | error (Sol - Best) / Best: %f", evalError(bestFitness));
     OGLMgr.printString(msg, startX, minY + 0.55*maxD, 0.0);
     
+    
+    drawGene();
+    
     glutSwapBuffers();
     
     bSimulate = bSimulationOrdered;
     
 }
 
-void reshape(int w, int h) {
-	aspRatio = float(w) / float(h);
-	glViewport(0, 0, w, h);
-	glMatrixMode(GL_PROJECTION);
-	glLoadIdentity();
+void setCamera(void) {
+    glViewport(0, 0, width,height);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
     offsetY = (maxY - minY)*0.05;
-	glOrtho(minX-offsetY*aspRatio, (maxD+minX+offsetY)*aspRatio, minY-offsetY, minY+maxD+offsetY, -1, 1);
+    glOrtho(minX-offsetY*aspRatio, (maxD+minX+offsetY)*aspRatio, minY-offsetY, minY+maxD+offsetY, -1, 1);
+}
+
+void reshape(int w, int h) {
+    width = w;
+    height = h;
+	aspRatio = float(w) / float(h);
+    setCamera();
 }
 
 
@@ -252,6 +302,10 @@ void keyboard(unsigned char k, int x, int y) {
     case ',': currentData = (currentData-1+NDATA)%NDATA; reset(); break;
     case '=': MAX_ERROR /= 2.0; break;
     case '-': MAX_ERROR *= 2.0; break;
+    case 'q': geneDrawScaleX *= 0.95; break;
+    case 'w': geneDrawScaleX *= 1.05; break;
+    case 'a': geneDrawScaleY *= 1.05; break;
+    case 'z': geneDrawScaleY *= 0.95; break;
     default:
 		break;
 	}
