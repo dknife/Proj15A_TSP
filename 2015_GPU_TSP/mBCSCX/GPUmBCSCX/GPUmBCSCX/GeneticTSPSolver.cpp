@@ -256,8 +256,7 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
         case 0:
             invertGene(idx, idxA+1, idxB-1);
             break;
-        case 1:
-            /*
+        case 1:            
             if (idxA == 0 || idxA==idxB) break;
             target = idxA;
             dMax = 0;
@@ -274,7 +273,7 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
                 gene[idx][i] = gene[idx][i+1];
             }
             gene[idx][target] = temp;
-            break;*/
+            break;
         case 2:
             if(idxB-idxA < 6) break;
             idxMid = idxA + rangeRandomi(3, idxB-idxA-3);
@@ -298,7 +297,7 @@ void CGeneticTSPSolver::fixGene(int idx) {
     int idxB;
     int search = 0;
     int maxSearch = (int) (sqrt(nCities)+0.5);
-    //maxSearch;
+    //maxSearch*=10;
     //if(maxSearch>nCities-2) maxSearch=nCities-2;
     idxA = rangeRandomi(0, nCities-1-maxSearch);
     idxB = rangeRandomi(0, nCities-1-maxSearch);
@@ -383,7 +382,7 @@ void CGeneticTSPSolver::fixGene(int idx) {
     }
 
 
-    /*
+    
     maxGain = 0;
     bIntersectFound = false;
 
@@ -435,49 +434,11 @@ void CGeneticTSPSolver::fixGene(int idx) {
             swap(gene[idx][iForMaxGain+1+i], gene[idx][jForMaxGain-i]);
         }
         
-    }*/
+    }
 
     
     computeFitnessOf(idx);
 }
-
-
-/*
-void CGeneticTSPSolver::fixGene(int idx) {
-    
-    // inverting a section
-    
-    
-    int idxA;
-    int idxB;
-    int search = 0;
-    int distOrg, distNew;
-    bool bIntersectFound = false;
-    while(search < nCities && !bIntersectFound) {
-        idxA = rangeRandomi(0, nCities-2);
-        idxB = rangeRandomi(0, nCities-2);
-        if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
-        if(idxA==idxB) continue;
-        
-        distOrg = cityLocData->cityDistance(gene[idx][idxA], gene[idx][idxA+1]) + cityLocData->cityDistance(gene[idx][idxB], gene[idx][idxB+1]);
-        distNew = cityLocData->cityDistance(gene[idx][idxA], gene[idx][idxB])   + cityLocData->cityDistance(gene[idx][idxA+1], gene[idx][idxB+1]);
-        if(distNew<distOrg) {
-            bIntersectFound=true;
-        }
-        search++;
-    }
-    
-    
-    if(bIntersectFound) {
-        int half = (idxB-idxA)/2;
-        for(int i=0;i<half;i++) {
-            swap(gene[idx][idxA+1+i], gene[idx][idxB-i]);
-        }
-        
-    }
-    computeFitnessOf(idx);
-}
- */
 
 
 void CGeneticTSPSolver::crossoverBCSCX(int idxA, int idxB, int idxC) {
@@ -645,7 +606,7 @@ void CGeneticTSPSolver::computeFitness(void) {
         debegMessage("group(%d) - swapping %d (%d) and %d (%d)\n", g, start, mFitness[start], localBestGeneIdx, localBestFitness);
         swapGene(start, localBestGeneIdx);
         
-        //if(Temperature<50.0 && Temperature>40.0 && nGeneration>0) copyRecordHolder(gene[start+nMemberOfAGroup-1]);
+        //if(Temperature<50.0 && Temperature>0.0 && nGeneration>0) copyRecordHolder(gene[start+nMemberOfAGroup-1]);
         fixGene(start);
         computeFitnessOf(start);
         
@@ -790,10 +751,10 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
         //fixGene(end-1);
         
         
-        
+		intergroupMarriage(g);
        
 	}
-    intergroupMarriage(1);
+    
 
 }
 

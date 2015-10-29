@@ -33,9 +33,9 @@
 
 using namespace std;
 
-#define NUMGENES 256
-#define NUMGROUPS 2
-#define MAXGENERATION 1024000
+#define NUMGENES 512
+#define NUMGROUPS 3
+#define MAXGENERATION 1000000
 float MAX_ERROR = 32;
 
 
@@ -59,9 +59,6 @@ const char* filename[NDATA] {
     XQF131, XQG237, XQL662, XQC2175, MONALISA
 };
 int currentData = 0;
-
-
-
 
 
 float evalError(float fit);

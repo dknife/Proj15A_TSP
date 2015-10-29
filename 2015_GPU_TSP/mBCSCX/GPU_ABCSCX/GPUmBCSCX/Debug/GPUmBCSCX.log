@@ -1,0 +1,36 @@
+﻿Build started 2015-10-29 오후 10:08:36.
+     1>Project "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\GPUmBCSCX\GPUmBCSCX.vcxproj" on node 2 (Build target(s)).
+     1>ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt GeneticTSPSolver.cpp
+         GeneticTSPSolver.cpp
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.h(105): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.cpp(124): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.cpp(138): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.cpp(140): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.cpp(237): warning C4101: 'half' : unreferenced local variable
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpu_abcscx\gpumbcscx\genetictspsolver.cpp(672): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\GPUmBCSCX.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\GPUmBCSCX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\GPUmBCSCX.lib" /MACHINE:X86 Debug\kernel.cu.obj
+         Debug\cityLocData.obj
+         Debug\GeneticTSPSolver.obj
+         Debug\GPUTSPSolver.obj
+         Debug\main.obj
+         Debug\OpenGLMgr.obj
+         Debug\utilities.obj
+         GPUmBCSCX.vcxproj -> C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\GPUmBCSCX.exe
+       PostBuildEvent:
+         echo copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\"
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\"
+         :VCEnd
+         copy "C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart*.dll" "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\Debug\"
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart32_65.dll
+         C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\bin\cudart64_65.dll
+                 2개 파일이 복사되었습니다.
+     1>Done Building Project "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPU_ABCSCX\GPUmBCSCX\GPUmBCSCX.vcxproj" (Build target(s)).
+
+Build succeeded.
+
+Time Elapsed 00:00:01.05
