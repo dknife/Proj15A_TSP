@@ -19,10 +19,13 @@ void COpenGLMgr::initGLWindow(int *pArgc, char **ppArgv, unsigned int bufferMode
 	glutInitWindowSize(width,height);
 	glutCreateWindow(title);
     
-    if(GLUT_DOUBLE & bufferMode) glEnable(GL_DEPTH_TEST);
+    //if(GLUT_DOUBLE & bufferMode) glEnable(GL_DEPTH_TEST);
     
 
-	glClearColor(0.5, 0.5, 0.5, 1.0);
+	glClearColor(1.0, 1.0, 1.0, 1.0);
+    
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 }
 
 void COpenGLMgr::initPerspectiveCamera(GLdouble fovy, GLdouble aspRatio, GLdouble nearPlane, GLdouble farPlane) {
@@ -37,54 +40,6 @@ void COpenGLMgr::initOrthoCamera(GLdouble left, GLdouble right, GLdouble bottom,
 	glOrtho(left, right, bottom, top, nearPlane, farPlane);
 }
 
-
-void COpenGLMgr::printString(const char *str, int x, int y, float w, float h, float color[4])
-{
-	
-	glPushAttrib(GL_LIGHTING_BIT | GL_CURRENT_BIT); // lighting and color mask
-    glDisable(GL_LIGHTING);     // need to disable lighting for proper text color
-    glDisable(GL_TEXTURE_2D);
-	glDisable(GL_DEPTH_TEST);
-	
-	
-	
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-	glOrtho(0, w, h, 0, -1.0, 1.0);
-	
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-	
-	
-	
-	
-    if(color) glColor4fv(color);          // set text color
-	else glColor4f(0.0,0.0,0.5,1.0);
-	
-    glRasterPos2i(x, y);        // place text position
-	
-    // loop all characters in the string
-    while(*str)
-    {
-        glutBitmapCharacter(GLUT_BITMAP_8_BY_13, *str);
-        ++str;
-    }
-	
-	glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_2D);
-    glEnable(GL_LIGHTING);
-    
-	
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-	glMatrixMode(GL_PROJECTION);
-	glPopMatrix();
-	
-	glMatrixMode(GL_MODELVIEW);
-	glPopAttrib();
-}
 
 void COpenGLMgr::printString(const char *str, float x, float y, float z, float color[4])
 {

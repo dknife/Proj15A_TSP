@@ -33,8 +33,8 @@
 
 using namespace std;
 
-#define NUMGENES 512
-#define NUMGROUPS 4
+#define NUMGENES 256
+#define NUMGROUPS 2
 #define MAXGENERATION 1024000
 float MAX_ERROR = 32;
 
@@ -86,10 +86,12 @@ int *bestGene;
 
 int currGeneration = 0;
 float err[MAXGENERATION];
+bool  record[MAXGENERATION];
 
 
 bool bSimulate = false;
 bool bSimulationOrdered = false;
+bool bGeneView = false;
 
 COpenGLMgr OGLMgr;
 
@@ -107,17 +109,21 @@ float evalError(float fit) {
 
 void drawCities(void) {
 
+    glPushMatrix();
+    glTranslatef(-offsetY, minY+maxD-(maxY-minY), 0.0);
+    glPointSize(2);
 	glBegin(GL_POINTS);
 	for (int i = 0; i<cityData.numCities; i++) {
 		Point loc = cityData.getLocation(i);
 		glVertex2f(loc.x, loc.y);
 	}
 	glEnd();
+    glPopMatrix();
 }
 
 void drawPath(int vertList[]) {
 
-	glLineWidth(2);
+    glLineWidth(1);
 	glBegin(GL_LINE_STRIP);
 	for (int i = 0; i<=cityData.numCities; i++) {
 		Point loc = cityData.getLocation(vertList[i%cityData.numCities]);
@@ -138,10 +144,22 @@ void drawEvolution(void) {
     OGLMgr.printString(msg, ex-(ex-sx)*0.3, sy-offsetY, 0.0);
 
 
-    sprintf(msg, "%6.3f", MAX_ERROR);
-    OGLMgr.printString(msg, sx-offsetY, ey, 0.0);
-    sprintf(msg, "%6.3f", MAX_ERROR/2);
-    OGLMgr.printString(msg, sx-offsetY, sy+(ey-sy)*0.5, 0.0);
+    sprintf(msg, "%6.2f", MAX_ERROR);
+    OGLMgr.printString(msg, sx-offsetY*2, ey, 0.0);
+    sprintf(msg, "%6.2f", MAX_ERROR/2);
+    OGLMgr.printString(msg, sx-offsetY*2, sy+(ey-sy)*0.5, 0.0);
+    sprintf(msg, "0.0", MAX_ERROR/2);
+    OGLMgr.printString(msg, sx-offsetY, sy, 0.0);
+    
+    sprintf(msg, "%d cities, %d genes (%d groups)", solver.getNumCities(), NUMGENES, NUMGROUPS);
+    OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY, 0.0);
+    sprintf(msg, "crossover: %s", solver.getCrossoverMethod(), NUMGENES);
+    OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*2, 0.0);
+    if(solver.bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver.nCycleGeneration, NUMGENES);
+    else sprintf(msg, "Heating Off");
+    OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*3, 0.0);
+    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver.getFitRecord()));
+    OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*4, 0.0);
     
     glLineWidth(1);
     glColor3f(0.0, 0.0, 1.0);
@@ -173,21 +191,65 @@ void drawEvolution(void) {
     }
     glEnd();
 
+    glLineWidth(1);
+    
+    float bestLocx = sx;
+    float bestLocy = sy;
+    glColor3f(0.8, 0.8, 1);
+    glBegin(GL_LINES);
+    for(int i=1;i<=curGeneration;i++) {
+        if(record[i]) {
+            x = sx+dx*i;
+            y = ( ((err[i]<MAX_ERROR)?err[i]:MAX_ERROR)/MAX_ERROR)*(ey-sy)+sy;
+            glVertex2d(x,sy);
+            glVertex2d(x,y);
+            bestLocx = x;
+            bestLocy = y;
+        }
+    }
+    glVertex2d(bestLocx, sy);
+    glVertex2d(bestLocx, bestLocy);
+    glEnd();
+
 }
 
 
 void drawSolution(void) {
 
+    glLineWidth(2);
+    glDisable(GL_DEPTH_TEST);
+    glPushMatrix();
+    glTranslatef(-offsetY, minY+maxD-(maxY-minY), 0.0);
+    solver.copySolution(bestGene);
 	drawPath(bestGene);
+    glPopMatrix();
+
+    glLineWidth(1);
+    glPushMatrix();
+    glTranslatef(maxX, minY + 0.75*maxD, 0.0);
+    glScalef(0.3, 0.3, 0.3);
+    glColor3f(0.0, 0.0, 1.0);
+    solver.copyRecordHolder(bestGene);
+    glLineWidth(1);
+    drawPath(bestGene);
+    glPopMatrix();
+    
+    char msg[256];
+    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver.getFitRecord()));
+    OGLMgr.printString(msg, maxX + maxX*0.3, minY + 0.75*maxD, 0.0);
+
 	
 }
 
 void drawGene(void) {
+    
+    if(!bGeneView) return;
+    
     float dx = 60, dy = 20;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     glViewport(0, 0, width, height);
-    glOrtho(0, width, height, 0, -10, 10);
+    glOrtho(0, width, 0, height, -10, 10);
     int nCities = solver.getNumCities();
     
     geneDrawScaleX = width/(2.5*nCities);
@@ -214,13 +276,13 @@ void GeneticProcess(void) {
         solver.nextGeneration();
         
         solver.computeFitness();
-        
-        solver.fixGene(solver.getBestGeneIdx());
-        
-        solver.copySolution(bestGene);
-        
         curGeneration++;
         err[curGeneration] = evalError(solver.getBestFitness());
+        record[curGeneration] = solver.recordBroken;
+        
+        //solver.fixGene(solver.getBestGeneIdx());
+        
+
     }
     
 }
@@ -243,9 +305,10 @@ void display() {
     
     
    
-    glColor3f(0.0, 0.0, 0.0);
+    glColor3f(0.5, 0.5, 0.5);
     drawSolution();
-    glColor3f(1.0, 1.0, 1.0);
+    
+    glColor3f(0.0, 0.0, 0.0);
     drawCities();
     
     drawEvolution();
@@ -254,18 +317,14 @@ void display() {
     char msg[256];
     sprintf(msg, "Number of Cities: %d ---  %s (Temp: %4.1f) ", cityData.numCities, bSimulationOrdered?"computing":"stopped", solver.getTemerature());
     float startX = minX+maxD;
-    OGLMgr.printString(msg, startX, minY+0.9*maxD, 0.0);
-    sprintf(msg, "Number of Genes: %d  | Number of Groups = %d", NUMGENES, NUMGROUPS);
-    OGLMgr.printString(msg, startX, minY + 0.8*maxD, 0.0);
-    
-    
-    int bestFitness = solver.getBestFitness();
-    sprintf(msg, "BEST GENE FITNESS = %d", bestFitness);
-    OGLMgr.printString(msg, startX, minY + 0.7*maxD, 0.0);
-    
-    sprintf(msg, "(BEST KNOWN PATH: %d) ", cost[currentData]);
     OGLMgr.printString(msg, startX, minY + 0.6*maxD, 0.0);
-    sprintf(msg, "   | error (Sol - Best) / Best: %f", evalError(bestFitness));
+    
+    
+
+    int bestFit = solver.getBestFitness();
+    sprintf(msg, " | Known Optimal: %d / Best Gene: %d / Record: %d", cost[currentData], bestFit, solver.getFitRecord());
+    OGLMgr.printString(msg, startX, minY + 0.57*maxD, 0.0);
+    sprintf(msg, " | error : %f (record=%f)", evalError(bestFit), evalError(solver.getFitRecord()));
     OGLMgr.printString(msg, startX, minY + 0.55*maxD, 0.0);
     
     
@@ -302,10 +361,11 @@ void keyboard(unsigned char k, int x, int y) {
     case ',': currentData = (currentData-1+NDATA)%NDATA; reset(); break;
     case '=': MAX_ERROR /= 2.0; break;
     case '-': MAX_ERROR *= 2.0; break;
-    case 'q': geneDrawScaleX *= 0.95; break;
-    case 'w': geneDrawScaleX *= 1.05; break;
     case 'a': geneDrawScaleY *= 1.05; break;
     case 'z': geneDrawScaleY *= 0.95; break;
+    case 'i': bGeneView = bGeneView?false:true; break;
+    case 'x': solver.changeCrossoverMethod(); break;
+        case 'h': solver.bHeating = solver.bHeating?false:true; break;
     default:
 		break;
 	}
@@ -340,7 +400,7 @@ void init(const char *TSPDATAFILE) {
 
 	bestGene = new int[cityData.numCities];
     
-    //if(currentData==NDATA-1) solver.LoadSolution("knownBestTour.txt");
+    if(currentData==NDATA-1) solver.LoadSolution("knownBestTour.txt");
     
     solver.computeFitness();
     solver.copySolution(bestGene);

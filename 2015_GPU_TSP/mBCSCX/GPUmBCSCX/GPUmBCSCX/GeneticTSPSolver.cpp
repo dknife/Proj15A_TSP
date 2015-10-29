@@ -57,10 +57,10 @@ CGeneticTSPSolver::CGeneticTSPSolver() {
 	cityLocData = NULL;
 	nPopulation = 0;
 	nNumberOfGroups = 1;
+    nCycleGeneration = 200;
 
 	nCities = 0;
 	mFitness = NULL;
-
 
 	gene = NULL;
 }
@@ -69,12 +69,14 @@ CGeneticTSPSolver::CGeneticTSPSolver(CCityLocData *inputData, int nGenes, int nG
     cityLocData = inputData;
     nPopulation = nGenes;
     nNumberOfGroups = nGroups;
+    nCycleGeneration = 200;
     
 	nCities = cityLocData->numCities;
 	mFitness = new int[nPopulation];
     
 
     gene = new int*[nPopulation];
+    recordHolder = new int[nCities];
     
     initSolver();
     
@@ -127,6 +129,7 @@ void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroup
 
     
 	gene = new int*[nPopulation];
+    recordHolder = new int[nCities];
 
 	initSolver();
 
@@ -161,6 +164,10 @@ void CGeneticTSPSolver::LoadSolution(char *fname) {
 
 void CGeneticTSPSolver::initSolver(void) {
     nGeneration = 0;
+    Temperature = 100.0;
+    crossoverMethod = CROSSOVERMETHOD::BCSCX;
+    recordBroken = false;
+    bHeating = false;
     
     for (int i=0; i<nPopulation; i++) {
         gene[i] = new int[nCities];
@@ -171,6 +178,7 @@ void CGeneticTSPSolver::initSolver(void) {
     for (int i=0; i<nPopulation; i++) {
         shuffleGene(i, nCities/2);
     }
+    
 }
 
 //void CGeneticTSPSolver::reverseGene(int idx) {
@@ -217,6 +225,14 @@ int CGeneticTSPSolver::getLegitimateNodeBCSCX(int curCity, int *cityTour, int *o
 
 }
 
+void CGeneticTSPSolver::invertGene(int idx, int start, int end) {
+    int half = (end-start+1)/2;
+    for(int i=0;i<half;i++) {
+        swap(gene[idx][start+i], gene[idx][end-i]);
+    }
+    
+}
+
 void CGeneticTSPSolver::mutate(int parent, int idx) {
     
     copyGene(parent, idx);
@@ -226,24 +242,51 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
     
     int idxA;
     int idxB;
+    int idxMid;
     idxA = rangeRandomi(0, nCities-1);
     idxB = rangeRandomi(0, nCities-1);
     if(idxA>idxB) { int T = idxA; idxA = idxB; idxB = T; }
     
-    if(rand()%2) {
-        int half = (idxB-1-idxA)/2;
-        for(int i=0;i<half;i++) {
-            swap(gene[idx][idxA+1+i], gene[idx][idxB-1-i]);
-        }
+    //invertGene(idx, idxA+1, idxB-1);
+ 
+    int rV = rand()%3;
+    int half, temp;
+    int dMax, target;
+    switch (rV) {
+        case 0:
+            invertGene(idx, idxA+1, idxB-1);
+            break;
+        case 1:
+            /*
+            if (idxA == 0 || idxA==idxB) break;
+            target = idxA;
+            dMax = 0;
+            for(int i=idxB-1; i<idxA; i--) {
+                int d1 = cityLocData->cityDistance(gene[idx][idxA-1], gene[idx][idxA]) + cityLocData->cityDistance(gene[idx][idxA], gene[idx][idxA+1]) + cityLocData->cityDistance(gene[idx][i], gene[idx][i+1]);
+                int d2 = cityLocData->cityDistance(gene[idx][idxA-1], gene[idx][idxA+1]) + cityLocData->cityDistance(gene[idx][i], gene[idx][idxA]) + cityLocData->cityDistance(gene[idx][idxA], gene[idx][i+1]);
+                if(d1-d2 > dMax) {
+                    dMax = d1-d2;
+                    target = i;
+                }
+            }
+            temp = gene[idx][idxA];
+            for(int i=idxA;i<target;i++) {
+                gene[idx][i] = gene[idx][i+1];
+            }
+            gene[idx][target] = temp;
+            break;*/
+        case 2:
+            if(idxB-idxA < 6) break;
+            idxMid = idxA + rangeRandomi(3, idxB-idxA-3);
+            
+            invertGene(idx, idxA+1, idxMid);
+            invertGene(idx, idxMid+1, idxB-1);
+            break;
+
+        default:
+            break;
     }
-    else if(idxA!=0 && idxA!=idxB) {
-        
-        int temp = gene[idx][idxA];
-        for(int i=idxA;i<idxB;i++) {
-            gene[idx][i] = gene[idx][i+1];
-        }
-        gene[idx][idxB] = temp;
-    }
+
     
     computeFitnessOf(idx);
 }
@@ -255,8 +298,8 @@ void CGeneticTSPSolver::fixGene(int idx) {
     int idxB;
     int search = 0;
     int maxSearch = (int) (sqrt(nCities)+0.5);
-    maxSearch*=10;
-    if(maxSearch>nCities-2) maxSearch=nCities-2;
+    //maxSearch;
+    //if(maxSearch>nCities-2) maxSearch=nCities-2;
     idxA = rangeRandomi(0, nCities-1-maxSearch);
     idxB = rangeRandomi(0, nCities-1-maxSearch);
 
@@ -340,7 +383,7 @@ void CGeneticTSPSolver::fixGene(int idx) {
     }
 
 
-    
+    /*
     maxGain = 0;
     bIntersectFound = false;
 
@@ -392,7 +435,7 @@ void CGeneticTSPSolver::fixGene(int idx) {
             swap(gene[idx][iForMaxGain+1+i], gene[idx][jForMaxGain-i]);
         }
         
-    }
+    }*/
 
     
     computeFitnessOf(idx);
@@ -561,6 +604,14 @@ void CGeneticTSPSolver::copySolution(int *SolutionCpy) {
     }
 }
 
+void CGeneticTSPSolver::copyRecordHolder(int *SolutionCpy) {
+    if(!SolutionCpy) return;
+    
+    for (int i=0; i<nCities; i++) {
+        SolutionCpy[i] = recordHolder[i];
+    }
+}
+
 
 void CGeneticTSPSolver::computeFitnessOf(int idx) {
     
@@ -574,7 +625,7 @@ void CGeneticTSPSolver::computeFitnessOf(int idx) {
 void CGeneticTSPSolver::computeFitness(void) {
     
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
-   
+    recordBroken = false;
    
     for(int g=0;g<nNumberOfGroups;g++) { // for every local group
         
@@ -594,6 +645,10 @@ void CGeneticTSPSolver::computeFitness(void) {
         debegMessage("group(%d) - swapping %d (%d) and %d (%d)\n", g, start, mFitness[start], localBestGeneIdx, localBestFitness);
         swapGene(start, localBestGeneIdx);
         
+        //if(Temperature<50.0 && Temperature>40.0 && nGeneration>0) copyRecordHolder(gene[start+nMemberOfAGroup-1]);
+        fixGene(start);
+        computeFitnessOf(start);
+        
     }
     
     
@@ -611,26 +666,51 @@ void CGeneticTSPSolver::computeFitness(void) {
     
     debegMessage("bestGene = %d (%d)\n", bestGeneIdx, bestFitness);
     
-}
-
-void CGeneticTSPSolver::intergroupMarriage(void) {
-    
-    int nMemberOfAGroup = nPopulation/nNumberOfGroups;
-    // best gene migration
-    if(nNumberOfGroups>1) {
-        for(int i=0;i<nNumberOfGroups;i++) {
-            int idxA = i;
-            int idxB = (i + rangeRandomi(1, nNumberOfGroups-1))%nNumberOfGroups;
-            
-            idxA *= nMemberOfAGroup;
-            idxB *= nMemberOfAGroup;
-            
-            // best gene inter-group marrage
-            crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup-1);
-            crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup-2);
-            
+    if(nGeneration<=1) {
+        fitRecord = mFitness[bestGeneIdx];
+        for(int i=0;i<nCities;i++) {
+            recordHolder[i] = gene[bestGeneIdx][i];
         }
     }
+    else {
+        if(mFitness[bestGeneIdx]<fitRecord) {
+            fitRecord = mFitness[bestGeneIdx];
+            for(int i=0;i<nCities;i++) {
+                recordHolder[i] = gene[bestGeneIdx][i];
+            }
+            recordBroken = true;
+        }
+        else {
+            recordBroken = false;
+        }
+    }
+    
+}
+
+void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
+    
+    int nMemberOfAGroup = nPopulation/nNumberOfGroups;
+    int idxA = groupIdx*nMemberOfAGroup;
+    int idxB = ((groupIdx+1)%nNumberOfGroups)*nMemberOfAGroup;
+    int idxC = ((groupIdx-1+nNumberOfGroups)%nNumberOfGroups)*nMemberOfAGroup;
+    
+    switch(crossoverMethod) {
+            
+        case CROSSOVERMETHOD:: BCSCX:
+            crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup/2+1);
+            crossoverBCSCX(idxA, idxC, idxA+nMemberOfAGroup/2+2);
+            break;
+        case CROSSOVERMETHOD:: ABCSCX:
+            crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup/2+1);
+            crossoverABCSCX(idxA, idxC, idxA+nMemberOfAGroup/2+2);
+            break;
+        case CROSSOVERMETHOD:: MIXED:
+            crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup/2+1);
+            crossoverABCSCX(idxA, idxC, idxA+nMemberOfAGroup/2+2);
+            break;
+    }
+    
+    
 }
 
 
@@ -638,9 +718,19 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 
     nGeneration++;
 
+    
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 
-    Temperature = 100 * ( 1.0 / (1.0 + nGeneration/100.0) ) ;//* 0.5*(cos(nGeneration/1000.0)+1.0);
+    
+    
+    // linear cooling
+    float cooling = 100.0/nCycleGeneration;
+    float prevTemp = Temperature;
+    Temperature -= cooling;
+    if (Temperature<0) Temperature = 100.0;
+    
+    // cosine temperature
+    //Temperature = 100.0 * 0.5 * (1.0+ cos(2.0*3.14*nGeneration/float(nCycleGeneration) ) );
     
     
 	for (int g= 0; g<nNumberOfGroups; g++) {
@@ -657,7 +747,7 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
             int winner = mFitness[idxA]<mFitness[idxB]?idxA:idxB;
             int loser = winner==idxA?idxB:idxA;
             
-            if(rangeRandomf(0.0, 100.0) < Temperature/2.0 && float(mFitness[loser])/mFitness[winner] < Temperature/10.0 ) winner = loser;
+            if(bHeating && rangeRandomf(0.0, 100.0) < Temperature/2.4 ) winner = loser;
 
             
             copyGene(winner, i+start);
@@ -669,32 +759,41 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
         }
         ///////////////////////
         
-        // crossover (i%2==1) or mutation (i%2==0)
-        for (int i = 0; i<nMemberOfAGroup/4; i++) {
-            int idxA = start+i*2;
+        // crossover (66.6%) or mutation (33%)
+        for (int i = 0; i<nMemberOfAGroup/2; i++) {
+            int idxA = start+i;
             int idxB = idxA+1;
             
-            int child = start+nMemberOfAGroup/2 + i*2;
-            if(i%2) {
-                crossoverBCSCX(idxA, idxB, child);
-                crossoverABCSCX(idxA, idxB, child+1);
+            int child = start+nMemberOfAGroup/2 + i;
+            
+            //
+            int iM3 = i%3;
+            
+            if (iM3 == 0) {
+                mutate(idxA, child);
             }
             else {
-                mutate(idxA, child);
-                mutate(idxB, child+1);
-                
+                if (crossoverMethod == CROSSOVERMETHOD::BCSCX) crossoverBCSCX(idxA, idxB, child);
+                else if (crossoverMethod == CROSSOVERMETHOD::ABCSCX) crossoverABCSCX(idxA, idxB, child);
+                else {
+                    switch (iM3) {
+                        case 1: crossoverABCSCX(idxA, idxB, child); break;
+                        case 2: crossoverBCSCX(idxA, idxB, child); break;
+                    }
+                }
             }
             debegMessage("cross: %d %d -> %d\n", idxA, idxB, child);
         }
         ///////////////////////
         
-        //fixGene(end-1);
         //fixGene(start);
+        //fixGene(end-1);
         
         
-        //intergroupMarriage();
+        
        
 	}
+    intergroupMarriage(1);
 
 }
 
