@@ -632,6 +632,8 @@ void CGeneticTSPSolver::computeFitness(void) {
 
 void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
 
+    if(nNumberOfGroups<2) return;
+    
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 	int idxA = groupIdx*nMemberOfAGroup;
 	int g = groupIdx;

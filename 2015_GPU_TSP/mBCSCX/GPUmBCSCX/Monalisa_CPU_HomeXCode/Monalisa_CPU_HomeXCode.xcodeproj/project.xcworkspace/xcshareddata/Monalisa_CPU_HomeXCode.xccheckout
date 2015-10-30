@@ -7,14 +7,14 @@
 	<key>IDESourceControlProjectIdentifier</key>
 	<string>48F9C63E-B8F6-4B3D-BB3F-C191333003A2</string>
 	<key>IDESourceControlProjectName</key>
-	<string>project</string>
+	<string>Monalisa_CPU_HomeXCode</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
 		<key>F39371D24E26FC2EFDC238AA41D8A805CBEBA8D5</key>
 		<string>https://github.com/dknife/Proj15A_TSP.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
-	<string>2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/Monalisa_CPU_HomeXCode.xcodeproj/project.xcworkspace</string>
+	<string>2015_GPU_TSP/mBCSCX/GPUmBCSCX/Monalisa_CPU_HomeXCode/Monalisa_CPU_HomeXCode.xcodeproj</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
 		<key>F39371D24E26FC2EFDC238AA41D8A805CBEBA8D5</key>

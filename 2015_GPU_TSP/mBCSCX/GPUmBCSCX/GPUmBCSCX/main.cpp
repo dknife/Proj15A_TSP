@@ -34,8 +34,8 @@
 
 using namespace std;
 
-#define NUMGENES 512
-#define NUMGROUPS 8
+#define NUMGENES 128
+#define NUMGROUPS 1
 #define MAXGENERATION 1000000
 float MAX_ERROR = 32;
 
