@@ -39,6 +39,7 @@ public:
 
 class CGeneticTSPSolver {
     
+public:
     CCityLocData *cityLocData;
     int nPopulation;
     int nGeneration;
@@ -47,14 +48,11 @@ class CGeneticTSPSolver {
     float Temperature;
     int crossoverMethod;
     
-    int** gene;
-    
-    
+    int** gene;    
     int* mFitness;
     int  bestFitness;
-    int  bestGeneIdx;
-    
-public:
+    int  bestGeneIdx;    
+
     int  fitRecord;
     int* recordHolder;
     bool bHeating;
@@ -64,18 +62,18 @@ public:
 	
 	
 private:
-    void shuffleGene(int idx, int nShuffle);
+    
 //    void reverseGene(int idx);
-    void swapGene(int idxA, int idxB); // swap A and B (phenotype)
-    void copyGene(int idxA, int idxB); // copy A to  B (phenotype)
+    virtual void swapGene(int idxA, int idxB); // swap A and B (phenotype)
+    virtual void copyGene(int idxA, int idxB); // copy A to  B (phenotype)
     
     // <crossover of A and B> is stored into C
-    void crossoverBCSCX(int idxA, int idxB, int idxC);
-    void crossoverABCSCX(int idxA, int idxB, int idxC);
-    void mutate(int parent, int mutChild);
-    void invertGene(int idx, int start, int end);
+    virtual void crossoverBCSCX(int idxA, int idxB, int idxC);
+	virtual void crossoverABCSCX(int idxA, int idxB, int idxC);
+	virtual void mutate(int parent, int mutChild);
+	virtual void invertGene(int idx, int start, int end);
 	
-    int getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx);
+	virtual int getLegitimateNodeBCSCX(int curCity, int *cityTour, int *orderOfCity, CCitySearchIndex& citySearchIdx);
     
 
     
@@ -83,25 +81,28 @@ public:
 	CGeneticTSPSolver();
 	virtual ~CGeneticTSPSolver();
 
-	void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
-    void LoadSolution(char *fname);
-	void RemoveData();
-    void fixGene(int idx);
+	virtual void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
 
-    void initSolver(void);
+    virtual void LoadSolution(char *fname);
+	virtual void RemoveData();
+    virtual void fixGene(int idx);
+
+    virtual void initSolver(void);
     
-    void printGeneAndFitness(void);
-    void drawGene(float dx, float dy, float scaleX = 1.0, float scaleY = 1.0);
+    virtual void drawGene(float dx, float dy, float scaleX = 1.0, float scaleY = 1.0);
     
-    void computeFitnessOf(int idx);
-    void computeFitness(void) ;
-    void intergroupMarriage(int groupIdx);
+    virtual void computeFitnessOf(int idx);
+    virtual void computeFitness(void) ;
+    virtual void intergroupMarriage(int groupIdx);
     
-	void nextGeneration(void);
+	virtual void nextGeneration(void);
     
-    void copySolution(int *SolutionCpy);
-    void copyRecordHolder(int *SolutionCpy);
+    virtual void copySolution(int *SolutionCpy);
+    virtual void copyRecordHolder(int *SolutionCpy);
     
+	virtual void shuffleGene(int idx, int nShuffle);
+
+	// property get/set methods
     float getBestFitness(void) { return bestFitness; }
     int   getGeneration(void) { return nGeneration; }
     int   getNumCities(void) { return nCities; }
@@ -109,6 +110,7 @@ public:
     int   getBestGeneIdx(void) { return bestGeneIdx; }
     float getTemerature(void) { return Temperature; }
     int   getFitRecord(void) { return fitRecord; }
+	CCityLocData *getCityLocData(void) { return cityLocData; }
     
     void  setTemperature(float Temp) { Temperature = Temp; }
     void  changeCrossoverMethod(void) { crossoverMethod = (crossoverMethod+1)%CROSSOVERMETHOD::NUMCROSSOVERMETHODS; }

@@ -115,7 +115,7 @@ void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroup
 	gene = new int*[nPopulation];
     recordHolder = new int[nCities];
 
-	initSolver();
+	
 
 }
 
@@ -162,6 +162,9 @@ void CGeneticTSPSolver::initSolver(void) {
     for (int i=0; i<nPopulation; i++) {
         shuffleGene(i, nCities/2);
     }
+	computeFitness();
+
+	printf("initSolver CPU\n");
     
 }
 
@@ -632,15 +635,14 @@ void CGeneticTSPSolver::computeFitness(void) {
 
 void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
     
+	if (nNumberOfGroups < 2) return;
+
     int nMemberOfAGroup = nPopulation/nNumberOfGroups;
     int idxA = groupIdx*nMemberOfAGroup;
 	int g = groupIdx;
 	while (g == groupIdx) g = rangeRandomi(0, nNumberOfGroups - 1);
 	int idxB = g*nMemberOfAGroup;
-	/*
-    int idxB = ((groupIdx+1)%nNumberOfGroups)*nMemberOfAGroup;
-    int idxC = ((groupIdx-1+nNumberOfGroups)%nNumberOfGroups)*nMemberOfAGroup;
-    */
+	
     switch(crossoverMethod) {
             
         case CROSSOVERMETHOD:: BCSCX:
@@ -651,7 +653,7 @@ void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
             break;
         case CROSSOVERMETHOD:: MIXED:
             if(rand()%2) crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
-            else crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-2);
+            else crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
             break;
     }
     

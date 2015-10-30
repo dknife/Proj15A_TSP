@@ -32,7 +32,6 @@
 #define sprintf sprintf_s
 #endif
 
-
 using namespace std;
 
 #define NUMGENES 512
@@ -74,7 +73,7 @@ void display();
 void reshape(int w, int h) ;
 void keyboard(unsigned char k, int x, int y);
 void reset(void) ;
-void init(const char *TSPINPUTFILE) ;
+void init(void) ;
 void setCamera(void);
 void drawGene(void);
 
@@ -371,58 +370,62 @@ void keyboard(unsigned char k, int x, int y) {
     glutPostRedisplay();
 }
 
+void setupCamera(void) {
+	glMatrixMode(GL_PROJECTION);
+	glLoadIdentity();
+	offsetY = (maxY - minY)*0.05;
+	glOrtho(minX - offsetY*aspRatio, (maxD + minX + offsetY)*aspRatio, minY - offsetY, minY + maxD + offsetY, -1, 1);
+}
 
 void reset(void) {
     
     if(!bestGene) delete[] bestGene;
     
-    init(filename[currentData]);
-    curGeneration = 0;
-    
-    glMatrixMode(GL_PROJECTION);
-    glLoadIdentity();
-    offsetY = (maxY - minY)*0.05;
-    glOrtho(minX-offsetY*aspRatio, (maxD+minX+offsetY)*aspRatio, minY-offsetY, minY+maxD+offsetY, -1, 1);
-    
-}
+	cityData.readData(filename[currentData]);
 
-void init(const char *TSPDATAFILE) {
-
-    cityData.readData(TSPDATAFILE);
-    minX = cityData.minX;
+	minX = cityData.minX;
 	minY = cityData.minY;
 	maxX = cityData.maxX;
 	maxY = cityData.maxY;
-    maxD = (maxX-minX)>(maxY-minY)?(maxX-minX):(maxY-minY);
+	maxD = (maxX - minX)>(maxY - minY) ? (maxX - minX) : (maxY - minY);
 
 	solver.LoadData(&cityData, NUMGENES, NUMGROUPS);
+	solver.initSolver();
 
 	bestGene = new int[cityData.numCities];
-    
-    if(currentData==NDATA-1) solver.LoadSolution("knownBestTour.txt");
-    
-    solver.computeFitness();
-    solver.copySolution(bestGene);
-    err[0] = evalError(solver.getBestFitness()) ;
+	solver.computeFitness();
+	solver.copySolution(bestGene);
+	err[0] = evalError(solver.getBestFitness());
 
-	//solver.cudaTestFunction();
+    curGeneration = 0;
     
+
+
+	setupCamera();
+    
+    
+}
+
+void init(void) {
+
+	reset();
+
 }
 
 
 int main(int argc, char **argv)
 {
 
+	init();
 
 	OGLMgr.initGLWindow(&argc, argv, (GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA), 1024, 512, "TSP with GPU mBCSCX");
-
-	init(filename[currentData]);
-	
 
 	glutDisplayFunc(display);
 	glutIdleFunc(idle);
 	glutReshapeFunc(reshape);
 	glutKeyboardFunc(keyboard);
+
+
 
 	glutMainLoop();
 
