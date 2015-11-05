@@ -34,8 +34,8 @@
 
 using namespace std;
 
-#define NUMGENES 512
-#define NUMGROUPS 12
+#define NUMGENES 2048
+#define NUMGROUPS 1
 #define MAXGENERATION 1000000
 float MAX_ERROR = 32;
 
@@ -82,7 +82,6 @@ CGPUTSPSolver solver;
 int curGeneration = 0;
 int *bestGene;
 
-int currGeneration = 0;
 float err[MAXGENERATION];
 bool  record[MAXGENERATION];
 
@@ -149,11 +148,11 @@ void drawEvolution(void) {
     sprintf(msg, "0.0", MAX_ERROR/2);
     OGLMgr.printString(msg, sx-offsetY, sy, 0.0);
     
-    sprintf(msg, "%d cities, %d genes (%d groups)", solver.getNumCities(), NUMGENES, NUMGROUPS);
+	sprintf(msg, "%d cities, %d genes (%d groups)", solver.getNumCities(), solver.getNumPopulation(), NUMGROUPS);
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY, 0.0);
-    sprintf(msg, "crossover: %s", solver.getCrossoverMethod(), NUMGENES);
+    sprintf(msg, "crossover: %s", solver.getCrossoverMethod());
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*2, 0.0);
-    if(solver.bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver.nCycleGeneration, NUMGENES);
+    if(solver.bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver.nCycleGeneration);
     else sprintf(msg, "Heating Off");
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*3, 0.0);
     sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver.getFitRecord()));
@@ -254,7 +253,7 @@ void drawGene(void) {
     
     solver.drawGene(dx, dy, geneDrawScaleX, geneDrawScaleY);
     
-    int nG = NUMGENES/NUMGROUPS;
+    int nG = solver.getNumPopulation()/NUMGROUPS;
     char msg[256];
     for (int i=0; i<NUMGROUPS; i++) {
         sprintf(msg, "group %d", i);
@@ -278,7 +277,7 @@ void GeneticProcess(void) {
         err[curGeneration] = evalError(solver.getBestFitness());
         record[curGeneration] = solver.recordBroken;
         
-        //solver.fixGene(solver.getBestGeneIdx());
+		
         
 
     }
@@ -389,7 +388,9 @@ void reset(void) {
 	maxY = cityData.maxY;
 	maxD = (maxX - minX)>(maxY - minY) ? (maxX - minX) : (maxY - minY);
 
-	solver.LoadData(&cityData, NUMGENES, NUMGROUPS);
+	if(currentData != NDATA-1 ) solver.LoadData(&cityData, NUMGENES, NUMGROUPS);
+	else solver.LoadData(&cityData, 100, NUMGROUPS);
+
 	solver.initSolver();
 
 	bestGene = new int[cityData.numCities];

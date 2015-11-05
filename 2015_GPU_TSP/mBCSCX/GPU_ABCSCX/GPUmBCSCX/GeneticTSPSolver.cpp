@@ -113,6 +113,8 @@ void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroup
 
     
 	gene = new int*[nPopulation];
+	for (int i = 0; i < nPopulation; i++) gene[i] = new int[nCities];
+
     recordHolder = new int[nCities];
 
 	

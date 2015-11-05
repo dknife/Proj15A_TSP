@@ -50,12 +50,16 @@ public:
     
     int** gene;    
     int* mFitness;
+
     int  bestFitness;
     int  bestGeneIdx;    
+	
 
     int  fitRecord;
     int* recordHolder;
-    bool bHeating;
+
+    
+	bool bHeating;
     int  nCycleGeneration;
     bool recordBroken;
     

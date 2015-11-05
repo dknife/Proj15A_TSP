@@ -152,7 +152,6 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <CudaCompile Include="GPUTSPSolverKernel.cu" />
-    <CudaCompile Include="kernel.cu" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="cityLocData.cpp" />
@@ -167,7 +166,6 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="GeneticTSPSolver.h" />
     <ClInclude Include="GPUTSPSolver.h" />
     <ClInclude Include="GPUTSPSolverKernel.cuh" />
-    <ClInclude Include="kernel.cuh" />
     <ClInclude Include="OpenGLMgr.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>
