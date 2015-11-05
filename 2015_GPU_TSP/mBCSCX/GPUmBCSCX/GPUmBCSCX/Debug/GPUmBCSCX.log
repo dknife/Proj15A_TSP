@@ -1,29 +1,57 @@
-﻿Build started 2015-10-29 오후 10:23:40.
+﻿Build started 2015-11-05 오후 5:47:43.
      1>Project "C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\GPUmBCSCX\GPUmBCSCX.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt main.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\include" /ZI /nologo /W3 /WX- /Od /Oy- /D WIN32 /D _DEBUG /D _CONSOLE /D _MBCS /Gm /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"Debug\\" /Fd"Debug\vc120.pdb" /Gd /TP /analyze- /errorReport:prompt cityLocData.cpp GeneticTSPSolver.cpp main.cpp OpenGLMgr.cpp utilities.cpp
+         utilities.cpp
+         OpenGLMgr.cpp
          main.cpp
      1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.h(105): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(128): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(138): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(142): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(148): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(159): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(196): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(227): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(228): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(236): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(237): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(253): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(318): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(322): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(324): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(325): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(326): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(341): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(362): warning C4305: '*=' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(129): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(139): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(143): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(149): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(160): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(197): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(228): warning C4244: 'argument' : conversion from 'double' to 'GLfloat', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(229): warning C4305: 'argument' : truncation from 'double' to 'GLfloat'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(237): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(238): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(254): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(319): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(323): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(325): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(326): warning C4244: 'argument' : conversion from 'int' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(327): warning C4244: 'argument' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(342): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
      1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(363): warning C4305: '*=' : truncation from 'double' to 'float'
-     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(383): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(364): warning C4305: '*=' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\main.cpp(384): warning C4244: '=' : conversion from 'double' to 'float', possible loss of data
+         GeneticTSPSolver.cpp
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.h(105): warning C4244: 'return' : conversion from 'int' to 'float', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.cpp(124): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.cpp(138): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.cpp(140): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.cpp(237): warning C4101: 'half' : unreferenced local variable
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\genetictspsolver.cpp(675): warning C4244: 'initializing' : conversion from 'double' to 'float', possible loss of data
+         cityLocData.cpp
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(32): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(33): warning C4305: 'argument' : truncation from 'double' to 'float'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(52): warning C4996: 'fopen': This function or variable may be unsafe. Consider using fopen_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(211) : see declaration of 'fopen'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(64): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(71): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(72): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(73): warning C4996: 'fscanf': This function or variable may be unsafe. Consider using fscanf_s instead. To disable deprecation, use _CRT_SECURE_NO_WARNINGS. See online help for details.
+                 c:\program files (x86)\microsoft visual studio 12.0\vc\include\stdio.h(230) : see declaration of 'fscanf'
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(93): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+     1>c:\ymkang_work\development\proj15a_tsp\2015_gpu_tsp\mbcscx\gpumbcscx\gpumbcscx\citylocdata.cpp(94): warning C4244: 'initializing' : conversion from 'float' to 'int', possible loss of data
+         Generating Code...
        Link:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.exe" /INCREMENTAL /NOLOGO /LIBPATH:"C:\Program Files\NVIDIA GPU Computing Toolkit\CUDA\v6.5\lib\Win32" cudart.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:\YMKang_Work\development\Proj15A_TSP\2015_GPU_TSP\mBCSCX\GPUmBCSCX\Debug\GPUmBCSCX.lib" /MACHINE:X86 Debug\kernel.cu.obj
          Debug\cityLocData.obj
@@ -44,4 +72,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:01.38
+Time Elapsed 00:00:03.53
