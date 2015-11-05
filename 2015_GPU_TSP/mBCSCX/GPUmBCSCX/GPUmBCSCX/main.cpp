@@ -34,11 +34,8 @@
 
 using namespace std;
 
-<<<<<<< Updated upstream
-#define NUMGENES 128
-=======
-#define NUMGENES 256
->>>>>>> Stashed changes
+
+#define NUMGENES 2048
 #define NUMGROUPS 1
 #define MAXGENERATION 1000000
 float MAX_ERROR = 32;

@@ -276,6 +276,7 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
 
 
 void CGeneticTSPSolver::fixGene(int idx) {
+    return;
 
 	int idxA;
 	int idxB;
