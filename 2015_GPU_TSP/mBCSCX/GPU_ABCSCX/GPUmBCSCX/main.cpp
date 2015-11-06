@@ -23,8 +23,8 @@
 #include <math.h>
 
 #include "cityLocData.h"
-#include "GeneticTSPSolver.h"
-#include "GPUTSPSolver.h"
+#include "GeneticTSPsolver.h"
+#include "GPUTSPsolver.h"
 
 #include "OpenGLMgr.h"
 
@@ -78,7 +78,13 @@ void setCamera(void);
 void drawGene(void);
 
 CCityLocData cityData;
-CGPUTSPSolver solver;
+
+
+CGeneticTSPSolver solverCPU;
+CGPUTSPSolver solverGPU;
+CGeneticTSPSolver *solver = &solverGPU;
+bool bGPU = true;
+
 int curGeneration = 0;
 int *bestGene;
 
@@ -148,14 +154,14 @@ void drawEvolution(void) {
     sprintf(msg, "0.0", MAX_ERROR/2);
     OGLMgr.printString(msg, sx-offsetY, sy, 0.0);
     
-	sprintf(msg, "%d cities, %d genes (%d groups)", solver.getNumCities(), solver.getNumPopulation(), NUMGROUPS);
+	sprintf(msg, "%d cities, %d genes (%d groups)", solver->getNumCities(), solver->getNumPopulation(), NUMGROUPS);
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY, 0.0);
-    sprintf(msg, "crossover: %s", solver.getCrossoverMethod());
+    sprintf(msg, "crossover: %s", solver->getCrossoverMethod());
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*2, 0.0);
-    if(solver.bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver.nCycleGeneration);
+    if(solver->bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver->nCycleGeneration);
     else sprintf(msg, "Heating Off");
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*3, 0.0);
-    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver.getFitRecord()));
+    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver->getFitRecord()));
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*4, 0.0);
     
     glLineWidth(1);
@@ -217,7 +223,7 @@ void drawSolution(void) {
     glDisable(GL_DEPTH_TEST);
     glPushMatrix();
     glTranslatef(-offsetY, minY+maxD-(maxY-minY), 0.0);
-    solver.copySolution(bestGene);
+    solver->copySolution(bestGene);
 	drawPath(bestGene);
     glPopMatrix();
 
@@ -226,13 +232,13 @@ void drawSolution(void) {
     glTranslatef(maxX, minY + 0.75*maxD, 0.0);
     glScalef(0.3, 0.3, 0.3);
     glColor3f(0.0, 0.0, 1.0);
-    solver.copyRecordHolder(bestGene);
+    solver->copyRecordHolder(bestGene);
     glLineWidth(1);
     drawPath(bestGene);
     glPopMatrix();
     
     char msg[256];
-    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver.getFitRecord()));
+    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver->getFitRecord()));
     OGLMgr.printString(msg, maxX + maxX*0.3, minY + 0.75*maxD, 0.0);
 
 	
@@ -247,21 +253,21 @@ void drawGene(void) {
     glLoadIdentity();
     glViewport(0, 0, width, height);
     glOrtho(0, width, 0, height, -10, 10);
-    int nCities = solver.getNumCities();
+    int nCities = solver->getNumCities();
     
     geneDrawScaleX = width/(2.5*nCities);
     
-    solver.drawGene(dx, dy, geneDrawScaleX, geneDrawScaleY);
+    solver->drawGene(dx, dy, geneDrawScaleX, geneDrawScaleY);
     
-    int nG = solver.getNumPopulation()/NUMGROUPS;
+    int nG = solver->getNumPopulation()/NUMGROUPS;
     char msg[256];
     for (int i=0; i<NUMGROUPS; i++) {
         sprintf(msg, "group %d", i);
-        OGLMgr.printString(msg, dx + geneDrawScaleX * solver.getNumCities() , dy + geneDrawScaleY*i*nG, 0);
+        OGLMgr.printString(msg, dx + geneDrawScaleX * solver->getNumCities() , dy + geneDrawScaleY*i*nG, 0);
     }
     
     sprintf(msg, "best_");
-    OGLMgr.printString(msg, 0 , dy + geneDrawScaleY*solver.getBestGeneIdx(), 0);
+    OGLMgr.printString(msg, 0 , dy + geneDrawScaleY*solver->getBestGeneIdx(), 0);
 }
 
 
@@ -270,12 +276,12 @@ void drawGene(void) {
 void GeneticProcess(void) {
     if (bSimulate && curGeneration < MAXGENERATION ) {
         
-        solver.nextGeneration();
+        solver->nextGeneration();
         
-        solver.computeFitness();
+        solver->computeFitness();
         curGeneration++;
-        err[curGeneration] = evalError(solver.getBestFitness());
-        record[curGeneration] = solver.recordBroken;
+        err[curGeneration] = evalError(solver->getBestFitness());
+        record[curGeneration] = solver->recordBroken;
         
 		
         
@@ -312,16 +318,20 @@ void display() {
     
     
     char msg[256];
-    sprintf(msg, "Number of Cities: %d ---  %s (Temp: %4.1f) ", cityData.numCities, bSimulationOrdered?"computing":"stopped", solver.getTemerature());
+    sprintf(msg, "Evolution with %s", bGPU?"CUDA(GPU)":"CPU");
     float startX = minX+maxD;
-    OGLMgr.printString(msg, startX, minY + 0.6*maxD, 0.0);
+    OGLMgr.printString(msg, startX, minY + 0.65*maxD, 0.0);
+
+	sprintf(msg, "Number of Cities: %d ---  %s (Temp: %4.1f) ", cityData.numCities, bSimulationOrdered ? "computing" : "stopped", solver->getTemerature());
+	startX = minX + maxD;
+	OGLMgr.printString(msg, startX, minY + 0.6*maxD, 0.0);
     
     
 
-    int bestFit = solver.getBestFitness();
-    sprintf(msg, " | Known Optimal: %d / Best Gene: %d / Record: %d", cost[currentData], bestFit, solver.getFitRecord());
+    int bestFit = solver->getBestFitness();
+    sprintf(msg, " | Known Optimal: %d / Best Gene: %d / Record: %d", cost[currentData], bestFit, solver->getFitRecord());
     OGLMgr.printString(msg, startX, minY + 0.57*maxD, 0.0);
-    sprintf(msg, " | error : %f (record=%f)", evalError(bestFit), evalError(solver.getFitRecord()));
+    sprintf(msg, " | error : %f (record=%f)", evalError(bestFit), evalError(solver->getFitRecord()));
     OGLMgr.printString(msg, startX, minY + 0.55*maxD, 0.0);
     
     
@@ -352,6 +362,11 @@ void reshape(int w, int h) {
 void keyboard(unsigned char k, int x, int y) {
 
 	switch (k) {
+	case 'g': 
+		bGPU = bGPU ? false : true; 
+		solver = bGPU ? &solverGPU : &solverCPU;  
+		reset();
+		break;
 	case 's': bSimulationOrdered = bSimulationOrdered ? false : true; break;
     case 'r': reset(); break;
     case '.': currentData = (currentData+1)%NDATA; reset(); break;
@@ -361,8 +376,8 @@ void keyboard(unsigned char k, int x, int y) {
     case 'a': geneDrawScaleY *= 1.05; break;
     case 'z': geneDrawScaleY *= 0.95; break;
     case 'i': bGeneView = bGeneView?false:true; break;
-    case 'x': solver.changeCrossoverMethod(); break;
-        case 'h': solver.bHeating = solver.bHeating?false:true; break;
+    case 'x': solver->changeCrossoverMethod(); break;
+        case 'h': solver->bHeating = solver->bHeating?false:true; break;
     default:
 		break;
 	}
@@ -388,15 +403,17 @@ void reset(void) {
 	maxY = cityData.maxY;
 	maxD = (maxX - minX)>(maxY - minY) ? (maxX - minX) : (maxY - minY);
 
-	if(currentData != NDATA-1 ) solver.LoadData(&cityData, NUMGENES, NUMGROUPS);
-	else solver.LoadData(&cityData, 100, NUMGROUPS);
+	if(currentData != NDATA-1 ) solver->LoadData(&cityData, NUMGENES, NUMGROUPS);
+	else solver->LoadData(&cityData, 100, NUMGROUPS);
 
-	solver.initSolver();
+	
+	solver->initSolver();
+	//if (currentData == 0) solver->LoadSolution("xqf131tour.txt");
 
 	bestGene = new int[cityData.numCities];
-	solver.computeFitness();
-	solver.copySolution(bestGene);
-	err[0] = evalError(solver.getBestFitness());
+	solver->computeFitness();
+	solver->copySolution(bestGene);
+	err[0] = evalError(solver->getBestFitness());
 
     curGeneration = 0;
     

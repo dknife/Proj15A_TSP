@@ -1,5 +1,5 @@
 
-#include "GPUTSPSolver.h"
+#include "GPUTSPsolver.h"
 
 
 
@@ -15,7 +15,8 @@ CGPUTSPSolver::CGPUTSPSolver() {
 	h_fitness = NULL;
 	d_fitness = NULL;
 
-	d_gene = NULL;
+	d_gene  = NULL;
+	d_aGene = NULL;
 
 	h_distanceSeq = NULL;
 	d_distanceSeq = NULL;
@@ -45,6 +46,7 @@ void CGPUTSPSolver::CleanCudaMemory(void) {
 	if (d_fitness)   safeCuda(cudaFree(d_fitness), "free d_fitness");
 
 	if (d_gene)      safeCuda(cudaFree(d_gene), "free d_gene");
+	if (d_aGene)     safeCuda(cudaFree(d_aGene), "free d_aGene");
 	
 	
 	if (d_distanceSeq)    safeCuda(cudaFree(d_distanceSeq), "free d_distanceSeq");
@@ -78,7 +80,8 @@ void CGPUTSPSolver::PrepareCudaMemory(void) {
 	safeCuda(cudaMalloc((void **)&d_CityLoc,      nCities * 2 * sizeof(float)), "alloc d_CityLoc");	
 	safeCuda(cudaMalloc((void **)&d_distanceSeq,  nCities     * sizeof(int)), "alloc d_distanceSeq");
 
-	safeCuda(cudaMalloc((void **)&d_gene, nPopulation * nCities * sizeof(int)), "alloc d_gene");
+	safeCuda(cudaMalloc((void **)&d_gene , nPopulation * nCities * sizeof(int)), "alloc d_gene");
+	safeCuda(cudaMalloc((void **)&d_aGene, nCities * sizeof(int)), "alloc d_aGene");
 	
 	// GPU memory for crossover
 	safeCuda(cudaMalloc((void **)&d_orderOfCity, nPopulation * nCities * sizeof(int)), "alloc d_orderOfCity");
@@ -166,7 +169,7 @@ void CGPUTSPSolver::computeFitnessOf(int idx) {
 	int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
 	d_computeFitnessOf(THREADSPERBLOCK, blocksPerGrid, idx, d_CityLoc, d_gene, nPopulation, nCities, d_fitness, d_distanceSeq);
 
-	safeCuda(cudaGetLastError(), "Get Last Error at ComputeFitnessOf");	
+	//safeCuda(cudaGetLastError(), "Get Last Error at ComputeFitnessOf");	
 	
 	
 	char msg[256];
@@ -177,7 +180,7 @@ void CGPUTSPSolver::computeFitnessOf(int idx) {
 	for (int i = 0; i < nCities; i++) mFitness[idx] += h_distanceSeq[i];
 
 	sprintf(msg, "host to device memory copy mFitness -> d_fitness");
-	safeCuda(cudaMemcpy(d_fitness, mFitness, sizeof(int)*nCities, cudaMemcpyHostToDevice), msg);
+	safeCuda(cudaMemcpy(d_fitness, mFitness, sizeof(int)*nPopulation, cudaMemcpyHostToDevice), msg);
 	//printf("fit(%d) = %d", idx, mFitness[idx]);
 }
 
@@ -188,8 +191,6 @@ void CGPUTSPSolver::computeFitness(void) {
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 	recordBroken = false;	
 
-	//for (int i = 0; i < nPopulation; i++) computeFitnessOf(i);
-
 	int blocksPerGrid = (nPopulation + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
 	d_computeFitnessAll(THREADSPERBLOCK, blocksPerGrid, d_CityLoc, d_gene, nPopulation, nCities, d_fitness);
 
@@ -199,6 +200,7 @@ void CGPUTSPSolver::computeFitness(void) {
 
 	safeCuda(cudaMemcpy(mFitness, d_fitness, sizeof(int)*nPopulation, cudaMemcpyDeviceToHost), msg);
 	
+
 	bestFitness = mFitness[0];
 	bestGeneIdx = 0;
 
@@ -273,6 +275,13 @@ void CGPUTSPSolver::nextGeneration(void) {
 			d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
+	else if (this->crossoverMethod == CROSSOVERMETHOD::MIXED) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			if(i%2) d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			else d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
 
 	// 3. mutate gene
 
@@ -283,16 +292,175 @@ void CGPUTSPSolver::nextGeneration(void) {
 		while (idxB == idxA) idxB = rangeRandomi(1, nCities - 1);
 		if (idxA > idxB) { int t = idxA; idxA = idxB; idxB = t; }
 		blocksPerGrid = ((idxB - idxA + 1) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-		d_mutateGene(THREADSPERBLOCK, blocksPerGrid, i, idxA, idxB, d_gene, nCities);
+		d_reverseSubGene(THREADSPERBLOCK, blocksPerGrid, i, idxA, idxB, d_gene, nCities);
 	}
 
 
-	//fixGene(0);
+	fixGene(0);
 
 	
 }
 
 
+void CGPUTSPSolver::fixGene(int idx) {
+	int idxA;
+	int idxB;
+	int search = 0;
+	int maxSearch = (int)sqrt(nCities);
+
+
+	int distOrg, distNew;
+	int maxGain;
+	int iForMaxGain = -1, jForMaxGain = -1;
+	int iCity, jCity;
+	bool bIntersectFound;
+	bool bMovableFound;
+
+
+	// Start: city move -----------------------------------
+	maxGain = 0;
+	bMovableFound = false;
+	idxA = rangeRandomi(1, nCities - 2 - maxSearch);
+	idxB = rangeRandomi(1, nCities - 2 - maxSearch);
+	int *geneFrag1 = (int *) malloc(sizeof(int)*(maxSearch + 2));
+	int *geneFrag2 = (int *) malloc(sizeof(int)*(maxSearch + 2));
+	safeCuda(cudaMemcpy(geneFrag1, d_gene + (idx*nCities) + idxA - 1, sizeof(int)*(maxSearch + 2), cudaMemcpyDeviceToHost), "get the gene fragment 1");
+	safeCuda(cudaMemcpy(geneFrag2, d_gene + (idx*nCities) + idxB - 1, sizeof(int)*(maxSearch + 2), cudaMemcpyDeviceToHost), "get the gene fragment 2");
+	int v1, v2;
+	int Prev1, Next1, Next2;
+	
+	for (int i = 0; i<maxSearch; i++) {
+		for (int j = 0; j<maxSearch; j++) {
+
+			Prev1 = geneFrag1[i];
+			v1 =    geneFrag1[i + 1];
+			Next1 = geneFrag1[i + 2];
+			v2 =    geneFrag2[j + 1];
+			Next2 = geneFrag2[j + 2];
+			
+			
+			distOrg = cityLocData->cityDistance(Prev1, v1) + cityLocData->cityDistance(v1, Next1) + cityLocData->cityDistance(v2, Next2);
+			distNew = cityLocData->cityDistance(Prev1, Next1) + cityLocData->cityDistance(v2, v1) + cityLocData->cityDistance(v1, Next2);
+
+			int gain = distOrg - distNew;
+			if (gain>maxGain) {
+				bMovableFound = true;
+				iForMaxGain = idxA + i;
+				iCity = v1;
+				jForMaxGain = idxB + j;
+				jCity = v2;
+				maxGain = gain;
+			}
+
+		}
+	}
+
+	free(geneFrag1);
+	free(geneFrag2);
+
+	if (bMovableFound) {
+		if (iForMaxGain > jForMaxGain) { 
+			int t = iForMaxGain; iForMaxGain = jForMaxGain; jForMaxGain = t; 
+			t = iCity; iCity = jCity; jCity = t;
+		}
+		int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		d_createACityShiftedGene(THREADSPERBLOCK, blocksPerGrid, nCities, iCity, iForMaxGain, jForMaxGain, d_gene, idx, d_aGene);
+		d_copyBack(THREADSPERBLOCK, blocksPerGrid, nCities, d_gene, idx, d_aGene);		
+	}
+	// End: city move -----------------------------------
+
+
+	// 2-opt
+	maxGain = 0;
+	bIntersectFound = false;
+	geneFrag1 = (int *)malloc(sizeof(int)*(maxSearch + 1));
+	geneFrag2 = (int *)malloc(sizeof(int)*(maxSearch + 1));
+	safeCuda(cudaMemcpy(geneFrag1, d_gene + (idx*nCities) + idxA, sizeof(int)*(maxSearch + 1), cudaMemcpyDeviceToHost), "get the gene fragment 3");
+	safeCuda(cudaMemcpy(geneFrag2, d_gene + (idx*nCities) + idxB, sizeof(int)*(maxSearch + 1), cudaMemcpyDeviceToHost), "get the gene fragment 4");
+	int v1n, v2n;
+	for (int i = 0; i<maxSearch; i++) {
+		for (int j = 0; j<maxSearch; j++) {
+			v1  = geneFrag1[i];
+			v1n = geneFrag1[i + 1];
+			v2  = geneFrag2[j];
+			v2n = geneFrag2[j + 1];
+			if (v1 == v2) continue;
+			distOrg = cityLocData->cityDistance(v1, v1n) + cityLocData->cityDistance(v2, v2n);
+			distNew = cityLocData->cityDistance(v1, v2) + cityLocData->cityDistance(v1n, v2n);
+			int gain = distOrg - distNew;
+			if (gain>maxGain) {
+				bIntersectFound = true;
+				iForMaxGain = idxA+i;
+				jForMaxGain = idxB+j;
+				maxGain = gain;
+			}
+		}
+	}
+
+	if (bIntersectFound) {
+		if (iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain = jForMaxGain; jForMaxGain = t; }
+		int blocksPerGrid = ((jForMaxGain - iForMaxGain) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		d_reverseSubGene(THREADSPERBLOCK, blocksPerGrid, idx, iForMaxGain+1, jForMaxGain, d_gene, nCities);
+	}
+
+	free(geneFrag1);
+	free(geneFrag2);
+
+	maxGain = 0;
+	bIntersectFound = false;
+
+	geneFrag1 = (int *)malloc(sizeof(int)*nCities);
+	safeCuda(cudaMemcpy(geneFrag1, d_gene + (idx*nCities), sizeof(int)*nCities, cudaMemcpyDeviceToHost), "get the gene fragment 5");
+
+	for (int i = idxA; i< idxA+maxSearch; i++) {
+		for (int j = 0; j<maxSearch; j++) {
+			v1  = geneFrag1[i];
+			v1n = geneFrag1[i + 1];
+			v2  = geneFrag1[(i + j + 2) % nCities];
+			v2n = geneFrag1[(i + j + 3) % nCities];
+
+			int gain;
+			if (v2 != 0) {
+				distOrg = cityLocData->cityDistance(v1, v1n) + cityLocData->cityDistance(v2, v2n);
+				distNew = cityLocData->cityDistance(v1, v2) + cityLocData->cityDistance(v1n, v2n);
+				gain = distOrg - distNew;
+				if (gain>maxGain) {
+					bIntersectFound = true;
+					maxGain = gain;
+					iForMaxGain = i;
+					jForMaxGain = (i + j + 2) % nCities;
+				}
+			}
+
+			int sIdx = i - 2 - j;
+			if (sIdx<0) sIdx += nCities;
+			v2  = geneFrag1[sIdx];
+			v2n = geneFrag1[(sIdx + 1) % nCities];
+
+			if (v2 != 0) {
+				distOrg = cityLocData->cityDistance(v1, v1n) + cityLocData->cityDistance(v2, v2n);
+				distNew = cityLocData->cityDistance(v1, v2) + cityLocData->cityDistance(v1n, v2n);
+				gain = distOrg - distNew;
+				if (gain>maxGain) {
+					bIntersectFound = true;
+					maxGain = gain;
+					iForMaxGain = i;
+					jForMaxGain = sIdx;
+				}
+			}
+		}
+	}
+
+	if (bIntersectFound) {
+		if (iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain = jForMaxGain; jForMaxGain = t; }
+		int blocksPerGrid = ((jForMaxGain - iForMaxGain) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		d_reverseSubGene(THREADSPERBLOCK, blocksPerGrid, idx, iForMaxGain + 1, jForMaxGain, d_gene, nCities);
+	}
+
+	free(geneFrag1);
+
+	computeFitnessOf(idx);
+}
 
 
 
@@ -303,3 +471,27 @@ void CGPUTSPSolver::copySolution(int *SolutionCpy) {
 	
 }
 
+void CGPUTSPSolver::LoadSolution(const char *fname) {
+	int cityId;
+	FILE *fInput = fopen(fname, "r");
+	if (fInput == NULL) {
+		printf("file not found : %s\n", fname);
+		char pathStr[256];
+		GetCurrentDir(pathStr, sizeof(pathStr));
+		printf("working dir: %s\n", pathStr);
+
+		exit(1);
+	}
+
+	printf("file loading started...\n");
+
+	int N;
+
+	fscanf(fInput, "%d\n", &N);
+	for (int i = 0; i<N; i++) {
+		fscanf(fInput, "%d", &cityId);
+		gene[0][i] = cityId - 1;
+	}
+	
+	safeCuda(cudaMemcpy(d_gene, gene[0], sizeof(int)*nCities, cudaMemcpyHostToDevice), "loaded solution to device gene");
+}

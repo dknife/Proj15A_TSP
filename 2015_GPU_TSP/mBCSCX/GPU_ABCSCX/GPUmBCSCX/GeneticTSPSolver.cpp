@@ -1,13 +1,13 @@
 
 //
-//  GeneticTSPSolver.cpp
+//  GeneticTSPsolver->cpp
 //  TSP
 //
 //  Created by young-min kang on 7/25/14.
 //  Copyright (c) 2014 young-min kang. All rights reserved.
 //
 
-#include "GeneticTSPSolver.h"
+#include "GeneticTSPsolver.h"
 #include <math.h>
 #ifdef WIN32
 #include <windows.h>
@@ -121,7 +121,7 @@ void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroup
 
 }
 
-void CGeneticTSPSolver::LoadSolution(char *fname) {
+void CGeneticTSPSolver::LoadSolution(const char *fname) {
     int cityId;
     FILE *fInput = fopen(fname, "r");
     if (fInput == NULL) {
@@ -328,9 +328,9 @@ void CGeneticTSPSolver::fixGene(int idx) {
         }
     }
     
-    bMovableFound = false;
+
     if(bMovableFound) {
-        //if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
+        if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
         int cityBackup = gene[idx][iForMaxGain];
         for(int i=iForMaxGain;i!=jForMaxGain;i=(i+1)%nCities) {
             swap(gene[idx][i%nCities], gene[idx][(i+1)%nCities]);
@@ -408,10 +408,6 @@ void CGeneticTSPSolver::fixGene(int idx) {
                     jForMaxGain = v2;
                 }
             }
-
-            
-            
-            
         }
     }
     

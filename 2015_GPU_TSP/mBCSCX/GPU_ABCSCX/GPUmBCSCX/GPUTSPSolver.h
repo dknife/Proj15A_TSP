@@ -6,10 +6,10 @@
 #include "device_launch_parameters.h"
 #endif
 
-#include "GeneticTSPSolver.h"
+#include "GeneticTSPsolver.h"
 #include "GPUTSPSolverKernel.cuh"
 
-#define THREADSPERBLOCK  64
+#define THREADSPERBLOCK  16
 
 class CGPUTSPSolver : public CGeneticTSPSolver {
 
@@ -22,7 +22,8 @@ class CGPUTSPSolver : public CGeneticTSPSolver {
 	// device memory
 	float *d_CityLoc;
 	int   *d_fitness;
-	int   *d_gene; 
+	int   *d_gene; // nPopulation * nCities
+	int   *d_aGene; // nCities
 
 	//////////////////////////// distance array for a single gene
 	int   *h_distanceSeq;
@@ -52,6 +53,7 @@ public:
 	~CGPUTSPSolver();
 
 	void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
+	void LoadSolution(const char *fname);
 	void initSolver(void);
 	void nextGeneration(void);
 
@@ -59,7 +61,7 @@ public:
 	void computeFitness(void);
 
 	void copySolution(int *SolutionCpy);
-
+	void fixGene(int idx);
 
 	// GPU version should be made
 	// fixGene

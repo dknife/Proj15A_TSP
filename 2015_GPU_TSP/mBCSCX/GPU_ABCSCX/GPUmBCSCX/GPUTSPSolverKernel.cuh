@@ -46,9 +46,14 @@ void d_crossoverABCSCX(int THREADSPERBLOCK, int blocksPerGrid, int i, int nCross
 __global__ void d_crossoverABCSCXKernel(int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
 // gene mutate
-void d_mutateGene(int threadsPerBlock, int blocksPerGrid, int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
-__global__ void d_mutateGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
+void d_reverseSubGene(int threadsPerBlock, int blocksPerGrid, int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
+__global__ void d_reverseSubGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
 
+// gene fix
+void d_createACityShiftedGene(int threadsPerBlock, int blocksPerGrid, int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene);
+__global__ void d_createACityShiftedGeneKernel(int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene);
 
+void d_copyBack(int threadsPerBlock, int blocksPerGrid, int nCities, int *d_gene, int idx, int *aGene);
+__global__ void d_copyBackKernel(int nCities, int *d_gene, int idx, int *aGene);
 
 #endif

@@ -1,5 +1,5 @@
 //
-//  GeneticTSPSolver.h
+//  GeneticTSPsolver->h
 //  TSP
 //
 //  Created by young-min kang on 7/25/14.
@@ -87,7 +87,7 @@ public:
 
 	virtual void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
 
-    virtual void LoadSolution(char *fname);
+    virtual void LoadSolution(const char *fname);
 	virtual void RemoveData();
     virtual void fixGene(int idx);
 

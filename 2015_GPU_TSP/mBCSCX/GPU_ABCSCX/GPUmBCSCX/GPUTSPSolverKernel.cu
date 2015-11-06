@@ -96,7 +96,7 @@ void d_computeFitnessAll(int threadsPerBlock, int blocksPerGrid, float *cityLoc,
 __global__ void d_computeAllFitnessKernel(float *cityLoc, int *gene, int nPopulation, int nCities, int *fitness) {
 
 	
-	// tId: index within a gene
+	// tId: gene index
 	int tId = threadIdx.x + blockIdx.x * blockDim.x;	
 	if (tId >= nPopulation) return;
 
@@ -107,7 +107,7 @@ __global__ void d_computeAllFitnessKernel(float *cityLoc, int *gene, int nPopula
 		int idxB = gene[tId*nCities + ((i + 1) % nCities)];
 		float dx = cityLoc[idxA * 2] - cityLoc[idxB * 2];
 		float dy = cityLoc[idxA * 2 + 1] - cityLoc[idxB * 2 + 1];
-		fitness[tId] = fitness[tId] + (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+		fitness[tId] = fitness[tId] + (int)(sqrt(dx*dx + dy*dy) + 0.5);
 	}
 }
 
@@ -147,7 +147,7 @@ void d_crossover(int threadsPerBlock, int blocksPerGrid, int i, int nCrossover, 
 	d_crossoverKernel << < threadsPerBlock, blocksPerGrid >> > (i, nCrossover, nCities, d_gene, d_cityLoc, d_orderOfCity, d_fJump, d_bJump);
 }
 __global__ void d_crossoverKernel(int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
-	// tId: index within a gene
+	// tId: crossover index
 	int tId = threadIdx.x + blockIdx.x * blockDim.x;
 	if (tId >= nCrossover ) return;
 
@@ -177,19 +177,19 @@ __global__ void d_crossoverKernel(int i, int nCrossover, int nCities, int *d_gen
 
 	float dx = d_cityLoc[cand1 * 2]     - d_cityLoc[lastCity * 2];
 	float dy = d_cityLoc[cand1 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist1 =  (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist1 = (int)(dx*dx + dy*dy);
 
 	dx = d_cityLoc[cand2 * 2] - d_cityLoc[lastCity * 2];
 	dy = d_cityLoc[cand2 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist2 = (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist2 = (int)(dx*dx + dy*dy);
 
 	dx = d_cityLoc[cand3 * 2] - d_cityLoc[lastCity * 2];
 	dy = d_cityLoc[cand3 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist3 = (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist3 = (int)(dx*dx + dy*dy);
 
 	dx = d_cityLoc[cand4 * 2] - d_cityLoc[lastCity * 2];
 	dy = d_cityLoc[cand4 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist4 = (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist4 = (int)(dx*dx + dy*dy);
 
 	int best = dist1;
 	int bestCity = cand1;
@@ -221,7 +221,7 @@ void d_crossoverABCSCX(int threadsPerBlock, int blocksPerGrid, int i, int nCross
 	d_crossoverKernel << < threadsPerBlock, blocksPerGrid >> > (i, nCrossover, nCities, d_gene, d_cityLoc, d_orderOfCity, d_fJump, d_bJump);
 }
 __global__ void d_crossoverABCSCXKernel(int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
-	// tId: index within a gene
+	// tId: crossover index
 	int tId = threadIdx.x + blockIdx.x * blockDim.x;
 	if (tId >= nCrossover) return;
 
@@ -244,11 +244,11 @@ __global__ void d_crossoverABCSCXKernel(int i, int nCrossover, int nCities, int 
 
 	float dx = d_cityLoc[cand1 * 2] - d_cityLoc[lastCity * 2];
 	float dy = d_cityLoc[cand1 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist1 = (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist1 = (int) (dx*dx + dy*dy);
 
 	dx = d_cityLoc[cand2 * 2] - d_cityLoc[lastCity * 2];
 	dy = d_cityLoc[cand2 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
-	int dist2 = (int)(sqrt(double(dx*dx + dy*dy) + 0.5));
+	int dist2 = (int) (dx*dx + dy*dy);
 
 	int best = dist1;
 	int bestCity = cand1;
@@ -275,11 +275,11 @@ __global__ void d_crossoverABCSCXKernel(int i, int nCrossover, int nCities, int 
 }
 
 
-// gene(gene_idx) mutate : revers the substring from idxA to idxB
-void d_mutateGene(int threadsPerBlock, int blocksPerGrid, int gene_idx, int idxA, int idxB, int *d_gene, int nCities) {
-	d_mutateGeneKernel <<< threadsPerBlock, blocksPerGrid>>> (gene_idx, idxA, idxB, d_gene, nCities);
+// reverse gene(gene_idx) : reverse the gene substring from idxA to idxB
+void d_reverseSubGene(int threadsPerBlock, int blocksPerGrid, int gene_idx, int idxA, int idxB, int *d_gene, int nCities) {
+	d_reverseSubGeneKernel << < threadsPerBlock, blocksPerGrid >> > (gene_idx, idxA, idxB, d_gene, nCities);
 }
-__global__ void d_mutateGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene, int nCities) {
+__global__ void d_reverseSubGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene, int nCities) {
 
 	int half = (idxB - idxA + 1) / 2;
 	// tId: index within a gene
@@ -293,5 +293,32 @@ __global__ void d_mutateGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene
 }
 
 
+// gene fix : move a city
 
+void d_createACityShiftedGene(int threadsPerBlock, int blocksPerGrid, int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene) {
+	d_createACityShiftedGeneKernel <<<threadsPerBlock, blocksPerGrid >>>(nCities, iCity, iForMaxGain, jForMaxGain, d_gene, idx, aGene);
+}
+__global__ void d_createACityShiftedGeneKernel(int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene) {
+	// tId: index within a gene
+	int tId = threadIdx.x + blockIdx.x * blockDim.x;
+	if (tId >= nCities) return;
 
+	if (tId >= iForMaxGain && tId < jForMaxGain) {
+		aGene[tId] = d_gene[idx*nCities + tId + 1];
+	}
+	else if (tId == jForMaxGain) {
+		aGene[tId] = iCity;
+	}
+	else aGene[tId] = d_gene[idx*nCities + tId];	
+}
+
+void d_copyBack(int threadsPerBlock, int blocksPerGrid, int nCities, int *d_gene, int idx, int *aGene) {
+	d_copyBackKernel <<<threadsPerBlock, blocksPerGrid>>>(nCities, d_gene, idx, aGene);
+}
+__global__ void d_copyBackKernel(int nCities, int *d_gene, int idx, int *aGene) {
+	// tId: index within a gene
+	int tId = threadIdx.x + blockIdx.x * blockDim.x;
+	if (tId >= nCities) return;
+
+	d_gene[idx*nCities + tId] = aGene[tId];
+}

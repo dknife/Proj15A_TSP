@@ -279,8 +279,6 @@ void GeneticProcess(void) {
 		err[curGeneration] = evalError(solver.getBestFitness());
 		record[curGeneration] = solver.recordBroken;
 
-		//solver.fixGene(solver.getBestGeneIdx());
-
 
 	}
 
@@ -414,7 +412,7 @@ int main(int argc, char **argv)
 {
 
 
-	OGLMgr.initGLWindow(&argc, argv, (GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA), 1024, 512, "TSP with GPU mBCSCX");
+	OGLMgr.initGLWindow(&argc, argv, (GLUT_DOUBLE | GLUT_DEPTH | GLUT_RGBA), 1024, 512, "TSP with CPU mBCSCX");
 
 	init(filename[currentData]);
 
