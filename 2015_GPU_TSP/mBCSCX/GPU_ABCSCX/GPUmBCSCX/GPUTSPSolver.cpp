@@ -8,6 +8,7 @@
 CGPUTSPSolver::CGPUTSPSolver() {
 
 	currentBestGene = NULL;
+	THREADSPERBLOCK = 256;
 
 	h_CityLoc = NULL;
 	d_CityLoc = NULL;
@@ -123,7 +124,7 @@ void CGPUTSPSolver::GeneInitCudaMemory(void) {
 
 	printf("gene initialization with %d threads per block x (%d blocks)\n", THREADSPERBLOCK, blocksPerGrid);
 
-	d_geneInit(THREADSPERBLOCK, blocksPerGrid, d_cudaState, nPopulation, nCities, d_gene, d_CityLoc);
+	d_geneInit(blocksPerGrid, THREADSPERBLOCK, d_cudaState, nPopulation, nCities, d_gene, d_CityLoc);
 
 	//safeCuda(cudaGetLastError(), "Get Last Error at CGPUTSPSolver::GeneInitCudaMemory");
 
@@ -139,6 +140,7 @@ void CGPUTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroups) {
 	printf("Loading data with nGenes = %d\n", nGenes);
 	CGeneticTSPSolver::LoadData(inputData, nGenes, nGroups);
 
+	int nMaxPopulation = nPopulation;
 	printf("LoadData - GPU\n");
 	CleanCudaMemory();
 	PrepareCudaMemory();
@@ -166,8 +168,9 @@ void CGPUTSPSolver::initSolver(void) {
 
 void CGPUTSPSolver::computeFitnessOf(int idx) {
 	
+
 	int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-	d_computeFitnessOf(THREADSPERBLOCK, blocksPerGrid, idx, d_CityLoc, d_gene, nPopulation, nCities, d_fitness, d_distanceSeq);
+	d_computeFitnessOf(blocksPerGrid, THREADSPERBLOCK, idx, d_CityLoc, d_gene, nPopulation, nCities, d_fitness, d_distanceSeq);
 
 	//safeCuda(cudaGetLastError(), "Get Last Error at ComputeFitnessOf");	
 	
@@ -188,24 +191,42 @@ void CGPUTSPSolver::computeFitnessOf(int idx) {
 
 void CGPUTSPSolver::computeFitness(void) {
 
-	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
+	
 	recordBroken = false;	
 
 	int blocksPerGrid = (nPopulation + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-	d_computeFitnessAll(THREADSPERBLOCK, blocksPerGrid, d_CityLoc, d_gene, nPopulation, nCities, d_fitness);
+	d_computeFitnessAll(blocksPerGrid, THREADSPERBLOCK, d_CityLoc, d_gene, nPopulation, nCities, d_fitness);
 
 	char msg[256];
 	sprintf(msg, "device to host memory copy (%d genes): d_fitness -> mFitness", nPopulation);
-	
-
 	safeCuda(cudaMemcpy(mFitness, d_fitness, sizeof(int)*nPopulation, cudaMemcpyDeviceToHost), msg);
 	
 
+	int nGroups = nNumberOfGroups;
+	int nMemberOfAGroup = nPopulation / nGroups;
+
+	blocksPerGrid;
+
+	for (int g = 0; g < nGroups; g++) {
+
+		int start = g*nMemberOfAGroup;
+		int end = (g == nGroups - 1) ? nPopulation - 1 : start + nMemberOfAGroup;
+		int nMemberOfAGroup = end - start;
+
+		bestFitness = mFitness[start];
+		bestGeneIdx = start;
+
+		for (int i = start; i < end; i++) {
+			if (mFitness[i] < bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
+		}
+		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		d_copyGene(blocksPerGrid, THREADSPERBLOCK, start, bestGeneIdx, d_gene, nCities);
+	}
+
 	bestFitness = mFitness[0];
 	bestGeneIdx = 0;
-
-	for (int i = 0; i<nPopulation; i ++) {
-		if (mFitness[i]<bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
+	for (int i = nMemberOfAGroup; i < nPopulation; i += nMemberOfAGroup) {
+		if (mFitness[i] < bestFitness) { bestGeneIdx = i; bestFitness = mFitness[i]; }
 	}
 
 	safeCuda(cudaMemcpy(currentBestGene, d_gene + (bestGeneIdx*nCities), sizeof(int)*nCities, cudaMemcpyDeviceToHost), "get the best gene in the generation");
@@ -225,84 +246,249 @@ void CGPUTSPSolver::computeFitness(void) {
 		}
 	}
 
+
 }
+
 
 void CGPUTSPSolver::nextGeneration(void) {
 	nGeneration++;
 
+	//if ((nGeneration / 10) % 2 == 0) {
+	//	for(int i=0;i<10;i++)fixGene(0); return;
+	//}
 
 	// linear cooling
-	float cooling = 100.0 / nCycleGeneration;
-	float prevTemp = Temperature;
-	Temperature -= cooling;
-	if (Temperature<0) Temperature = 100.0;
-
-	
-	// 1. gene competition
-	int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-	for (int i = 0; i < nPopulation/2; i ++) {
-		int winner = i*2;
-		int loser = winner + 1;
-		if (mFitness[winner]>mFitness[loser]) { winner = i*2 + 1; loser = i*2; }
-		// elements of a gene sequence are parallelly moved from the location "winner" to "i" in the pool
-		d_copyGene(THREADSPERBLOCK, blocksPerGrid, i, winner, d_gene, nCities);
+	if (bHeating) {
+		float cooling = 100.0 / nCycleGeneration;
+		float prevTemp = Temperature;
+		Temperature -= cooling;
+		if (Temperature < 0) Temperature = 100.0;
 	}
-	if (nPopulation%2)
-		d_copyGene(THREADSPERBLOCK, blocksPerGrid, nPopulation / 2, nPopulation - 1, d_gene, nCities);
-	
+	else { Temperature = 0.0; }
 
+
+	int nGroups = nNumberOfGroups;
+	int nMemberOfAGroup = nPopulation / nGroups;
+
+	int blocksPerGrid;
+
+	for (int g = 0; g < nGroups; g++) {
+
+		int start = g*nMemberOfAGroup;
+		int end = (g == nGroups - 1) ? nPopulation - 1 : start + nMemberOfAGroup;
+		int nMemberOfAGroup = end - start;
+		// 1. gene competition
+		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		for (int i = 0; i < nMemberOfAGroup/2; i++) {
+			int winner = start + i*2;
+			int loser  = winner + 1;
+			if (mFitness[winner]> (1.0 - Temperature / 1000.0)*mFitness[loser]) { winner = loser; }
+			//if (bHeating && rangeRandomf(0.0, 100.0) < Temperature / 5.0) winner = loser;
+			// elements of a gene sequence are parallelly moved from the location "winner" to "i" in the pool
+			d_copyGene(blocksPerGrid, THREADSPERBLOCK, start + i, winner, d_gene, nCities);
+		}
+		if (nMemberOfAGroup % 2)
+			d_copyGene(blocksPerGrid, THREADSPERBLOCK, start + nMemberOfAGroup / 2, start + nMemberOfAGroup - 1, d_gene, nCities);
+
+	}
+		
 	// 2. apply crossover
 	
+
 	// 2.1 initialize aux memories for crossover (parallel processing of elements in a single gene)
 	blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-	for (int i = 0; i < nPopulation; i++) {		
+	for (int i = 0; i < nPopulation; i++) {
 		// N(nCities) elements are parallelly processed
-		d_initAuxMem(THREADSPERBLOCK, blocksPerGrid, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
+		d_initAuxMem(blocksPerGrid, THREADSPERBLOCK, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
 	}
+
+
 	// 2.2 crossover
-	int nCrossover = (nPopulation + 3) / 4;
-	blocksPerGrid = ( nCrossover + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	int nCrossover = nMemberOfAGroup / 4;
+	dim3 threads(nCrossover , nGroups);
+	blocksPerGrid = (threads.x * threads.y + THREADSPERBLOCK - 1 ) / THREADSPERBLOCK;
 
 	if (this->crossoverMethod == CROSSOVERMETHOD::BCSCX) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
-			d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
 	else if (this->crossoverMethod == CROSSOVERMETHOD::ABCSCX) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
-			d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			d_crossoverABCSCX(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
 	else if (this->crossoverMethod == CROSSOVERMETHOD::MIXED) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
-			if(i%2) d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
-			else d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			if (rand() % 2) d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			else d_crossoverABCSCX(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
+	
 
-	// 3. mutate gene
-
-	blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-	for (int i = nCrossover+nCrossover/2+1; i < nPopulation; i++) {
-		int idxA = rangeRandomi(1, nCities - 1);
-		int idxB = idxA;
-		while (idxB == idxA) idxB = rangeRandomi(1, nCities - 1);
-		if (idxA > idxB) { int t = idxA; idxA = idxB; idxB = t; }
-		blocksPerGrid = ((idxB - idxA + 1) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
-		d_reverseSubGene(THREADSPERBLOCK, blocksPerGrid, i, idxA, idxB, d_gene, nCities);
+	for (int g = 0; g < nGroups; g++) {
+		int start = g*nMemberOfAGroup;		
+		fixGene(start);
 	}
 
 
-	fixGene(0);
+
+	// 3. mutate gene
+	/*
+	for (int g = 0; g < nGroups; g++) {
+
+		int start = g*nMemberOfAGroup;
+		int end = (g == nGroups - 1) ? nPopulation - 1 : start + nMemberOfAGroup;
+		int nMemberOfAGroup = end - start;
+
+		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		int mutationPercentage = 10;
+		for (int i = start + nMemberOfAGroup * 3 / 4; i < end; i++) {
+			if (rangeRandomi(0, 100) < mutationPercentage) {
+				int idxA = rangeRandomi(1, nCities - 1);
+				int idxB = idxA;
+				while (idxB == idxA) idxB = rangeRandomi(1, nCities - 1);
+				if (idxA > idxB) { int t = idxA; idxA = idxB; idxB = t; }
+				blocksPerGrid = ((idxB - idxA + 1) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+				d_reverseSubGene(blocksPerGrid, THREADSPERBLOCK, i, idxA, idxB, d_gene, nCities);
+			}
+		}
+	}
+	
+	
+		
+	
+	if (nGeneration % 20) {
+		for (int g = 0; g < nGroups; g++) intergroupMarriage(g);
+			
+	}*/
+	
+	
+	
 
 	
 }
 
 
+void CGPUTSPSolver::intergroupMarriage(int groupIdx) {
+
+	int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
+	int fromIdx = groupIdx * nMemberOfAGroup;
+	int toIdx = ((groupIdx + 1) % nNumberOfGroups) * nMemberOfAGroup;
+	d_copyGene(blocksPerGrid, THREADSPERBLOCK, toIdx + 1, /* nMemberOfAGroup-1,*/ fromIdx, d_gene, nCities);
+}
+
+/*
+void CGPUTSPSolver::nextGeneration(void) {
+	nGeneration++;
+
+	// linear cooling
+	if (bHeating) {
+		float cooling = 100.0 / nCycleGeneration;
+		float prevTemp = Temperature;
+		Temperature -= cooling;
+		if (Temperature < 0) Temperature = 100.0;
+	}
+	else { Temperature = 0.0; }
+
+
+
+	// 1. gene competition
+	int blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	for (int i = 0; i < nPopulation/2; i ++) {
+		int winner = i*2;
+		int loser = winner + 1;
+		if (mFitness[winner]>(1.0-Temperature/1000.0)*mFitness[loser]) { winner = i*2 + 1; loser = i*2; }
+		//if (bHeating && rangeRandomf(0.0, 100.0) < Temperature / 5.0) winner = loser;
+		// elements of a gene sequence are parallelly moved from the location "winner" to "i" in the pool
+		d_copyGene(THREADSPERBLOCK, blocksPerGrid, i, winner, d_gene, nCities);
+	}
+	if (nPopulation%2) 
+		d_copyGene(THREADSPERBLOCK, blocksPerGrid, nPopulation / 2, nPopulation - 1, d_gene, nCities);
+
+
+	// 2. apply crossover
+	int nCrossover = nPopulation / 4;
+
+	// 2.1 initialize aux memories for crossover (parallel processing of elements in a single gene)
+	blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	for (int i = 0; i < nPopulation; i++) {
+		// N(nCities) elements are parallelly processed
+		d_initAuxMem(THREADSPERBLOCK, blocksPerGrid, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
+	}
+
+	// 2.2 crossover
+	blocksPerGrid = ( nCrossover + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	if (this->crossoverMethod == CROSSOVERMETHOD::BCSCX) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 1,  nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+	else if (this->crossoverMethod == CROSSOVERMETHOD::ABCSCX) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 1, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+	else if (this->crossoverMethod == CROSSOVERMETHOD::MIXED) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 1, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+
+	// 2.3 initialize aux memories for crossover (parallel processing of elements in a single gene)
+	blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	for (int i = 0; i < nPopulation; i++) {
+		// N(nCities) elements are parallelly processed
+		d_initAuxMem(THREADSPERBLOCK, blocksPerGrid, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
+	}
+	// 2.4 crossover
+	blocksPerGrid = (nCrossover + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	if (this->crossoverMethod == CROSSOVERMETHOD::BCSCX) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossover(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 2, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+	else if (this->crossoverMethod == CROSSOVERMETHOD::ABCSCX) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 2, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+	else if (this->crossoverMethod == CROSSOVERMETHOD::MIXED) {
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossoverABCSCX(THREADSPERBLOCK, blocksPerGrid, i, nCrossover, 2, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+	}
+
+	// 3. mutate gene
+	blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+	int mutationPercentage = 35;
+	for (int i = nPopulation * 3 / 4; i < nPopulation; i++) {
+		if (rangeRandomi(0, 100) < mutationPercentage) {
+			int idxA = rangeRandomi(1, nCities - 1);
+			int idxB = idxA;
+			while (idxB == idxA) idxB = rangeRandomi(1, nCities - 1);
+			if (idxA > idxB) { int t = idxA; idxA = idxB; idxB = t; }
+			blocksPerGrid = ((idxB - idxA + 1) / 2 + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+			d_reverseSubGene(THREADSPERBLOCK, blocksPerGrid, i, idxA, idxB, d_gene, nCities);
+		}
+	}
+	fixGene(0);
+}
+*/
+
 void CGPUTSPSolver::fixGene(int idx) {
+	
+
 	int idxA;
 	int idxB;
 	int search = 0;

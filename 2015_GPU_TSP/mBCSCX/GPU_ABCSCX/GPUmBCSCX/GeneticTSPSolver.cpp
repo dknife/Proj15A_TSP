@@ -664,7 +664,13 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
     nGeneration++;
 
     
-	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
+	
+	int nGroups = nNumberOfGroups;
+	int nMemberOfAGroup = nPopulation / nGroups;
+	
+
+	
+	
 
     
     
@@ -678,10 +684,10 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
     //Temperature = 100.0 * 0.5 * (1.0+ cos(2.0*3.14*nGeneration/float(nCycleGeneration) ) );
     
     
-	for (int g= 0; g<nNumberOfGroups; g++) {
+	for (int g = 0; g<nGroups; g++) {
 
 		int start = g*nMemberOfAGroup;
-		int end = (g == nNumberOfGroups - 1) ? nPopulation : start + nMemberOfAGroup;
+		int end = (g == nGroups - 1) ? nPopulation : start + nMemberOfAGroup;
 
         // competition
         debegMessage("competition group %d: (%d - %d)\n", g, start, end-1);
@@ -729,10 +735,12 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
         }
         ///////////////////////
         
-        fixGene(start);
+		fixGene(start);
          
-        
-		intergroupMarriage(g);
+		if (nGeneration % 100 < 10) {
+			intergroupMarriage(g);
+		}
+		
        
 	}
     

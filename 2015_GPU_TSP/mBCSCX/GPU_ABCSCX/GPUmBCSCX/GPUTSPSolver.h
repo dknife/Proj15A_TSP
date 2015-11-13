@@ -9,12 +9,13 @@
 #include "GeneticTSPsolver.h"
 #include "GPUTSPSolverKernel.cuh"
 
-#define THREADSPERBLOCK  16
+
 
 class CGPUTSPSolver : public CGeneticTSPSolver {
 
 	int* currentBestGene;
-
+	int  THREADSPERBLOCK;
+	int  nMaxPopulation;
 	// host memory
 	float *h_CityLoc;
 	int   *h_fitness;
@@ -48,7 +49,7 @@ class CGPUTSPSolver : public CGeneticTSPSolver {
 	
 
 public:
-	CGPUTSPSolver(CCityLocData *inputData, int nGenes, int nGroups);
+	//CGPUTSPSolver(CCityLocData *inputData, int nGenes, int nGroups);
 	CGPUTSPSolver();
 	~CGPUTSPSolver();
 
@@ -62,6 +63,10 @@ public:
 
 	void copySolution(int *SolutionCpy);
 	void fixGene(int idx);
+	void increaseThreads(void) { THREADSPERBLOCK += 16; }
+	void decreaseThreads(void) { if (THREADSPERBLOCK >= 32) THREADSPERBLOCK -= 16; }
+	int  threadsPerBlock(void) { return THREADSPERBLOCK;  }
+	void intergroupMarriage(int groupIdx);
 
 	// GPU version should be made
 	// fixGene

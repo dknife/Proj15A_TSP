@@ -17,43 +17,43 @@ __device__ float randf(curandState *pState, int add, float min, float max);
 
 
 ////////////////// gene initialization
-void d_geneInit(int threadsPerBlock, int blocksPerGrid, curandState *pState, unsigned int nPopulation, unsigned int numCities, int *gene, const float *cityLoc);
+void d_geneInit(int blocks, int threads, curandState *pState, unsigned int nPopulation, unsigned int numCities, int *gene, const float *cityLoc);
 __global__ void d_geneInitKernel(curandState_t *state, unsigned int nPopulation, unsigned int numCities, int *gene, const float *cityLoc);
 
 
 ///////////////// computing fitness
 
 // compute fitness of a specific (idx) gene
-void d_computeFitnessOf(int threadsPerBlock, int blocksPerGrid, int idx, float *cityLoc, int *gene, int nPopulation, int nCities, int* d_fitness, int *distance);
+void d_computeFitnessOf(int blocks, int threads, int idx, float *cityLoc, int *gene, int nPopulation, int nCities, int* d_fitness, int *distance);
 __global__ void d_fitnessOf(int idx, float *cityLoc, int *gene, int nPopulation, int nCities, int *d_fitness, int *distance);
 
 // compute the fitness values of all genes
-void d_computeFitnessAll(int threadsPerBlock, int blocksPerGrid, float *cityLoc, int *gene, int nPopulation, int nCities, int* d_fitness);
+void d_computeFitnessAll(int blocks, int threads, float *cityLoc, int *gene, int nPopulation, int nCities, int* d_fitness);
 __global__ void d_computeAllFitnessKernel(float *cityLoc, int *gene, int nPopulation, int nCities, int *d_fitness);
 
 // gene copy
-void d_copyGene(int threadsPerBlock, int blocksPerGrid, int toIdx, int fromIdx, int *d_gene, int nCities);
+void d_copyGene(int blocks, int threads, int toIdx, int fromIdx, int *d_gene, int nCities);
 __global__ void d_copyGeneKernel(int toIdx, int fromIdx, int *d_gene, int nCities);
 
 // gene crossover
-void d_initAuxMem(int THREADSPERBLOCK, int blocksPerGrid, int nCities, int i, int *d_gene, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+void d_initAuxMem(int blocks, int threads, int nCities, int i, int *d_gene, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 __global__ void d_initAuxMemKernel(int nCities, int i, int *d_gene, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
-void d_crossover(int THREADSPERBLOCK, int blocksPerGrid, int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
-__global__ void d_crossoverKernel(int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+void d_crossover(int blocks, dim3 threads, int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+__global__ void d_crossoverKernel(int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
-void d_crossoverABCSCX(int THREADSPERBLOCK, int blocksPerGrid, int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
-__global__ void d_crossoverABCSCXKernel(int i, int nCrossover, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+void d_crossoverABCSCX(int blocks, dim3 threads, int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+__global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
 // gene mutate
-void d_reverseSubGene(int threadsPerBlock, int blocksPerGrid, int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
+void d_reverseSubGene(int blocks, int threads, int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
 __global__ void d_reverseSubGeneKernel(int gene_idx, int idxA, int idxB, int *d_gene, int nCities);
 
 // gene fix
-void d_createACityShiftedGene(int threadsPerBlock, int blocksPerGrid, int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene);
+void d_createACityShiftedGene(int blocks, int threads, int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene);
 __global__ void d_createACityShiftedGeneKernel(int nCities, int iCity, int iForMaxGain, int jForMaxGain, int *d_gene, int idx, int *aGene);
 
-void d_copyBack(int threadsPerBlock, int blocksPerGrid, int nCities, int *d_gene, int idx, int *aGene);
+void d_copyBack(int blocks, int threads, int nCities, int *d_gene, int idx, int *aGene);
 __global__ void d_copyBackKernel(int nCities, int *d_gene, int idx, int *aGene);
 
 #endif

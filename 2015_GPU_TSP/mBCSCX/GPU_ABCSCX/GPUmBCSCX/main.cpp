@@ -12,11 +12,7 @@
 #include "kernel.cuh"
 #endif
 
-
-
 #include <stdio.h>
-
-
 
 #include <iostream>
 #include <iomanip>
@@ -35,7 +31,7 @@
 using namespace std;
 
 #define NUMGENES 2048
-#define NUMGROUPS 1
+#define NUMGROUPS 16
 #define MAXGENERATION 1000000
 float MAX_ERROR = 32;
 
@@ -44,20 +40,22 @@ float MAX_ERROR = 32;
 #define COST_XQG237 1019
 #define COST_XQL662 2513
 #define COST_XQC2175 6830
+#define COST_XMC10150 28387
 #define COST_MONALISA 5757191
 
 #define XQF131 "xqf131.txt"
 #define XQG237 "xqg237.txt"
 #define XQL662 "xql662.txt"
 #define XQC2175 "xqc2175.txt"
+#define XMC10150 "xmc10150.txt"
 #define MONALISA "monalisa.txt"
 
-#define NDATA 5
+#define NDATA 6
 int cost[NDATA] = {
-    COST_XQF131, COST_XQG237, COST_XQL662, COST_XQC2175, COST_MONALISA
+    COST_XQF131, COST_XQG237, COST_XQL662, COST_XQC2175, COST_XMC10150, COST_MONALISA
 };
 const char* filename[NDATA] {
-    XQF131, XQG237, XQL662, XQC2175, MONALISA
+	XQF131, XQG237, XQL662, XQC2175, XMC10150, MONALISA
 };
 int currentData = 0;
 
@@ -133,6 +131,17 @@ void drawPath(int vertList[]) {
 		glVertex3f(loc.x, loc.y, -0.1);
 	}
 	glEnd();
+}
+
+void exportBestGene(void) {
+	solver->copyRecordHolder(bestGene);
+	char str[256];
+	sprintf(str, "ExportedTour%d.txt", cityData.numCities);
+	FILE *f = fopen(str, "w");
+	fprintf(f, "%d\n", cityData.numCities);
+	for (int i = 0; i < cityData.numCities; i++) {
+		fprintf(f, "%d\n", bestGene[i]+1);		
+	}
 }
 
 void drawEvolution(void) {
@@ -229,7 +238,8 @@ void drawSolution(void) {
 
     glLineWidth(1);
     glPushMatrix();
-    glTranslatef(maxX, minY + 0.75*maxD, 0.0);
+    //glTranslatef(maxX, minY + 0.75*maxD, 0.0);
+	glTranslatef(maxX + 0.5*maxD, minY + 0.1*maxD, 0.0);
     glScalef(0.3, 0.3, 0.3);
     glColor3f(0.0, 0.0, 1.0);
     solver->copyRecordHolder(bestGene);
@@ -318,7 +328,7 @@ void display() {
     
     
     char msg[256];
-    sprintf(msg, "Evolution with %s", bGPU?"CUDA(GPU)":"CPU");
+	sprintf(msg, "Evolution with %s (CUDA Threads per block: %d)", bGPU ? "CUDA(GPU)" : "CPU", bGPU ? ((CGPUTSPSolver *)solver)->threadsPerBlock() : 0);
     float startX = minX+maxD;
     OGLMgr.printString(msg, startX, minY + 0.65*maxD, 0.0);
 
@@ -377,7 +387,11 @@ void keyboard(unsigned char k, int x, int y) {
     case 'z': geneDrawScaleY *= 0.95; break;
     case 'i': bGeneView = bGeneView?false:true; break;
     case 'x': solver->changeCrossoverMethod(); break;
-        case 'h': solver->bHeating = solver->bHeating?false:true; break;
+    case 'h': solver->bHeating = solver->bHeating?false:true; break;
+	case 't': if (bGPU) ( (CGPUTSPSolver*) solver)->increaseThreads(); break;
+	case 'y': if (bGPU) ( (CGPUTSPSolver*) solver)->decreaseThreads(); break;
+	case 'e': exportBestGene(); break;
+
     default:
 		break;
 	}
@@ -408,7 +422,7 @@ void reset(void) {
 
 	
 	solver->initSolver();
-	//if (currentData == 0) solver->LoadSolution("xqf131tour.txt");
+	//if (currentData == NDATA-2) solver->LoadSolution("ExportedTour10150.txt");
 
 	bestGene = new int[cityData.numCities];
 	solver->computeFitness();
