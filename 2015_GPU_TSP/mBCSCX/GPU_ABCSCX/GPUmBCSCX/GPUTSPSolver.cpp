@@ -254,10 +254,18 @@ void CGPUTSPSolver::computeFitness(void) {
 
 void CGPUTSPSolver::nextGeneration(void) {
 	nGeneration++;
+	int nGroups = nNumberOfGroups;
+	int nMemberOfAGroup = nPopulation / nGroups;
 
-	//if ((nGeneration / 10) % 2 == 0) {
-	//	for(int i=0;i<10;i++)fixGene(0); return;
-	//}
+
+
+	if ((nGeneration / 10) % 2 == 0) {
+		for (int g = 0; g < nGroups; g++) {
+			int start = g*nMemberOfAGroup;
+			fixGene(start);
+		}
+		return;
+	}
 
 	// linear cooling
 	if (bHeating) {
@@ -269,8 +277,7 @@ void CGPUTSPSolver::nextGeneration(void) {
 	else { Temperature = 0.0; }
 
 
-	int nGroups = nNumberOfGroups;
-	int nMemberOfAGroup = nPopulation / nGroups;
+
 
 	int blocksPerGrid;
 
@@ -339,7 +346,7 @@ void CGPUTSPSolver::nextGeneration(void) {
 
 
 	// 3. mutate gene
-	/*
+	
 	for (int g = 0; g < nGroups; g++) {
 
 		int start = g*nMemberOfAGroup;
@@ -363,10 +370,12 @@ void CGPUTSPSolver::nextGeneration(void) {
 	
 		
 	
+	/*
 	if (nGeneration % 20) {
 		for (int g = 0; g < nGroups; g++) intergroupMarriage(g);
 			
-	}*/
+	}
+	*/
 	
 	
 	

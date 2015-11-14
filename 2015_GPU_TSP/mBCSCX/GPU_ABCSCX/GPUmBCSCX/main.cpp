@@ -93,6 +93,7 @@ bool  record[MAXGENERATION];
 bool bSimulate = false;
 bool bSimulationOrdered = false;
 bool bGeneView = false;
+bool bDrawPoints = true;
 
 COpenGLMgr OGLMgr;
 
@@ -109,6 +110,8 @@ float evalError(float fit) {
 }
 
 void drawCities(void) {
+
+	if (!bDrawPoints) return;
 
     glPushMatrix();
     glTranslatef(-offsetY, minY+maxD-(maxY-minY), 0.0);
@@ -228,6 +231,7 @@ void drawEvolution(void) {
 
 void drawSolution(void) {
 
+	glColor3f(0, 0, 0);
     glLineWidth(2);
     glDisable(GL_DEPTH_TEST);
     glPushMatrix();
@@ -383,6 +387,7 @@ void keyboard(unsigned char k, int x, int y) {
     case ',': currentData = (currentData-1+NDATA)%NDATA; reset(); break;
     case '=': MAX_ERROR /= 2.0; break;
     case '-': MAX_ERROR *= 2.0; break;
+	case 'c': bDrawPoints = bDrawPoints ? false : true; break;
     case 'a': geneDrawScaleY *= 1.05; break;
     case 'z': geneDrawScaleY *= 0.95; break;
     case 'i': bGeneView = bGeneView?false:true; break;
@@ -418,11 +423,11 @@ void reset(void) {
 	maxD = (maxX - minX)>(maxY - minY) ? (maxX - minX) : (maxY - minY);
 
 	if(currentData != NDATA-1 ) solver->LoadData(&cityData, NUMGENES, NUMGROUPS);
-	else solver->LoadData(&cityData, 1024, NUMGROUPS);
+	else solver->LoadData(&cityData, 128, NUMGROUPS);
 
 	
 	solver->initSolver();
-	//if (currentData == NDATA-2) solver->LoadSolution("ExportedTour10150.txt");
+	if (currentData == NDATA-1) solver->LoadSolution("ExportedTour100000.txt");
 
 	bestGene = new int[cityData.numCities];
 	solver->computeFitness();
