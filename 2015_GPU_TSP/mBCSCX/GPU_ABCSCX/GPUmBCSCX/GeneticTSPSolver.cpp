@@ -7,17 +7,27 @@
 //  Copyright (c) 2014 young-min kang. All rights reserved.
 //
 
-#include "GeneticTSPsolver.h"
+#include "GeneticTSPSolver.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <GL/glew.h>
+
 #ifdef WIN32
 #include <windows.h>
-//#include <gl/glew.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
-#else // MAC OS X
-#include <OpenGL/OpenGL.h>
-#include <GLUT/GLUT.h> // OpenGL utility toolkit
+#elif defined (__APPLE__) || defined(MACOSX)
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  #include <GLUT/glut.h>
+  #ifndef glutCloseFunc
+  #define glutCloseFunc glutWMCloseFunc
+  #endif
+#else
+#include <GL/freeglut.h>
 #endif
+
 
 CCitySearchIndex::CCitySearchIndex(int numberOfCities) {
     nSize = numberOfCities;
@@ -151,7 +161,7 @@ void CGeneticTSPSolver::LoadSolution(const char *fname) {
 void CGeneticTSPSolver::initSolver(void) {
     nGeneration = 0;
     Temperature = 100.0;
-    crossoverMethod = CROSSOVERMETHOD::BCSCX;
+    crossoverMethod = BCSCX;
     recordBroken = false;
     bHeating = false;
     
@@ -643,13 +653,13 @@ void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
 	
     switch(crossoverMethod) {
             
-        case CROSSOVERMETHOD:: BCSCX:
+        case BCSCX:
             crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
             break;
-        case CROSSOVERMETHOD:: ABCSCX:
+        case ABCSCX:
             crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
             break;
-        case CROSSOVERMETHOD:: MIXED:
+        case MIXED:
             if(rand()%2) crossoverBCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
             else crossoverABCSCX(idxA, idxB, idxA+nMemberOfAGroup/2-1);
             break;
@@ -724,8 +734,8 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
                 mutate(idxA, child);
             }
             else {
-                if (crossoverMethod == CROSSOVERMETHOD::BCSCX) crossoverBCSCX(idxA, idxB, child);
-                else if (crossoverMethod == CROSSOVERMETHOD::ABCSCX) crossoverABCSCX(idxA, idxB, child);
+                if (crossoverMethod == BCSCX) crossoverBCSCX(idxA, idxB, child);
+                else if (crossoverMethod == ABCSCX) crossoverABCSCX(idxA, idxB, child);
                 else {
 					if (rand() % 2) crossoverABCSCX(idxA, idxB, child);
 					else crossoverBCSCX(idxA, idxB, child); 
@@ -767,3 +777,5 @@ void CGeneticTSPSolver::drawGene(float intervalX, float intervalY, float scaleX,
     
 
 }
+
+

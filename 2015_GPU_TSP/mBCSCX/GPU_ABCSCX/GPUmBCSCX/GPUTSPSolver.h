@@ -6,7 +6,7 @@
 #include "device_launch_parameters.h"
 #endif
 
-#include "GeneticTSPsolver.h"
+#include "GeneticTSPSolver.h"
 #include "GPUTSPSolverKernel.cuh"
 
 

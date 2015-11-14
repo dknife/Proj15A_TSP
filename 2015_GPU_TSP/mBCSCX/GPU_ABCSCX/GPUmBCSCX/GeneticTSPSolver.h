@@ -21,6 +21,7 @@ enum CROSSOVERMETHOD {
     NUMCROSSOVERMETHODS
 };
 
+
 using namespace std;
 
 class CCitySearchIndex {
@@ -117,12 +118,12 @@ public:
 	CCityLocData *getCityLocData(void) { return cityLocData; }
     
     void  setTemperature(float Temp) { Temperature = Temp; }
-    void  changeCrossoverMethod(void) { crossoverMethod = (crossoverMethod+1)%CROSSOVERMETHOD::NUMCROSSOVERMETHODS; }
+    void  changeCrossoverMethod(void) { crossoverMethod = (crossoverMethod+1)%NUMCROSSOVERMETHODS; }
     const char *getCrossoverMethod(void) {
         switch (crossoverMethod) {
-            case CROSSOVERMETHOD::BCSCX: return "BCSCX";
-            case CROSSOVERMETHOD::ABCSCX: return "ABCSCX";
-            case CROSSOVERMETHOD::MIXED: return "MIXED";
+            case BCSCX: return "BCSCX";
+            case ABCSCX: return "ABCSCX";
+            case MIXED: return "MIXED";
             default: return "Invalid";
         }
     }

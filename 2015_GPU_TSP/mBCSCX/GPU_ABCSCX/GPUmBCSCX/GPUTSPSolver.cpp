@@ -1,5 +1,7 @@
 
-#include "GPUTSPsolver.h"
+#include "GPUTSPSolver.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 
 
@@ -154,7 +156,7 @@ void CGPUTSPSolver::initSolver(void) {
 
 	nGeneration = 0;
 	Temperature = 100.0;
-	crossoverMethod = CROSSOVERMETHOD::BCSCX;
+	crossoverMethod = BCSCX;
 	recordBroken = false;
 	bHeating = false;
 	
@@ -308,19 +310,19 @@ void CGPUTSPSolver::nextGeneration(void) {
 	dim3 threads(nCrossover , nGroups);
 	blocksPerGrid = (threads.x * threads.y + THREADSPERBLOCK - 1 ) / THREADSPERBLOCK;
 
-	if (this->crossoverMethod == CROSSOVERMETHOD::BCSCX) {
+	if (this->crossoverMethod == BCSCX) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
 			d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
-	else if (this->crossoverMethod == CROSSOVERMETHOD::ABCSCX) {
+	else if (this->crossoverMethod == ABCSCX) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
 			d_crossoverABCSCX(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
-	else if (this->crossoverMethod == CROSSOVERMETHOD::MIXED) {
+	else if (this->crossoverMethod == MIXED) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
 			if (rand() % 2) d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);

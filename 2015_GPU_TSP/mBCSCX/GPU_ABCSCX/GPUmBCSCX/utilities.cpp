@@ -6,6 +6,7 @@
 //  Copyright (c) 2014 young-min kang. All rights reserved.
 //
 
+#include <stdlib.h>
 #include "utilities.h"
 
 #define NDEBUG // NO DEBUG MESSAGE

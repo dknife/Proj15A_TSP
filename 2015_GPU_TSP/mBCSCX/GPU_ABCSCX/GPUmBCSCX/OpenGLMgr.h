@@ -9,14 +9,20 @@
 #ifndef __TSP__OpenGLMgr__
 #define __TSP__OpenGLMgr__
 
+#include <GL/glew.h>
+
 #ifdef WIN32
 #include <windows.h>
-//#include <gl/glew.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
-#else // MAC OS X
-#include <OpenGL/OpenGL.h>
-#include <GLUT/GLUT.h> // OpenGL utility toolkit
+#elif defined (__APPLE__) || defined(MACOSX)
+  #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+  #include <GLUT/glut.h>
+  #ifndef glutCloseFunc
+  #define glutCloseFunc glutWMCloseFunc
+  #endif
+#else
+#include <GL/freeglut.h>
 #endif
 
 #include <iostream>

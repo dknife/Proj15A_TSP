@@ -19,8 +19,8 @@
 #include <math.h>
 
 #include "cityLocData.h"
-#include "GeneticTSPsolver.h"
-#include "GPUTSPsolver.h"
+#include "GeneticTSPSolver.h"
+#include "GPUTSPSolver.h"
 
 #include "OpenGLMgr.h"
 
@@ -418,7 +418,7 @@ void reset(void) {
 	maxD = (maxX - minX)>(maxY - minY) ? (maxX - minX) : (maxY - minY);
 
 	if(currentData != NDATA-1 ) solver->LoadData(&cityData, NUMGENES, NUMGROUPS);
-	else solver->LoadData(&cityData, 100, NUMGROUPS);
+	else solver->LoadData(&cityData, 1024, NUMGROUPS);
 
 	
 	solver->initSolver();
