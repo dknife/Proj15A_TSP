@@ -35,7 +35,7 @@
 using namespace std;
 
 
-#define NUMGENES 2048
+#define NUMGENES 256
 #define NUMGROUPS 1
 #define MAXGENERATION 1000000
 float MAX_ERROR = 32;
@@ -397,8 +397,7 @@ void init(const char *TSPDATAFILE) {
 
 	bestGene = new int[cityData.numCities];
 
-	if (currentData == NDATA - 1) solver.LoadSolution("knownBestTour.txt");
-
+	
 	solver.computeFitness();
 	solver.copySolution(bestGene);
 	err[0] = evalError(solver.getBestFitness());

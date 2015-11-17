@@ -1,6 +1,6 @@
 
 //
-//  GeneticTSPSolver.cpp
+//  GeneticTSPsolver->cpp
 //  TSP
 //
 //  Created by young-min kang on 7/25/14.
@@ -9,15 +9,25 @@
 
 #include "GeneticTSPSolver.h"
 #include <math.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+#include <GL/glew.h>
+
 #ifdef WIN32
 #include <windows.h>
-//#include <gl/glew.h>
 #include <gl/gl.h>
 #include <gl/glut.h>
-#else // MAC OS X
-#include <OpenGL/OpenGL.h>
-#include <GLUT/GLUT.h> // OpenGL utility toolkit
+#elif defined (__APPLE__) || defined(MACOSX)
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#include <GLUT/glut.h>
+#ifndef glutCloseFunc
+#define glutCloseFunc glutWMCloseFunc
 #endif
+#else
+#include <GL/freeglut.h>
+#endif
+
 
 CCitySearchIndex::CCitySearchIndex(int numberOfCities) {
 	nSize = numberOfCities;
@@ -113,13 +123,15 @@ void CGeneticTSPSolver::LoadData(CCityLocData *inputData, int nGenes, int nGroup
 
 
 	gene = new int*[nPopulation];
+	for (int i = 0; i < nPopulation; i++) gene[i] = new int[nCities];
+
 	recordHolder = new int[nCities];
 
 	initSolver();
 
 }
 
-void CGeneticTSPSolver::LoadSolution(char *fname) {
+void CGeneticTSPSolver::LoadSolution(const char *fname) {
 	int cityId;
 	FILE *fInput = fopen(fname, "r");
 	if (fInput == NULL) {
@@ -149,7 +161,7 @@ void CGeneticTSPSolver::LoadSolution(char *fname) {
 void CGeneticTSPSolver::initSolver(void) {
 	nGeneration = 0;
 	Temperature = 100.0;
-	crossoverMethod = CROSSOVERMETHOD::BCSCX;
+	crossoverMethod = BCSCX;
 	recordBroken = false;
 	bHeating = false;
 
@@ -162,6 +174,9 @@ void CGeneticTSPSolver::initSolver(void) {
 	for (int i = 0; i<nPopulation; i++) {
 		shuffleGene(i, nCities / 2);
 	}
+	computeFitness();
+
+	printf("initSolver CPU\n");
 
 }
 
@@ -276,7 +291,6 @@ void CGeneticTSPSolver::mutate(int parent, int idx) {
 
 
 void CGeneticTSPSolver::fixGene(int idx) {
-    return;
 
 	int idxA;
 	int idxB;
@@ -324,9 +338,9 @@ void CGeneticTSPSolver::fixGene(int idx) {
 		}
 	}
 
-	bMovableFound = false;
+
 	if (bMovableFound) {
-		//if(iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain=jForMaxGain; jForMaxGain=t; }
+		if (iForMaxGain > jForMaxGain) { int t = iForMaxGain; iForMaxGain = jForMaxGain; jForMaxGain = t; }
 		int cityBackup = gene[idx][iForMaxGain];
 		for (int i = iForMaxGain; i != jForMaxGain; i = (i + 1) % nCities) {
 			swap(gene[idx][i%nCities], gene[idx][(i + 1) % nCities]);
@@ -404,10 +418,6 @@ void CGeneticTSPSolver::fixGene(int idx) {
 					jForMaxGain = v2;
 				}
 			}
-
-
-
-
 		}
 	}
 
@@ -633,28 +643,25 @@ void CGeneticTSPSolver::computeFitness(void) {
 
 void CGeneticTSPSolver::intergroupMarriage(int groupIdx) {
 
-    if(nNumberOfGroups<2) return;
-    
+	if (nNumberOfGroups < 2) return;
+
 	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
 	int idxA = groupIdx*nMemberOfAGroup;
 	int g = groupIdx;
 	while (g == groupIdx) g = rangeRandomi(0, nNumberOfGroups - 1);
 	int idxB = g*nMemberOfAGroup;
-	/*
-	int idxB = ((groupIdx+1)%nNumberOfGroups)*nMemberOfAGroup;
-	int idxC = ((groupIdx-1+nNumberOfGroups)%nNumberOfGroups)*nMemberOfAGroup;
-	*/
+
 	switch (crossoverMethod) {
 
-	case CROSSOVERMETHOD::BCSCX:
+	case BCSCX:
 		crossoverBCSCX(idxA, idxB, idxA + nMemberOfAGroup / 2 - 1);
 		break;
-	case CROSSOVERMETHOD::ABCSCX:
+	case ABCSCX:
 		crossoverABCSCX(idxA, idxB, idxA + nMemberOfAGroup / 2 - 1);
 		break;
-	case CROSSOVERMETHOD::MIXED:
+	case MIXED:
 		if (rand() % 2) crossoverBCSCX(idxA, idxB, idxA + nMemberOfAGroup / 2 - 1);
-		else crossoverABCSCX(idxA, idxB, idxA + nMemberOfAGroup / 2 - 2);
+		else crossoverABCSCX(idxA, idxB, idxA + nMemberOfAGroup / 2 - 1);
 		break;
 	}
 
@@ -667,7 +674,13 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 	nGeneration++;
 
 
-	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
+
+	int nGroups = nNumberOfGroups;
+	int nMemberOfAGroup = nPopulation / nGroups;
+
+
+
+
 
 
 
@@ -681,10 +694,10 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 	//Temperature = 100.0 * 0.5 * (1.0+ cos(2.0*3.14*nGeneration/float(nCycleGeneration) ) );
 
 
-	for (int g = 0; g<nNumberOfGroups; g++) {
+	for (int g = 0; g<nGroups; g++) {
 
 		int start = g*nMemberOfAGroup;
-		int end = (g == nNumberOfGroups - 1) ? nPopulation : start + nMemberOfAGroup;
+		int end = (g == nGroups - 1) ? nPopulation : start + nMemberOfAGroup;
 
 		// competition
 		debegMessage("competition group %d: (%d - %d)\n", g, start, end - 1);
@@ -721,8 +734,8 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 				mutate(idxA, child);
 			}
 			else {
-				if (crossoverMethod == CROSSOVERMETHOD::BCSCX) crossoverBCSCX(idxA, idxB, child);
-				else if (crossoverMethod == CROSSOVERMETHOD::ABCSCX) crossoverABCSCX(idxA, idxB, child);
+				if (crossoverMethod == BCSCX) crossoverBCSCX(idxA, idxB, child);
+				else if (crossoverMethod == ABCSCX) crossoverABCSCX(idxA, idxB, child);
 				else {
 					if (rand() % 2) crossoverABCSCX(idxA, idxB, child);
 					else crossoverBCSCX(idxA, idxB, child);
@@ -732,10 +745,12 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 		}
 		///////////////////////
 
-		fixGene(start);
+		//fixGene(start);
 
+		if (nGeneration % 100 < 10) {
+			intergroupMarriage(g);
+		}
 
-		intergroupMarriage(g);
 
 	}
 
@@ -762,3 +777,5 @@ void CGeneticTSPSolver::drawGene(float intervalX, float intervalY, float scaleX,
 
 
 }
+
+
