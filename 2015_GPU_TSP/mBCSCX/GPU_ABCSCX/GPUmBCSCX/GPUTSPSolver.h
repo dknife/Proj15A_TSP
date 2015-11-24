@@ -20,6 +20,9 @@ class CGPUTSPSolver : public CGeneticTSPSolver {
 	float *h_CityLoc;
 	int   *h_fitness;
 
+	int* localMinima[128];
+	int  nLocalMin;
+
 	// device memory
 	float *d_CityLoc;
 	int   *d_fitness;
@@ -55,6 +58,7 @@ public:
 
 	void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
 	void LoadSolution(const char *fname);
+	void LoadLocalMinima(const char *fname);
 	void initSolver(void);
 	void nextGeneration(void);
 
@@ -67,6 +71,7 @@ public:
 	void decreaseThreads(void) { if (THREADSPERBLOCK >= 32) THREADSPERBLOCK -= 16; }
 	int  threadsPerBlock(void) { return THREADSPERBLOCK;  }
 	void intergroupMarriage(int groupIdx);
+	void geneReset(void);
 
 	// GPU version should be made
 	// fixGene

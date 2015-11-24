@@ -42,8 +42,8 @@ __global__ void d_initAuxMemKernel(int nCities, int i, int *d_gene, int *d_order
 void d_crossover(int blocks, dim3 threads, int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 __global__ void d_crossoverKernel(int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
-void d_crossoverABCSCX(int blocks, dim3 threads, int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
-__global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+void d_crossoverABCSCX(int blocks, dim3 threads, int i, int mode, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
+__global__ void d_crossoverABCSCXKernel(int i, int mode, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump);
 
 // gene mutate
 void d_reverseSubGene(int blocks, int threads, int gene_idx, int idxA, int idxB, int *d_gene, int nCities);

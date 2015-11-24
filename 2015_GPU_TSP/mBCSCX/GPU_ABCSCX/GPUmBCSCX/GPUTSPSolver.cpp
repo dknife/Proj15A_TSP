@@ -27,6 +27,9 @@ CGPUTSPSolver::CGPUTSPSolver() {
 	d_cudaState = NULL;
 
 	d_orderOfCity = d_fJump = d_bJump = NULL;
+
+	for(int i=0;i<100;i++) localMinima[i]= NULL;
+	nLocalMin = 0;
 }
 
 CGPUTSPSolver::~CGPUTSPSolver() {
@@ -44,24 +47,30 @@ void CGPUTSPSolver::CleanCudaMemory(void) {
 
 	if (h_distanceSeq) free(h_distanceSeq);
 
-	
+
 	if (d_CityLoc)   safeCuda(cudaFree(d_CityLoc), "free d_CityLoc");
 	if (d_fitness)   safeCuda(cudaFree(d_fitness), "free d_fitness");
 
 	if (d_gene)      safeCuda(cudaFree(d_gene), "free d_gene");
 	if (d_aGene)     safeCuda(cudaFree(d_aGene), "free d_aGene");
-	
-	
+
+
 	if (d_distanceSeq)    safeCuda(cudaFree(d_distanceSeq), "free d_distanceSeq");
-	if (d_cudaState) safeCuda(cudaFree(d_cudaState),"free d_cudaState");
-	
+	if (d_cudaState) safeCuda(cudaFree(d_cudaState), "free d_cudaState");
+
 
 	// GPU memory for crossover
 	if (d_orderOfCity)    safeCuda(cudaFree(d_orderOfCity), "free d_orderOfCity");
 	if (d_fJump)    safeCuda(cudaFree(d_fJump), "free d_fJump");
 	if (d_bJump)    safeCuda(cudaFree(d_bJump), "free d_bJump");
+
+	for (int i = 0; i < 100; i++) {
+		if (localMinima[i]) delete[] localMinima[i]; localMinima[i] = NULL;
+	}
+	nLocalMin = 0;
 	
 }
+
 
 void CGPUTSPSolver::PrepareCudaMemory(void) {
 	// create these data within CudaDevice
@@ -77,6 +86,11 @@ void CGPUTSPSolver::PrepareCudaMemory(void) {
 	h_CityLoc       = (float *)malloc(nCities * 2 * sizeof(float));
 	h_fitness       = (int *)  malloc(nPopulation * sizeof(int));
 	h_distanceSeq   = (int *)  malloc(nCities     * sizeof(int));
+
+	for (int i = 0; i < 128; i++) {
+		localMinima[i] = (int *)malloc(nCities * sizeof(int));
+	}
+	nLocalMin = 0;
 
 	// device multi-element array
 	safeCuda(cudaMalloc((void **)&d_fitness, nPopulation * sizeof(int)), "alloc d_fitness");
@@ -259,13 +273,15 @@ void CGPUTSPSolver::nextGeneration(void) {
 
 
 
-	if ((nGeneration / 10) % 2 == 0) {
+	
+	/*if ((nGeneration / 10) % 2 == 0) {
 		for (int g = 0; g < nGroups; g++) {
 			int start = g*nMemberOfAGroup;
 			fixGene(start);
 		}
 		return;
-	}
+	}*/
+	
 
 	// linear cooling
 	if (bHeating) {
@@ -326,14 +342,33 @@ void CGPUTSPSolver::nextGeneration(void) {
 	else if (this->crossoverMethod == ABCSCX) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
-			d_crossoverABCSCX(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			d_crossoverABCSCX(blocksPerGrid, threads, i, 0, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		for (int i = 0; i < nPopulation; i++) {
+			// N(nCities) elements are parallelly processed
+			d_initAuxMem(blocksPerGrid, THREADSPERBLOCK, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
+		}
+		blocksPerGrid = (threads.x * threads.y + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossoverABCSCX(blocksPerGrid, threads, i, 1, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
 	else if (this->crossoverMethod == MIXED) {
 		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
 			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
-			if (rand() % 2) d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
-			else d_crossoverABCSCX(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+			d_crossover(blocksPerGrid, threads, i, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
+		}
+		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		for (int i = 0; i < nPopulation; i++) {
+			// N(nCities) elements are parallelly processed
+			d_initAuxMem(blocksPerGrid, THREADSPERBLOCK, nCities, i, d_gene, d_orderOfCity, d_fJump, d_bJump);
+		}
+		blocksPerGrid = (threads.x * threads.y + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
+		for (int i = 1; i < nCities; i++) { // should start from 1 !!! ( gene[i*nCities+0] always starts with 0 )
+			// create i-th elements of offsprings ( parallel processing of all genes for constructing one more offspring gene element)
+			d_crossoverABCSCX(blocksPerGrid, threads, i, 1, nPopulation, nGroups, nCities, d_gene, d_CityLoc, d_orderOfCity, d_fJump, d_bJump);
 		}
 	}
 	
@@ -355,7 +390,7 @@ void CGPUTSPSolver::nextGeneration(void) {
 
 		blocksPerGrid = (nCities + THREADSPERBLOCK - 1) / THREADSPERBLOCK;
 		int mutationPercentage = 10;
-		for (int i = start + nMemberOfAGroup * 3 / 4; i < end; i++) {
+		for (int i = start+1; i < end; i++) {
 			if (rangeRandomi(0, 100) < mutationPercentage) {
 				int idxA = rangeRandomi(1, nCities - 1);
 				int idxB = idxA;
@@ -374,6 +409,30 @@ void CGPUTSPSolver::nextGeneration(void) {
 	if (nGeneration % 20) {
 		for (int g = 0; g < nGroups; g++) intergroupMarriage(g);
 			
+	}
+	*/
+
+	/*
+	static int count = 0;
+	int maxLocalMin = 128;
+	int nCycle = 100;
+	if (nGeneration>0 && nGeneration % nCycle == 0) {
+		this->copySolution(localMinima[count++]);
+		nLocalMin = count;
+		geneReset();
+		if (count == maxLocalMin) {
+			char fname[256];
+			sprintf(fname, "localMinima%d.txt", nCities);
+			FILE *f = fopen(fname, "w");
+			fprintf(f, "%d\n%d\n", maxLocalMin, nCities);
+			for (int i = 0; i < maxLocalMin; i++) {
+				for (int j = 0; j < nCities; j++) {
+					fprintf(f, "%d\n", localMinima[i][j] + 1);
+				}
+			}
+			nLocalMin = 0; count = 0;
+			exit(0);
+		}
 	}
 	*/
 	
@@ -691,4 +750,47 @@ void CGPUTSPSolver::LoadSolution(const char *fname) {
 	}
 	
 	safeCuda(cudaMemcpy(d_gene, gene[0], sizeof(int)*nCities, cudaMemcpyHostToDevice), "loaded solution to device gene");
+}
+
+
+void CGPUTSPSolver::LoadLocalMinima(const char *fname) {
+	int cityId;
+	FILE *fInput = fopen(fname, "r");
+	if (fInput == NULL) {
+		printf("file not found : %s\n", fname);
+		char pathStr[256];
+		GetCurrentDir(pathStr, sizeof(pathStr));
+		printf("working dir: %s\n", pathStr);
+
+		exit(1);
+	}
+
+	printf("file loading started...\n");
+
+	int nGenes;
+	int nCities;
+
+	fscanf(fInput, "%d\n", &nGenes);
+	fscanf(fInput, "%d\n", &nCities);
+
+	int nMemberOfAGroup = nPopulation / nNumberOfGroups;
+	
+	
+	for (int i = 0; i < nGenes && i < nMemberOfAGroup ; i++) {
+		for (int j = 0; j < nCities; j++) {
+			fscanf(fInput, "%d", &cityId);
+			gene[0][j] = cityId - 1;
+		}
+		for (int g = 0; g < nNumberOfGroups; g++) {
+			int start = g*nMemberOfAGroup;
+			safeCuda(cudaMemcpy(d_gene + (start + i)*nCities, gene[0], sizeof(int)*nCities, cudaMemcpyHostToDevice), "load local minima to device gene");
+		}
+	}
+	
+
+	
+}
+
+void CGPUTSPSolver::geneReset(void) {
+	GeneInitCudaMemory();
 }

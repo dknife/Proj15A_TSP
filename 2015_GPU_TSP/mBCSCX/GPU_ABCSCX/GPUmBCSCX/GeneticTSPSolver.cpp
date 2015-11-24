@@ -158,6 +158,36 @@ void CGeneticTSPSolver::LoadSolution(const char *fname) {
 }
 
 
+void CGeneticTSPSolver::LoadLocalMinima(const char *fname) {
+	int cityId;
+	FILE *fInput = fopen(fname, "r");
+	if (fInput == NULL) {
+		printf("file not found : %s\n", fname);
+		char pathStr[256];
+		GetCurrentDir(pathStr, sizeof(pathStr));
+		printf("working dir: %s\n", pathStr);
+
+		exit(1);
+	}
+
+	printf("file loading started...\n");
+
+	int nGenes;
+	int nCities;
+	fscanf(fInput, "%d\n", &nGenes);
+	fscanf(fInput, "%d\n", &nCities);
+	for (int i = 0; i<nGenes; i++) {
+		for (int j = 0; j < nCities; j++) {
+			fscanf(fInput, "%d", &cityId);
+			gene[i][j] = cityId - 1;
+		}
+		computeFitnessOf(i);
+	}
+	
+
+	printf("solution loaded\n");
+}
+
 void CGeneticTSPSolver::initSolver(void) {
     nGeneration = 0;
     Temperature = 100.0;
@@ -678,11 +708,6 @@ void CGeneticTSPSolver::nextGeneration(void) { // Phenotype Version
 	int nGroups = nNumberOfGroups;
 	int nMemberOfAGroup = nPopulation / nGroups;
 	
-
-	
-	
-
-    
     
     // linear cooling
     float cooling = 100.0/nCycleGeneration;

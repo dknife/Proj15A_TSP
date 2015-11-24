@@ -227,10 +227,10 @@ __global__ void d_crossoverKernel(int i, int nPopulation, int nGroups, int nCiti
 	d_bJump[p2*nCities + bChange] += d_bJump[p2*nCities + idx2];
 }
 
-void d_crossoverABCSCX(int blocks, dim3 threads, int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
-	d_crossoverABCSCXKernel << < blocks, threads >> > (i, nPopulation, nGroups, nCities, d_gene, d_cityLoc, d_orderOfCity, d_fJump, d_bJump);
+void d_crossoverABCSCX(int blocks, dim3 threads, int i, int mode, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
+	d_crossoverABCSCXKernel << < blocks, threads >> > (i, mode, nPopulation, nGroups, nCities, d_gene, d_cityLoc, d_orderOfCity, d_fJump, d_bJump);
 }
-__global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
+__global__ void d_crossoverABCSCXKernel(int i, int mode, int nPopulation, int nGroups, int nCities, int *d_gene, float *d_cityLoc, int *d_orderOfCity, int *d_fJump, int *d_bJump) {
 	// tId: crossover index
 	int tId = threadIdx.x + blockIdx.x * blockDim.x;
 	int tGroup = threadIdx.y;
@@ -243,13 +243,19 @@ __global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int
 
 	if (tId >= nCrossover) return;
 
+	int pointA = tId;
+	pointA = pointA % (nCities / 2);
+	int pointB = pointA + nCities / 2;
+
 
 	int p1 = start + tId * 2;
 	int p2 = p1 + 1;
-	int p = (i % 2) ? p1 : p2;
-	int child = start + nCrossover * 2 + tId;
+	int p;
 
-	
+	if (mode < 0 || mode>1) return;
+	// offspring 1
+	if (i > pointA && i < pointB) p = mode?p1:p2; 	else p = mode?p2:p1;
+	int child = start + nCrossover * (2+mode) + tId;		
 	int lastCity = d_gene[child*nCities + i - 1];
 
 	// find candidates from parent	
@@ -260,12 +266,10 @@ __global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int
 	int cand1 = d_gene[p*nCities + fnode];
 	int cand2 = d_gene[p*nCities + bnode];
 
-	// select better candidate
-
+	// select better candidate	
 	float dx = d_cityLoc[cand1 * 2] - d_cityLoc[lastCity * 2];
 	float dy = d_cityLoc[cand1 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
 	int dist1 = (int) (dx*dx + dy*dy);
-
 	dx = d_cityLoc[cand2 * 2] - d_cityLoc[lastCity * 2];
 	dy = d_cityLoc[cand2 * 2 + 1] - d_cityLoc[lastCity * 2 + 1];
 	int dist2 = (int) (dx*dx + dy*dy);
@@ -275,7 +279,6 @@ __global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int
 	if (dist2 < best) { best = dist2;  bestCity = cand2; }
 	
 	// set the bestCity as the next element of the offspring
-	//printf("bestCity = %d\n", bestCity);
 	d_gene[child*nCities + i] = bestCity;
 
 	// invalidate nextCity;
@@ -292,6 +295,7 @@ __global__ void d_crossoverABCSCXKernel(int i, int nPopulation, int nGroups, int
 	bChange = (idx2 + d_fJump[p2*nCities + idx2]) % nCities;
 	d_fJump[p2*nCities + fChange] += d_fJump[p2*nCities + idx2];
 	d_bJump[p2*nCities + bChange] += d_bJump[p2*nCities + idx2];
+
 }
 
 

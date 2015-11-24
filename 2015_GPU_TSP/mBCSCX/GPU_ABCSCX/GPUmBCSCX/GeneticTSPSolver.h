@@ -59,6 +59,7 @@ public:
     int  fitRecord;
     int* recordHolder;
 
+
     
 	bool bHeating;
     int  nCycleGeneration;
@@ -89,6 +90,7 @@ public:
 	virtual void LoadData(CCityLocData *inputData, int nGenes, int nGroups);
 
     virtual void LoadSolution(const char *fname);
+	virtual void LoadLocalMinima(const char *fname);
 	virtual void RemoveData();
     virtual void fixGene(int idx);
 
@@ -122,7 +124,7 @@ public:
     const char *getCrossoverMethod(void) {
         switch (crossoverMethod) {
             case BCSCX: return "BCSCX";
-            case ABCSCX: return "ABCSCX";
+            case ABCSCX: return "ARX";
             case MIXED: return "MIXED";
             default: return "Invalid";
         }

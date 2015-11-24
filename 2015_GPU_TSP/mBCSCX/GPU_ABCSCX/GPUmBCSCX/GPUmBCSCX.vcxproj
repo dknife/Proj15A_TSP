@@ -159,6 +159,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClCompile Include="GPUTSPSolver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="OpenGLMgr.cpp" />
+    <ClCompile Include="StopWatch.cpp" />
     <ClCompile Include="utilities.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -167,6 +168,7 @@ copy "$(CudaToolkitBinDir)\cudart*.dll" "$(OutDir)"</Command>
     <ClInclude Include="GPUTSPSolver.h" />
     <ClInclude Include="GPUTSPSolverKernel.cuh" />
     <ClInclude Include="OpenGLMgr.h" />
+    <ClInclude Include="StopWatch.h" />
     <ClInclude Include="utilities.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

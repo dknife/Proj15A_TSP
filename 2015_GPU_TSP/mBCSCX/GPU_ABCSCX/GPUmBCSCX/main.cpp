@@ -21,6 +21,7 @@
 #include "cityLocData.h"
 #include "GeneticTSPSolver.h"
 #include "GPUTSPSolver.h"
+#include "StopWatch.h"
 
 #include "OpenGLMgr.h"
 
@@ -30,9 +31,11 @@
 
 using namespace std;
 
+CStopWatch myWatch;
+
 #define NUMGENES 2048
-#define NUMGROUPS 16
-#define MAXGENERATION 1000000
+#define NUMGROUPS 1
+#define MAXGENERATION 15000
 float MAX_ERROR = 32;
 
 
@@ -105,6 +108,8 @@ int height = 0;
 float geneDrawScaleX = 1.0;
 float geneDrawScaleY = 1.0;
 
+double totalCompTime = 0.0;
+
 float evalError(float fit) {
     return (fit-cost[currentData])/cost[currentData];;
 }
@@ -159,21 +164,21 @@ void drawEvolution(void) {
     OGLMgr.printString(msg, ex-(ex-sx)*0.3, sy-offsetY, 0.0);
 
 
-    sprintf(msg, "%6.2f", MAX_ERROR);
+    sprintf(msg, "%6.2f (error)", MAX_ERROR);
     OGLMgr.printString(msg, sx-offsetY*2, ey, 0.0);
     sprintf(msg, "%6.2f", MAX_ERROR/2);
     OGLMgr.printString(msg, sx-offsetY*2, sy+(ey-sy)*0.5, 0.0);
     sprintf(msg, "0.0", MAX_ERROR/2);
     OGLMgr.printString(msg, sx-offsetY, sy, 0.0);
     
-	sprintf(msg, "%d cities, %d genes (%d groups)", solver->getNumCities(), solver->getNumPopulation(), NUMGROUPS);
+	sprintf(msg, "n=%d, m=%d (g=%d)", solver->getNumCities(), solver->getNumPopulation(), NUMGROUPS);
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY, 0.0);
     sprintf(msg, "crossover: %s", solver->getCrossoverMethod());
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*2, 0.0);
     if(solver->bHeating) sprintf(msg, "Heating On - cycle: %d generation", solver->nCycleGeneration);
     else sprintf(msg, "Heating Off");
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*3, 0.0);
-    sprintf(msg, "Best Gene (error: %4.2f %%)", 100.0*evalError(solver->getFitRecord()));
+    sprintf(msg, "Best Gene (error: %4.2f)", evalError(solver->getFitRecord()));
     OGLMgr.printString(msg, sx+(ex-sx)/2, ey-offsetY*4, 0.0);
     
     glLineWidth(1);
@@ -288,18 +293,18 @@ void drawGene(void) {
 
 
 void GeneticProcess(void) {
+	
     if (bSimulate && curGeneration < MAXGENERATION ) {
         
+		myWatch.start();
         solver->nextGeneration();
         
         solver->computeFitness();
         curGeneration++;
         err[curGeneration] = evalError(solver->getBestFitness());
         record[curGeneration] = solver->recordBroken;
-        
-		
-        
-
+		myWatch.stop();
+		totalCompTime += myWatch.getTotalElapsedTime();		
     }
     
 }
@@ -336,7 +341,7 @@ void display() {
     float startX = minX+maxD;
     OGLMgr.printString(msg, startX, minY + 0.65*maxD, 0.0);
 
-	sprintf(msg, "Number of Cities: %d ---  %s (Temp: %4.1f) ", cityData.numCities, bSimulationOrdered ? "computing" : "stopped", solver->getTemerature());
+	sprintf(msg, "Number of Cities: %d ---  %s (C.Time/Gen: %4.1f) ", cityData.numCities, bSimulationOrdered ? "computing" : "stopped", curGeneration!=0?totalCompTime / curGeneration:0);
 	startX = minX + maxD;
 	OGLMgr.printString(msg, startX, minY + 0.6*maxD, 0.0);
     
@@ -381,7 +386,7 @@ void keyboard(unsigned char k, int x, int y) {
 		solver = bGPU ? &solverGPU : &solverCPU;  
 		reset();
 		break;
-	case 's': bSimulationOrdered = bSimulationOrdered ? false : true; break;
+	case 's': bSimulationOrdered = bSimulationOrdered ? false : true;		break;
     case 'r': reset(); break;
     case '.': currentData = (currentData+1)%NDATA; reset(); break;
     case ',': currentData = (currentData-1+NDATA)%NDATA; reset(); break;
@@ -427,7 +432,9 @@ void reset(void) {
 
 	
 	solver->initSolver();
-	if (currentData == NDATA-1) solver->LoadSolution("ExportedTour100000.txt");
+	//if (currentData == 0) solver->LoadLocalMinima("localMinima131.txt");
+	//if (currentData == 2) solver->LoadLocalMinima("localMinima662.txt");
+	if (currentData == 4) solver->LoadLocalMinima("localMinima10150.txt");
 
 	bestGene = new int[cityData.numCities];
 	solver->computeFitness();
@@ -435,11 +442,11 @@ void reset(void) {
 	err[0] = evalError(solver->getBestFitness());
 
     curGeneration = 0;
+	totalCompTime = 0;
     
 
 
 	setupCamera();
-    
     
 }
 
